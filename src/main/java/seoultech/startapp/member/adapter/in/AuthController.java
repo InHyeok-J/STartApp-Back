@@ -17,6 +17,8 @@ import seoultech.startapp.member.application.AccessToken;
 import seoultech.startapp.member.application.port.in.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
 import seoultech.startapp.member.application.AllToken;
+import seoultech.startapp.member.application.port.in.LogoutCommand;
+import seoultech.startapp.member.application.port.in.LogoutUseCase;
 import seoultech.startapp.member.application.port.in.RefreshCommand;
 import seoultech.startapp.member.application.port.in.RefreshUseCase;
 
@@ -27,27 +29,37 @@ public class AuthController {
 
   private final LoginUseCase loginUseCase;
   private final RefreshUseCase refreshUseCase;
+  private final LogoutUseCase logoutUseCase;
   private final HeaderTokenExtractor headerTokenExtractor;
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest request){
+  public ResponseEntity<?> login(@RequestBody LoginRequest request) {
     LoginCommand command = new LoginCommand(request.getStudentNo(), request.getPassword());
     AllToken allToken = loginUseCase.login(command);
     return JsonResponse.okWithData(HttpStatus.OK, "로그인 성공", allToken);
   }
 
- @GetMapping(" ")
- public ResponseEntity<?> authCheck(@LoginUser AuthUser authUser){
+  @GetMapping(" ")
+  public ResponseEntity<?> authCheck(@LoginUser AuthUser authUser) {
 
-   return JsonResponse.okWithData(HttpStatus.OK, "토큰 확인", authUser);
- }
+    return JsonResponse.okWithData(HttpStatus.OK, "토큰 확인", authUser);
+  }
 
- @GetMapping("/refresh")
- public ResponseEntity<?> refresh(HttpServletRequest request){
-    RefreshCommand command =  new RefreshCommand(headerTokenExtractor.extractAccessToken(request),
-            headerTokenExtractor.extractRefreshToken(request));
-   AccessToken accessToken = refreshUseCase.refresh(command);
-    return JsonResponse.okWithData(HttpStatus.OK, "재발급 성공",accessToken);
- }
+  @GetMapping("/refresh")
+  public ResponseEntity<?> refresh(HttpServletRequest request) {
+    RefreshCommand command = new RefreshCommand(headerTokenExtractor.extractAccessToken(request),
+        headerTokenExtractor.extractRefreshToken(request));
+    AccessToken accessToken = refreshUseCase.refresh(command);
+    return JsonResponse.okWithData(HttpStatus.OK, "재발급 성공", accessToken);
+  }
 
+  @GetMapping("/logout")
+  public ResponseEntity<?> logout(@LoginUser AuthUser authUser, HttpServletRequest request) {
+    String toke = headerTokenExtractor.extractRefreshToken(request);
+    LogoutCommand command = new LogoutCommand(authUser.getId(), toke);
+
+    logoutUseCase.logout(command);
+
+    return JsonResponse.ok(HttpStatus.OK, "로그아웃 성공");
+  }
 }
