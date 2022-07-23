@@ -1,22 +1,24 @@
 package seoultech.startapp.member.application;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.will;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import seoultech.startapp.global.property.JwtProperty;
 import seoultech.startapp.member.application.port.in.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
-import seoultech.startapp.member.domain.AllToken;
+import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberRole;
 import seoultech.startapp.member.domain.StudentStatus;
-import seoultech.startapp.member.domain.TokenProvider;
+import seoultech.startapp.member.domain.TokenInfo;
 import seoultech.startapp.member.exception.NotMatchPasswordException;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +28,13 @@ class LoginServiceTest {
   LoadMemberPort loadMemberPort;
 
   @Mock
-  TokenProvider tokenProvider;
+  JwtProvider jwtProvider;
+
+  @Spy
+  JwtProperty jwtProperty;
+
+  @Mock
+  RedisCachePort redisCachePort;
 
   @InjectMocks
   LoginService loginService;
@@ -60,8 +68,9 @@ class LoginServiceTest {
     String accessToken = "accessToken";
     String refreshToken = "refreshToke";
     given(loadMemberPort.loadByStudentNo(studentNo)).willReturn(member);
-    given(tokenProvider.creatToken(member.getMemberId(), member.getMemberRole()))
-        .willReturn(new AllToken(accessToken, refreshToken));
+    given(jwtProvider.createAccessToken(any()))
+        .willReturn(accessToken);
+    given(jwtProvider.createRefreshToken()).willReturn(refreshToken);
     //when
     AllToken result = loginService.login(command);
     //then

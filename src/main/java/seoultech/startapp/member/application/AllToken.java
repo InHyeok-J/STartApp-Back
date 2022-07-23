@@ -1,4 +1,4 @@
-package seoultech.startapp.member.domain;
+package seoultech.startapp.member.application;
 
 import lombok.Getter;
 

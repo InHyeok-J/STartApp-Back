@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.application.port.in.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
-import seoultech.startapp.member.domain.AllToken;
+import seoultech.startapp.member.application.AllToken;
 
 @RestController
 @RequiredArgsConstructor
