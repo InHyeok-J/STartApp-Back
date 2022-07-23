@@ -1,20 +1,30 @@
 package seoultech.startapp.member.adapter.in;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seoultech.startapp.global.config.web.AuthUser;
+import seoultech.startapp.global.config.web.LoginUser;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.application.port.in.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
 import seoultech.startapp.member.application.AllToken;
+import seoultech.startapp.member.domain.MemberRole;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
+@RequestMapping("/api/auth")
 public class MemberController {
 
   private final LoginUseCase loginUseCase;
@@ -25,4 +35,10 @@ public class MemberController {
     AllToken allToken = loginUseCase.login(command);
     return JsonResponse.okWithData(HttpStatus.OK, "로그인 성공", allToken);
   }
+
+ @GetMapping(" ")
+ public ResponseEntity<?> authCheck(@LoginUser AuthUser authUser){
+
+   return JsonResponse.okWithData(HttpStatus.OK, "토큰 확인",authUser);
+ }
 }
