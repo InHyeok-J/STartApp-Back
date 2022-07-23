@@ -28,7 +28,7 @@ public class Member {
 
   private LocalDateTime updatedAt;
 
-  private Member(Builder builder){
+  private Member(Builder builder) {
     this.memberId = builder.memberId;
     this.studentNo = builder.studentNo;
     this.name = builder.name;
@@ -42,7 +42,12 @@ public class Member {
     this.updatedAt = builder.updateAt;
   }
 
+  public TokenInfo createAccessTokenInfo() {
+    return TokenInfo.accessTokenInfo(this.memberId, this.memberRole);
+  }
+
   public static class Builder {
+
     //필수 값. studentNo, name, password, department, phoneNo, studentStatus
     private final String studentNo;
     private final String name;
@@ -57,7 +62,8 @@ public class Member {
     private LocalDateTime updateAt;
     private String fcmToken;
 
-    public Builder(String studentNo, String name, String password, String department, String phoneNo, StudentStatus studentStatus, MemberRole memberRole){
+    public Builder(String studentNo, String name, String password, String department,
+        String phoneNo, StudentStatus studentStatus, MemberRole memberRole) {
       this.studentNo = studentNo;
       this.name = name;
       this.password = password;
@@ -66,24 +72,28 @@ public class Member {
       this.studentStatus = studentStatus;
       this.memberRole = memberRole;
     }
-    public Builder setMemberId(Long memberId){
+
+    public Builder setMemberId(Long memberId) {
       this.memberId = memberId;
       return this;
     }
-    public Builder setCreateAt(LocalDateTime createAt){
+
+    public Builder setCreateAt(LocalDateTime createAt) {
       this.createdAt = createAt;
       return this;
     }
-    public Builder setUpdateAt(LocalDateTime updateAt){
+
+    public Builder setUpdateAt(LocalDateTime updateAt) {
       this.updateAt = updateAt;
       return this;
     }
-    public Builder setFcmToken(String fcmToken){
+
+    public Builder setFcmToken(String fcmToken) {
       this.fcmToken = fcmToken;
       return this;
     }
 
-    public Member build(){
+    public Member build() {
       return new Member(this);
     }
   }
