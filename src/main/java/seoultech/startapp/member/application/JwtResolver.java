@@ -60,7 +60,7 @@ public class JwtResolver {
     } catch (IllegalArgumentException e){
       log.error("잘못된 토큰 값 ");
     } catch (ExpiredJwtException e) {
-      log.error("잘못된 JWT 서명");
+      log.error("JWT 값 만료");
     }
     throw new AuthenticationFailException( "jwt 인증 실패", HttpStatus.UNAUTHORIZED);
   }
@@ -74,13 +74,13 @@ public class JwtResolver {
     }
   }
 
-  public String getMemberIdByJwt(String token){
+  public Long getMemberIdByJwt(String token){
     try{
       Claims claims = Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(token)
           .getBody();
-      return claims.get("memberId").toString();
+      return Long.valueOf(claims.get("memberId").toString());
     }catch (ExpiredJwtException e ){
-      return e.getClaims().get("memberId").toString();
+      return Long.valueOf(e.getClaims().get("memberId").toString());
     } catch (Exception e ){
       throw new AuthenticationFailException("jwt 인증 실패", HttpStatus.UNAUTHORIZED);
     }

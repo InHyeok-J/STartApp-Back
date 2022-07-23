@@ -16,6 +16,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import seoultech.startapp.global.common.HeaderTokenExtractor;
 import seoultech.startapp.member.application.JwtResolver;
 
 @Component
@@ -28,7 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException , IOException {
 
-    String jwtToken = headerTokenExtractor.extractToken(request);
+    String jwtToken = headerTokenExtractor.extractAccessToken(request);
     if(StringUtils.hasText(jwtToken) && jwtResolver.validateAccessToken(jwtToken)){
       Authentication authentication = jwtResolver.getAuthentication(jwtToken);
       SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -43,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     skipPathList.add(new AntPathRequestMatcher("/", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/member", HttpMethod.POST.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/auth/login", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/refresh", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/auth/refresh", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/auth/logout", HttpMethod.GET.name()));
     OrRequestMatcher orRequestMatcher = new OrRequestMatcher(new ArrayList<>(skipPathList));
     return skipPathList.stream()
         .anyMatch(p -> orRequestMatcher.matches(request));
