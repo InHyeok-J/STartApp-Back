@@ -1,7 +1,8 @@
-package seoultech.startapp.event.adapter.in;
+package seoultech.startapp.event.application.port;
 
 import lombok.Builder;
 import lombok.Getter;
+import seoultech.startapp.event.domain.EventStatus;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +17,6 @@ public class EventResponse {
 
     private String imageUrl;
 
-    private String color;
-
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
@@ -29,7 +28,6 @@ public class EventResponse {
                          String title,
                          String formLink,
                          String imageUrl,
-                         String color,
                          LocalDateTime startTime,
                          LocalDateTime endTime,
                          EventStatus eventStatus) {
@@ -37,9 +35,9 @@ public class EventResponse {
         this.title = title;
         this.formLink = formLink;
         this.imageUrl = imageUrl;
-        this.color = color;
         this.startTime = startTime;
         this.endTime = endTime;
         this.eventStatus = eventStatus;
     }
+
 }

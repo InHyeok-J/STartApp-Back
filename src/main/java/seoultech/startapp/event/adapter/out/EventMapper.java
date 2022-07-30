@@ -13,7 +13,6 @@ class EventMapper {
 
         return Event.builder()
                     .eventId(jpaEvent.getId())
-                    .color(jpaEvent.getColor())
                     .formLink(jpaEvent.getFormLink())
                     .imageUrl(jpaEvent.getImageUrl())
                     .endTime(jpaEvent.getEndTime())
@@ -32,8 +31,7 @@ class EventMapper {
 
     JpaEvent mapToJpaEvent(Event event){
         return JpaEvent.builder()
-                       .id(event.getEventId() == null ? null : event.getEventId())
-                        .color(event.getColor())
+                        .id(event.getEventId() == null ? null : event.getEventId())
                         .imageUrl(event.getImageUrl())
                         .formLink(event.getFormLink())
                         .title(event.getTitle())
