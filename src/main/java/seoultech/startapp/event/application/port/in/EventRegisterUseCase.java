@@ -3,7 +3,7 @@ package seoultech.startapp.event.application.port.in;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface EventPostUseCase {
+public interface EventRegisterUseCase {
 
-    void registerPost(EventCommand eventCommand);
+    void registerEvent(EventCommand eventCommand);
 }

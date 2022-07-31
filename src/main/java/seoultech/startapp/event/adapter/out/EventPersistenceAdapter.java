@@ -20,12 +20,14 @@ public class EventPersistenceAdapter implements LoadEventPort, SaveEventPort {
     public Event loadEventById(Long eventId) {
         JpaEvent jpaEvent = jpaEventRepository.findById(eventId)
                                               .orElseThrow(() -> new NotFoundJpaEventException("id에 해당하는 이벤트가 없습니다.", HttpStatus.NOT_FOUND));
+
         return eventMapper.mapToDomainEvent(jpaEvent);
     }
 
     @Override
     public List<Event> loadAllEvent() {
         List<JpaEvent> jpaEvents = jpaEventRepository.findAllByOrderByStartTimeAsc();
+
         return eventMapper.mapToDomainEventList(jpaEvents);
     }
 

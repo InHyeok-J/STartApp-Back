@@ -1,5 +1,6 @@
 package seoultech.startapp.event.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -7,51 +8,67 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EventTest {
 
-    private static final LocalDateTime START_TIME = LocalDateTime.of(2022, 07, 18, 00, 00);
-    private static final LocalDateTime END_TIME = LocalDateTime.of(2022,07,25,17,59);
+class EventTest {
 
-    private static LocalDateTime CURRENT_BEFORE_TIME = LocalDateTime.of(2022,07,17,0,0);
-    private static LocalDateTime CURRENT_END_TIME = LocalDateTime.of(2022,07,26,0,0);
-    private static LocalDateTime CURRENT_PROCEEDING_TIME = LocalDateTime.of(2022,07,20,0,0);
+    private Event beforeEvent;
+    private Event proceedingEvent;
+    private Event endEvent;
+    
+    private LocalDateTime currentTime;
+
+
+    @BeforeEach
+    void setEvent(){
+
+        currentTime = LocalDateTime.now();
+
+        beforeEvent = Event.builder()
+                        .eventId(1L)
+                        .imageUrl("imageUrl1")
+                        .formLink("formLink1")
+                        .startTime(currentTime.plusDays(1))
+                        .endTime(currentTime.plusDays(3))
+                        .build();
+
+        proceedingEvent = Event.builder()
+                           .eventId(2L)
+                           .imageUrl("imageUrl2")
+                           .formLink("formLink2")
+                           .startTime(currentTime.minusDays(1))
+                           .endTime(currentTime.plusDays(3))
+                           .build();
+
+        endEvent = Event.builder()
+                           .eventId(3L)
+                           .imageUrl("imageUrl3")
+                           .formLink("formLink3")
+                           .startTime(currentTime.minusDays(5))
+                           .endTime(currentTime.minusDays(3))
+                           .build();
+    }
 
     @Test
-    @DisplayName("현재 시간이 이벤트의 시작보다 이른 시간일 때")
-    void checkEventStatus_Before(){
-        EventStatus eventStatus = checkEventStatus(CURRENT_BEFORE_TIME,START_TIME, END_TIME);
+    @DisplayName("이벤트가 시작 전 일 때")
+    void beforeEvent_ok(){
+        beforeEvent.checkEventStatus(currentTime);
 
-        assertThat(eventStatus).isEqualTo(EventStatus.BEFORE);
+        assertThat(beforeEvent.getEventStatus()).isEqualTo(EventStatus.BEFORE);
     }
+    @Test
+    @DisplayName("이벤트가 시작 중 일 때")
+    void proceedingEvent_ok(){
+        proceedingEvent.checkEventStatus(currentTime);
 
+        assertThat(proceedingEvent.getEventStatus()).isEqualTo(EventStatus.PROCEEDING);
+
+    }
 
     @Test
-    @DisplayName("현재 시간이 이벤트의 끝보다 나중 시간일 때")
-    void checkEventStatus_END(){
-        EventStatus eventStatus = checkEventStatus(CURRENT_END_TIME,START_TIME, END_TIME);
-
-        assertThat(eventStatus).isEqualTo(EventStatus.END);
+    @DisplayName("이벤트가 끝났을 때")
+    void endEvent_ok(){
+        endEvent.checkEventStatus(currentTime);
+        assertThat(endEvent.getEventStatus()).isEqualTo(EventStatus.END);
     }
 
-    @Test
-    @DisplayName("현재 시간이 이벤트의 시작시간과 이벤트의 끝 시간의 사이 시간일 때")
-    void checkEventStatus_PROCEEDING(){
-        EventStatus eventStatus = checkEventStatus(CURRENT_PROCEEDING_TIME,START_TIME, END_TIME);
-
-        assertThat(eventStatus).isEqualTo(EventStatus.PROCEEDING);
-    }
-
-    private EventStatus checkEventStatus(LocalDateTime currentTime,LocalDateTime startTime, LocalDateTime endTime){//현재 시각을 기준으로 평가
-
-        if(currentTime.isBefore(startTime)){ //인자보다 과거일 때 true 리턴
-            //현재 시각이 이벤트의 시작타임보다 전이면 시작 전
-            return EventStatus.BEFORE;
-        }
-        else if(currentTime.isAfter(endTime)){
-            //현재 시각이 이벤트의 끝 시작보다 후이면 이벤트가 끝남
-            return EventStatus.END;
-        }
-
-        return EventStatus.PROCEEDING;
-    }
 }

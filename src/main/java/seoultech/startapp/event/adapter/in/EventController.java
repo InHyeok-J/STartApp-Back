@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import seoultech.startapp.event.application.port.EventResponse;
+import seoultech.startapp.event.application.EventResponse;
 import seoultech.startapp.event.application.port.in.EventCommand;
 import seoultech.startapp.event.application.port.in.EventGetUseCase;
-import seoultech.startapp.event.application.port.in.EventPostUseCase;
+import seoultech.startapp.event.application.port.in.EventRegisterUseCase;
 import seoultech.startapp.global.response.JsonResponse;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 class EventController {
 
     private final EventGetUseCase eventGetUseCase;
-    private final EventPostUseCase eventPostUseCase;
+    private final EventRegisterUseCase eventRegisterUseCase;
 
     @GetMapping("{id}")
     public ResponseEntity<?> getEventById(@PathVariable("id") Long eventId){
@@ -49,7 +49,7 @@ class EventController {
                                          .startTime(eventRequest.getStartTime())
                                          .endTime(eventRequest.getEndTime())
                                          .build();
-        eventPostUseCase.registerPost(eventCommand);
+        eventRegisterUseCase.registerEvent(eventCommand);
         return JsonResponse.ok(HttpStatus.CREATED,"이벤트를 생성했습니다.");
     }
 

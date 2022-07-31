@@ -24,6 +24,7 @@ public class EventCommand extends SelfValidator<EventCommand> {
     @NotBlank
     private String imageUrl;
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startTime;
 
     @NotNull
