@@ -56,7 +56,7 @@ public class AuthController {
   @GetMapping("/logout")
   public ResponseEntity<?> logout(@LoginUser AuthUser authUser, HttpServletRequest request) {
     String toke = headerTokenExtractor.extractRefreshToken(request);
-    LogoutCommand command = new LogoutCommand(authUser.getId(), toke);
+    LogoutCommand command = new LogoutCommand(authUser.getMemberId(), toke);
 
     logoutUseCase.logout(command);
 

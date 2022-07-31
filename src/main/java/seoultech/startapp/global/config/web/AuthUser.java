@@ -9,7 +9,7 @@ import seoultech.startapp.member.domain.MemberRole;
 @AllArgsConstructor
 public class AuthUser {
 
-  private Long id;
+  private Long memberId;
 
   private MemberRole role;
 }
