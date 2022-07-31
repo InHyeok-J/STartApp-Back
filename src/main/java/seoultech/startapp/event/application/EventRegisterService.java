@@ -17,7 +17,7 @@ class EventRegisterService implements EventRegisterUseCase {
     @Override
     public void registerEvent(EventCommand eventCommand) {
 
-        Event event = Event.eventCommandToEvent(eventCommand);
+        Event event = eventCommand.ToDomainEvent();
 
         saveEventPort.saveEvent(event);
     }

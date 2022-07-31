@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import seoultech.startapp.event.domain.Event;
 import seoultech.startapp.global.common.SelfValidator;
 
 import javax.validation.constraints.NotBlank;
@@ -39,5 +40,15 @@ public class EventCommand extends SelfValidator<EventCommand> {
         this.startTime = startTime;
         this.endTime = endTime;
         this.validateSelf();
+    }
+
+    public Event ToDomainEvent(){
+        return Event.builder()
+                    .title(this.title)
+                    .imageUrl(this.imageUrl)
+                    .formLink(this.formLink)
+                    .startTime(this.startTime)
+                    .endTime(this.endTime)
+                    .build();
     }
 }
