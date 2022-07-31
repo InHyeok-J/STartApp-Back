@@ -10,10 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seoultech.startapp.global.exception.AuthenticationFailException;
 import seoultech.startapp.member.application.port.in.LogoutCommand;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.exception.NotLoginMemberException;
+import seoultech.startapp.member.exception.NotMatchLoginInfoException;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -48,7 +48,7 @@ class LogoutServiceTest {
     LogoutCommand command = createLogoutCommand(memberId,token);
     given(redisCachePort.findByKey(any())).willReturn(savedToken);
 
-    AuthenticationFailException e = assertThrows(AuthenticationFailException.class,
+    NotMatchLoginInfoException e = assertThrows(NotMatchLoginInfoException.class,
         () -> logoutService.logout(command));
   }
 

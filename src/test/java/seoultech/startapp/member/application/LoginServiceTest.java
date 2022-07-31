@@ -53,7 +53,7 @@ class LoginServiceTest {
     NotMatchPasswordException e = assertThrows(NotMatchPasswordException.class, ()->
           loginService.login(command));
     //then
-    assertEquals(400, e.getStatus().value());
+    assertEquals( 409,e.getErrorType().getStatusCode());
   }
 
   @Test

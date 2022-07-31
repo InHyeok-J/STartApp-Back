@@ -2,14 +2,11 @@ package seoultech.startapp.member.exception;
 
 import org.springframework.http.HttpStatus;
 import seoultech.startapp.global.exception.BusinessException;
+import seoultech.startapp.global.exception.ErrorType;
 
 public class NotLoginMemberException extends BusinessException {
 
-  public NotLoginMemberException(HttpStatus status) {
-    super(status);
-  }
-
-  public NotLoginMemberException(String message, HttpStatus status) {
-    super(message, status);
+  public NotLoginMemberException(String message) {
+    super(ErrorType.NOT_LOGIN_MEMBER, message);
   }
 }

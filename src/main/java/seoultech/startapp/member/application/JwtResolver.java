@@ -13,13 +13,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import seoultech.startapp.global.exception.AuthenticationFailException;
+import seoultech.startapp.global.exception.ExpiredJwtFailException;
+import seoultech.startapp.global.exception.InvalidJwtException;
 import seoultech.startapp.global.property.JwtProperty;
 
 @Slf4j
@@ -55,14 +55,17 @@ public class JwtResolver {
       return true;
     } catch (SecurityException | MalformedJwtException | SignatureException e){
       log.error("잘못된 JWT 서명");
+      throw new InvalidJwtException("잘못된 JWT 서명");
     } catch (UnsupportedJwtException e){
       log.error("지원하지 않는 JWT 토큰");
+      throw new InvalidJwtException("지원하지 않는 JWT 토큰");
     } catch (IllegalArgumentException e){
       log.error("잘못된 토큰 값 ");
+      throw new InvalidJwtException("잘못된 토큰 값");
     } catch (ExpiredJwtException e) {
       log.error("JWT 값 만료");
+      throw new ExpiredJwtFailException("만료된 JWT 토큰입니다");
     }
-    throw new AuthenticationFailException( "jwt 인증 실패", HttpStatus.UNAUTHORIZED);
   }
 
   public boolean validateRefreshToken(String refreshToken){
@@ -82,7 +85,7 @@ public class JwtResolver {
     }catch (ExpiredJwtException e ){
       return Long.valueOf(e.getClaims().get("memberId").toString());
     } catch (Exception e ){
-      throw new AuthenticationFailException("jwt 인증 실패", HttpStatus.UNAUTHORIZED);
+      throw new InvalidJwtException("jwt 인증 실패");
     }
   }
 }

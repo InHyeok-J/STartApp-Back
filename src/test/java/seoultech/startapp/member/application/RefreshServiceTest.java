@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seoultech.startapp.global.exception.AuthenticationFailException;
+import seoultech.startapp.global.exception.InvalidJwtException;
 import seoultech.startapp.member.application.port.in.RefreshCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
@@ -19,6 +19,7 @@ import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberRole;
 import seoultech.startapp.member.domain.StudentStatus;
 import seoultech.startapp.member.exception.NotLoginMemberException;
+import seoultech.startapp.member.exception.NotMatchLoginInfoException;
 
 @ExtendWith(MockitoExtension.class)
 class RefreshServiceTest {
@@ -49,7 +50,7 @@ class RefreshServiceTest {
     given(jwtResolver.validateRefreshToken(refresh)).willReturn(false);
 
     //then
-    AuthenticationFailException e = assertThrows(AuthenticationFailException.class,
+    InvalidJwtException e = assertThrows(InvalidJwtException.class,
         () -> refreshService.refresh(command));
   }
 
@@ -84,7 +85,7 @@ class RefreshServiceTest {
     given(redisCachePort.findByKey(any())).willReturn(savedRefresh);
 
     //then
-    AuthenticationFailException e = assertThrows(AuthenticationFailException.class,
+    NotMatchLoginInfoException e = assertThrows(NotMatchLoginInfoException.class,
         () -> refreshService.refresh(command));
   }
 

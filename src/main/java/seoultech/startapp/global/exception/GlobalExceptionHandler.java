@@ -12,11 +12,12 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(BusinessException.class)
   public ResponseEntity<?> handleBusinessException(BusinessException e) {
-    return JsonResponse.fail(e.getStatus(), e.getMessage());
+    ErrorType error = e.getErrorType();
+    return JsonResponse.fail(error, e.getMessage());
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<?> handleConstraintViolationException(ConstraintViolationException e) {
-    return JsonResponse.fail(HttpStatus.BAD_REQUEST, "잘못된 값입니다.");
+    return JsonResponse.fail(ErrorType.INVALID_INPUT, "잘못된 값입니다.");
   }
 }

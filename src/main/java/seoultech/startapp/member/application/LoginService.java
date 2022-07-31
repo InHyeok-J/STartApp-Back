@@ -25,8 +25,9 @@ public class LoginService implements LoginUseCase {
   @Override
   public AllToken login(LoginCommand command) {
     Member member = loadMemberPort.loadByStudentNo(command.getStudentNo());
+
     if(!member.getPassword().equals(command.getPassword())){
-      throw new NotMatchPasswordException("패스워드가 일치하지 않습니다", HttpStatus.BAD_REQUEST);
+      throw new NotMatchPasswordException("패스워드가 일치하지 않습니다");
     }
 
     String accessToken = jwtProvider.createAccessToken(member.createAccessTokenInfo());
