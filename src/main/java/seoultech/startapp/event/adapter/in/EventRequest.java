@@ -9,11 +9,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 class EventRequest {
 
+
     private final String title;
+
     private final String formLink;
+
     private final String imageUrl;
-    private final String color;
+
     private final LocalDateTime startTime;
+
     private final LocalDateTime endTime;
 
 }

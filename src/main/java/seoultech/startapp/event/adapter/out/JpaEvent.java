@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -20,6 +21,7 @@ class JpaEvent {
     @Column(name = "event_id")
     private Long id;
 
+    @Size(max = 255)
     @Column(nullable = false)
     private String title;
 
@@ -29,23 +31,19 @@ class JpaEvent {
     @Column(name = "image_url",nullable = false)
     private String imageUrl;
 
-    @Column(nullable = false)
-    private String color;
-
     @Column(name = "start_time",nullable = false)
     private LocalDateTime startTime;
 
-    @Column(name = "event_time",nullable = false)
+    @Column(name = "end_time",nullable = false)
     private LocalDateTime endTime;
 
 
     @Builder
-    public JpaEvent(Long id, String title, String formLink, String imageUrl, String color, LocalDateTime startTime, LocalDateTime endTime) {
+    public JpaEvent(Long id, String title, String formLink, String imageUrl, LocalDateTime startTime, LocalDateTime endTime) {
         this.id = id;
         this.title = title;
         this.formLink = formLink;
         this.imageUrl = imageUrl;
-        this.color = color;
         this.startTime = startTime;
         this.endTime = endTime;
     }
