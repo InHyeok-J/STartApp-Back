@@ -14,19 +14,20 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class EventPersistenceAdapter implements LoadEventPort, SaveEventPort {
-    //testCode 때문에 public으로 열어둠
     private final JpaEventRepository jpaEventRepository;
     private final EventMapper eventMapper;
     @Override
     public Event loadEventById(Long eventId) {
         JpaEvent jpaEvent = jpaEventRepository.findById(eventId)
                                               .orElseThrow(() -> new NotFoundJpaEventException("id에 해당하는 이벤트가 없습니다.", HttpStatus.NOT_FOUND));
+
         return eventMapper.mapToDomainEvent(jpaEvent);
     }
 
     @Override
     public List<Event> loadAllEvent() {
-        List<JpaEvent> jpaEvents = jpaEventRepository.findAll();
+        List<JpaEvent> jpaEvents = jpaEventRepository.findAllByOrderByStartTimeAsc();
+
         return eventMapper.mapToDomainEventList(jpaEvents);
     }
 
