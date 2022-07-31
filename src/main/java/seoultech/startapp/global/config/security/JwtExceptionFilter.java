@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -14,6 +15,7 @@ import seoultech.startapp.global.exception.BusinessException;
 import seoultech.startapp.global.exception.ErrorType;
 import seoultech.startapp.global.response.FailResponse;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
@@ -23,6 +25,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    log.info("["+request.getMethod()+"] "+ request.getRequestURI() );
     try{
       filterChain.doFilter(request,response);
     }catch (BusinessException e ){
