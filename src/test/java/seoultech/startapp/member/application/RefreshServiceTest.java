@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,83 +40,77 @@ class RefreshServiceTest {
   @InjectMocks
   RefreshService refreshService;
 
+  Member savedMember;
+  RefreshCommand refreshCommand;
+  @BeforeEach
+  void setUp() {
+    this.refreshCommand = new RefreshCommand("access", "refresh");
+    this.savedMember = Member.builder()
+        .memberId(1L)
+        .name("저장된유저")
+        .studentNo("180808")
+        .password("savedPassword")
+        .phoneNo("010-9999-9999")
+        .build();
+  }
+
   @Test
   @DisplayName("refreshToken 잘못된 값으로 실패.")
   public void refreshTokenValueisFail() throws Exception {
-    //given
-    String accessToken = "access";
-    String refresh = "refresh";
-    RefreshCommand command = createRefreshCommand(accessToken,refresh);
-    //when
-    given(jwtResolver.validateRefreshToken(refresh)).willReturn(false);
 
-    //then
+    //given
+    given(jwtResolver.validateRefreshToken(any())).willReturn(false);
+
+    //When, then
     InvalidJwtException e = assertThrows(InvalidJwtException.class,
-        () -> refreshService.refresh(command));
+        () -> refreshService.refresh(refreshCommand));
   }
 
   @Test
   @DisplayName("로그인이 안된 유저, 실패")
   public void redisWillReturnNull() throws Exception {
     //given
-    String accessToken = "access";
-    String refresh = "refresh";
-    RefreshCommand command = createRefreshCommand(accessToken,refresh);
-    //when
-    given(jwtResolver.validateRefreshToken(refresh)).willReturn(true);
-    given(jwtResolver.getMemberIdByJwt(accessToken)).willReturn(1L);
+    given(jwtResolver.validateRefreshToken(any())).willReturn(true);
+    given(jwtResolver.getMemberIdByJwt(any())).willReturn(1L);
+
     given(redisCachePort.findByKey(any())).willReturn(null);
 
     //then
     NotLoginMemberException e = assertThrows(NotLoginMemberException.class,
-        () -> refreshService.refresh(command));
+        () -> refreshService.refresh(refreshCommand));
   }
 
   @Test
   @DisplayName("로그인이 됐지만, 정보 불일치")
   public void refreshFailByInvalidSavedToken() throws Exception {
     //given
-    String accessToken = "access";
-    String refresh = "refresh";
-    String savedRefresh = "savedRefresh";
-    RefreshCommand command = createRefreshCommand(accessToken,refresh);
-    //when
-    given(jwtResolver.validateRefreshToken(refresh)).willReturn(true);
-    given(jwtResolver.getMemberIdByJwt(accessToken)).willReturn(1L);
-    given(redisCachePort.findByKey(any())).willReturn(savedRefresh);
+    String invalidSavedRefreshToken = "savedRefresh";
+    given(jwtResolver.validateRefreshToken(any())).willReturn(true);
+    given(jwtResolver.getMemberIdByJwt(any())).willReturn(1L);
+    given(redisCachePort.findByKey(any())).willReturn(invalidSavedRefreshToken);
 
     //then
     NotMatchLoginInfoException e = assertThrows(NotMatchLoginInfoException.class,
-        () -> refreshService.refresh(command));
+        () -> refreshService.refresh(refreshCommand));
   }
 
   @Test
   @DisplayName("refresh 성공")
   public void refreshSuccess() throws Exception {
     //given
-    String accessToken = "access";
-    String refresh = "refresh";
-    RefreshCommand command = createRefreshCommand(accessToken,refresh);
-    given(jwtResolver.validateRefreshToken(refresh)).willReturn(true);
-    given(jwtResolver.getMemberIdByJwt(accessToken)).willReturn(1L);
-    given(redisCachePort.findByKey(any())).willReturn(refresh);
-    given(loadMemberPort.loadByMemberId(any())).willReturn(createMockMember());
+
+    given(jwtResolver.validateRefreshToken(any())).willReturn(true);
+    given(jwtResolver.getMemberIdByJwt(any())).willReturn(1L);
+    given(redisCachePort.findByKey(any())).willReturn(refreshCommand.getRefreshToken());
+    given(loadMemberPort.loadByMemberId(any())).willReturn(savedMember);
+
     String newAccessToken = "newAccess";
     given(jwtProvider.createAccessToken(any())).willReturn(newAccessToken);
     //when
-    AccessToken result = refreshService.refresh(command);
+    AccessToken result = refreshService.refresh(refreshCommand);
 
     //then
     assertEquals(newAccessToken, result.getAccessToken());
   }
 
-  private RefreshCommand createRefreshCommand(String accessToken, String refreshToken){
-    return new RefreshCommand(accessToken, refreshToken);
-  }
-  private Member createMockMember() {
-    return new Member.Builder("studentNo", "이름", "password", "컴공", "010-9999-0000",
-        StudentStatus.STUDENT, MemberRole.MEMBER)
-        .setMemberId(1L)
-        .build();
-  }
 }
