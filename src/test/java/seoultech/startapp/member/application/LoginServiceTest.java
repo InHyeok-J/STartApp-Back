@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import seoultech.startapp.global.property.JwtProperty;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
@@ -37,13 +38,17 @@ class LoginServiceTest {
   @Mock
   RedisCachePort redisCachePort;
 
+  @Mock
+  PasswordEncoder passwordEncoder;
+
   @InjectMocks
   LoginService loginService;
 
   Member savedMember;
-
+  LoginCommand loginCommand;
   @BeforeEach
   void setUp(){
+    this.loginCommand = new LoginCommand("1701256","inputPassword");
     this.savedMember = Member.builder()
         .memberId(1L)
         .name("저장된유저")
@@ -57,15 +62,11 @@ class LoginServiceTest {
   @DisplayName("로그인시 패스워드 불일치")
   public void loginNotMatchPasswordFail() throws Exception {
     //given
-    String studentNo = "17101245";
-    String invalidPassword = "invalidPassword";
-
-    LoginCommand command = createLoginCommand(studentNo,invalidPassword);
-
-    given(loadMemberPort.loadByStudentNo(studentNo)).willReturn(savedMember);
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
+    given(passwordEncoder.matches(any(),any())).willReturn(false);
     //when
     NotMatchPasswordException e = assertThrows(NotMatchPasswordException.class, ()->
-          loginService.login(command));
+          loginService.login(loginCommand));
     //then
     assertEquals( 409,e.getErrorType().getStatusCode());
   }
@@ -74,21 +75,15 @@ class LoginServiceTest {
   @DisplayName("로그인 성공후 토큰 발급")
   public void loginSuccess() throws Exception {
     //given
-    String studentNo = "17101245";
-    String inputPassword = "savedPassword";
-    LoginCommand command = createLoginCommand(studentNo,inputPassword);
-
-    given(loadMemberPort.loadByStudentNo(studentNo)).willReturn(savedMember);
+    given(passwordEncoder.matches(any(),any())).willReturn(true);
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
 
     //when
-    AllToken result = loginService.login(command);
+    AllToken result = loginService.login(loginCommand);
     //then
     verify(jwtProvider, times(1)).createAccessToken(any(TokenInfo.class));
     verify(jwtProvider,times(1)).createRefreshToken();
     verify(redisCachePort,times(1)).setStringWithDayTTL(any(),any(),any());
   }
 
-  private LoginCommand createLoginCommand(String studentNo, String password) {
-    return new LoginCommand(studentNo, password);
-  }
 }

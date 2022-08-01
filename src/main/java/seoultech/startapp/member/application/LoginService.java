@@ -1,6 +1,7 @@
 package seoultech.startapp.member.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.global.property.JwtProperty;
@@ -19,13 +20,14 @@ public class LoginService implements LoginUseCase {
   private final RedisCachePort redisCachePort;
   private final JwtProperty jwtProperty;
   private final JwtProvider jwtProvider;
+  private final PasswordEncoder passwordEncoder;
 
   @Transactional
   @Override
   public AllToken login(LoginCommand command) {
     Member member = loadMemberPort.loadByStudentNo(command.getStudentNo());
 
-    if(!member.getPassword().equals(command.getPassword())){
+    if(!passwordEncoder.matches(command.getPassword(), member.getPassword())){
       throw new NotMatchPasswordException("패스워드가 일치하지 않습니다");
     }
 
