@@ -3,7 +3,7 @@ package seoultech.startapp.member.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.global.exception.InvalidJwtException;
-import seoultech.startapp.member.application.port.in.RefreshCommand;
+import seoultech.startapp.member.application.port.in.command.RefreshCommand;
 import seoultech.startapp.member.application.port.in.RefreshUseCase;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;

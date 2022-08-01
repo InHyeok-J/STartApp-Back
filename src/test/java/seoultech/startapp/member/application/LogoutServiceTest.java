@@ -10,7 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seoultech.startapp.member.application.port.in.LogoutCommand;
+import seoultech.startapp.member.application.port.in.command.LogoutCommand;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.exception.NotLoginMemberException;
 import seoultech.startapp.member.exception.NotMatchLoginInfoException;

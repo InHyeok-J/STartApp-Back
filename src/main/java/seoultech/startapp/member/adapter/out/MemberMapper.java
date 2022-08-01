@@ -7,17 +7,20 @@ import seoultech.startapp.member.domain.Member;
 class MemberMapper {
 
   Member mapToDomainMember(JpaMember jpaMember) {
-    return new Member.Builder(jpaMember.getStudentNo(),
-        jpaMember.getName(),
-        jpaMember.getPassword(),
-        jpaMember.getDepartment(),
-        jpaMember.getPhoneNo(),
-        jpaMember.getStudentStatus(),
-        jpaMember.getMemberRole())
-        .setMemberId(jpaMember.getId())
-        .setCreateAt(jpaMember.getCreatedAt())
-        .setUpdateAt(jpaMember.getUpdatedAt())
-        .setFcmToken(jpaMember.getFcmToken())
+    return Member.builder()
+        .memberId(jpaMember.getId())
+        .studentNo(jpaMember.getStudentNo())
+        .name(jpaMember.getName())
+        .password(jpaMember.getPassword())
+        .department(jpaMember.getDepartment())
+        .phoneNo(jpaMember.getPhoneNo())
+        .fcmToken(jpaMember.getFcmToken())
+        .emaill(jpaMember.getEmail())
+        .memberShip(jpaMember.getMemberShip())
+        .studentStatus(jpaMember.getStudentStatus())
+        .memberRole(jpaMember.getMemberRole())
+        .createdAt(jpaMember.getCreatedAt())
+        .updatedAt(jpaMember.getUpdatedAt())
         .build();
   }
 
@@ -30,7 +33,9 @@ class MemberMapper {
         .department(member.getDepartment())
         .phoneNo(member.getPhoneNo())
         .studentStatus(member.getStudentStatus())
-        .fcmToken(member.getFcmToken() == null ? null : member.getFcmToken())
+        .fcmToken(member.getFcmToken())
+        .email(member.getEmaill())
+        .memberShip(member.getMemberShip())
         .build();
   }
 }

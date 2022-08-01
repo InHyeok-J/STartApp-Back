@@ -29,8 +29,14 @@ public class MemberPersistenceAdapter implements SaveMemberPort , LoadMemberPort
   }
 
   @Override
-  public void save(Member member) {
+  public Member save(Member member) {
     JpaMember jpaMember = memberMapper.mapToJpaMember(member);
-    jpaMemberRepository.save(jpaMember);
+    JpaMember savedMember = jpaMemberRepository.save(jpaMember);
+    return memberMapper.mapToDomainMember(savedMember);
+  }
+
+  @Override
+  public boolean existByStudentNo(String studentNo) {
+    return jpaMemberRepository.existsByStudentNo(studentNo);
   }
 }

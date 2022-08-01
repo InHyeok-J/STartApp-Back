@@ -12,7 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import seoultech.startapp.global.exception.InvalidJwtException;
-import seoultech.startapp.member.application.port.in.RefreshCommand;
+import seoultech.startapp.member.application.port.in.command.RefreshCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.domain.Member;

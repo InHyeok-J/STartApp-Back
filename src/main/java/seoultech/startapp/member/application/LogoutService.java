@@ -2,7 +2,7 @@ package seoultech.startapp.member.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import seoultech.startapp.member.application.port.in.LogoutCommand;
+import seoultech.startapp.member.application.port.in.command.LogoutCommand;
 import seoultech.startapp.member.application.port.in.LogoutUseCase;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.exception.NotLoginMemberException;

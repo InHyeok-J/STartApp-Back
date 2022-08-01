@@ -12,13 +12,12 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import seoultech.startapp.global.property.JwtProperty;
-import seoultech.startapp.member.application.port.in.LoginCommand;
+import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberRole;
 import seoultech.startapp.member.domain.StudentStatus;
-import seoultech.startapp.member.domain.TokenInfo;
 import seoultech.startapp.member.exception.NotMatchPasswordException;
 
 @ExtendWith(MockitoExtension.class)

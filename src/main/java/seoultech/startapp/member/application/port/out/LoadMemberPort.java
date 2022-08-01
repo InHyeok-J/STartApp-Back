@@ -5,4 +5,5 @@ import seoultech.startapp.member.domain.Member;
 public interface LoadMemberPort {
   Member loadByMemberId(Long memberId);
   Member loadByStudentNo(String studentNo);
+  boolean existByStudentNo(String studentNo);
 }
