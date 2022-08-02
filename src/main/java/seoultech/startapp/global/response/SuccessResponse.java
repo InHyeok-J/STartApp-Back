@@ -9,7 +9,7 @@ public class SuccessResponse {
 
   private final int status;
   private final String message;
-  private final List<Object> data = new ArrayList<>();
+  private List<Object> data = new ArrayList<>();
 
   public SuccessResponse(int status, String message) {
     this.status = status;
@@ -19,6 +19,10 @@ public class SuccessResponse {
   public SuccessResponse(int status, String message, Object data) {
     this.status = status;
     this.message = message;
-    this.data.add(data);
+    if(data instanceof List<?>){
+      this.data = (List<Object>) data;
+    }else {
+      this.data.add(data);
+    }
   }
 }
