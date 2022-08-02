@@ -7,14 +7,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import seoultech.startapp.global.exception.AuthenticationFailException;
-import seoultech.startapp.global.exception.InvalidInputException;
+import seoultech.startapp.global.exception.BusinessException;
+import seoultech.startapp.global.exception.ErrorType;
 import seoultech.startapp.global.response.FailResponse;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
@@ -24,22 +25,24 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException, IOException {
+    log.info("["+request.getMethod()+"] "+ request.getRequestURI() );
     try{
       filterChain.doFilter(request,response);
-    }catch (InvalidInputException | AuthenticationFailException e ){
-      responseHandle(response, e.getStatus(), e.getMessage());
+    }catch (BusinessException e ){
+      ErrorType errorType = e.getErrorType();
+      responseHandle(response, errorType, e.getMessage());
     }catch (Exception e) {
-      responseHandle(response,HttpStatus.INTERNAL_SERVER_ERROR , "서버에러");
+      responseHandle(response,ErrorType.INTERNAL_SERVER_ERROR, "서버에러");
     }
   }
 
 
-  private void responseHandle(HttpServletResponse response, HttpStatus httpStatus, String message)
+  private void responseHandle(HttpServletResponse response, ErrorType errorType, String message)
       throws IOException {
     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
-    response.setStatus(httpStatus.value());
-    FailResponse failResponse = new FailResponse(httpStatus.value(), message);
+    response.setStatus(errorType.getStatusCode());
+    FailResponse failResponse = new FailResponse(errorType.getStatusCode(),message, errorType.getErrorType());
     response.getWriter()
         .write(objectMapper.writeValueAsString(failResponse));
   }

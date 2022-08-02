@@ -4,11 +4,7 @@ import org.springframework.http.HttpStatus;
 
 public class InvalidInputException extends BusinessException{
 
-  public InvalidInputException(HttpStatus status) {
-    super(status);
-  }
-
-  public InvalidInputException(String message, HttpStatus status) {
-    super(message, status);
+  public InvalidInputException(String message) {
+    super(ErrorType.INVALID_INPUT, message);
   }
 }

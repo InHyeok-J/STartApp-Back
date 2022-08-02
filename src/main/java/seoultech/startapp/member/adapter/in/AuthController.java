@@ -14,12 +14,12 @@ import seoultech.startapp.global.config.web.AuthUser;
 import seoultech.startapp.global.config.web.LoginUser;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.application.AccessToken;
-import seoultech.startapp.member.application.port.in.LoginCommand;
+import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
 import seoultech.startapp.member.application.AllToken;
-import seoultech.startapp.member.application.port.in.LogoutCommand;
+import seoultech.startapp.member.application.port.in.command.LogoutCommand;
 import seoultech.startapp.member.application.port.in.LogoutUseCase;
-import seoultech.startapp.member.application.port.in.RefreshCommand;
+import seoultech.startapp.member.application.port.in.command.RefreshCommand;
 import seoultech.startapp.member.application.port.in.RefreshUseCase;
 
 @RestController
@@ -56,7 +56,7 @@ public class AuthController {
   @GetMapping("/logout")
   public ResponseEntity<?> logout(@LoginUser AuthUser authUser, HttpServletRequest request) {
     String toke = headerTokenExtractor.extractRefreshToken(request);
-    LogoutCommand command = new LogoutCommand(authUser.getId(), toke);
+    LogoutCommand command = new LogoutCommand(authUser.getMemberId(), toke);
 
     logoutUseCase.logout(command);
 

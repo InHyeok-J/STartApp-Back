@@ -3,7 +3,10 @@ package seoultech.startapp.member.application;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,13 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import seoultech.startapp.global.property.JwtProperty;
-import seoultech.startapp.member.application.port.in.LoginCommand;
+import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.domain.Member;
-import seoultech.startapp.member.domain.MemberRole;
-import seoultech.startapp.member.domain.StudentStatus;
 import seoultech.startapp.member.domain.TokenInfo;
 import seoultech.startapp.member.exception.NotMatchPasswordException;
 
@@ -36,56 +38,52 @@ class LoginServiceTest {
   @Mock
   RedisCachePort redisCachePort;
 
+  @Mock
+  PasswordEncoder passwordEncoder;
+
   @InjectMocks
   LoginService loginService;
+
+  Member savedMember;
+  LoginCommand loginCommand;
+  @BeforeEach
+  void setUp(){
+    this.loginCommand = new LoginCommand("1701256","inputPassword");
+    this.savedMember = Member.builder()
+        .memberId(1L)
+        .name("저장된유저")
+        .studentNo("180808")
+        .password("savedPassword")
+        .phoneNo("010-9999-9999")
+        .build();
+  }
 
   @Test
   @DisplayName("로그인시 패스워드 불일치")
   public void loginNotMatchPasswordFail() throws Exception {
     //given
-    String studentNo = "17101245";
-    String inputPassword = "qwer1234";
-    String savedPassword = "qwer12345";
-    LoginCommand command = createLoginCommand(studentNo,inputPassword);
-    Member member = createMockMember(studentNo, savedPassword, 1L);
-    given(loadMemberPort.loadByStudentNo(studentNo)).willReturn(member);
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
+    given(passwordEncoder.matches(any(),any())).willReturn(false);
     //when
     NotMatchPasswordException e = assertThrows(NotMatchPasswordException.class, ()->
-          loginService.login(command));
+          loginService.login(loginCommand));
     //then
-    assertEquals(400, e.getStatus().value());
+    assertEquals( 409,e.getErrorType().getStatusCode());
   }
 
   @Test
   @DisplayName("로그인 성공후 토큰 발급")
   public void loginSuccess() throws Exception {
     //given
-    String studentNo = "17101245";
-    String inputPassword = "qwer1234";
-    String savedPassword = "qwer1234";
-    LoginCommand command = createLoginCommand(studentNo,inputPassword);
-    Member member = createMockMember(studentNo, savedPassword,1L);
-    String accessToken = "accessToken";
-    String refreshToken = "refreshToke";
-    given(loadMemberPort.loadByStudentNo(studentNo)).willReturn(member);
-    given(jwtProvider.createAccessToken(any()))
-        .willReturn(accessToken);
-    given(jwtProvider.createRefreshToken()).willReturn(refreshToken);
+    given(passwordEncoder.matches(any(),any())).willReturn(true);
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
+
     //when
-    AllToken result = loginService.login(command);
+    AllToken result = loginService.login(loginCommand);
     //then
-    assertEquals(accessToken, result.getAccessToken());
-    assertEquals(refreshToken, result.getRefreshToken());
+    verify(jwtProvider, times(1)).createAccessToken(any(TokenInfo.class));
+    verify(jwtProvider,times(1)).createRefreshToken();
+    verify(redisCachePort,times(1)).setStringWithDayTTL(any(),any(),any());
   }
 
-  private LoginCommand createLoginCommand(String studentNo, String password) {
-    return new LoginCommand(studentNo, password);
-  }
-
-  private Member createMockMember(String studentNo, String password,Long memberId) {
-    return new Member.Builder(studentNo, "이름", password, "컴공", "010-9999-0000",
-        StudentStatus.STUDENT,MemberRole.MEMBER)
-        .setMemberId(memberId)
-        .build();
-  }
 }

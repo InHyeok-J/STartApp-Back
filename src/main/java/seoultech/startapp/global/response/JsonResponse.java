@@ -2,6 +2,7 @@ package seoultech.startapp.global.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import seoultech.startapp.global.exception.ErrorType;
 
 public class JsonResponse {
 
@@ -17,9 +18,9 @@ public class JsonResponse {
         .body(response);
   }
 
-  public static ResponseEntity<?> fail(HttpStatus status, String message){
-    FailResponse response = new FailResponse(status.value(), message);
-    return ResponseEntity.status(status.value())
+  public static ResponseEntity<?> fail(ErrorType errorType, String message){
+    FailResponse response = new FailResponse(errorType.getStatusCode(), message, errorType.getErrorType());
+    return ResponseEntity.status(errorType.getStatusCode())
         .body(response);
   }
 }

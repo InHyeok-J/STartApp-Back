@@ -1,10 +1,9 @@
 package seoultech.startapp.global.common;
 
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import seoultech.startapp.global.exception.InvalidInputException;
+import seoultech.startapp.global.exception.InvalidHeaderException;
 
 @Component
 public class HeaderTokenExtractor {
@@ -19,7 +18,7 @@ public class HeaderTokenExtractor {
     if (StringUtils.hasText(bearerHeader) && bearerHeader.startsWith(HEADER_PREFIX)) {
       return bearerHeader.substring(HEADER_PREFIX.length());
     }
-    throw new InvalidInputException("잘못된 Header Token 값 전송[Access]",HttpStatus.BAD_REQUEST);
+    throw new InvalidHeaderException("잘못된 Header Token 값 전송[Access]");
   }
 
   public String extractRefreshToken(HttpServletRequest request){
@@ -28,7 +27,7 @@ public class HeaderTokenExtractor {
     if (StringUtils.hasText(bearerHeader) && bearerHeader.startsWith(HEADER_PREFIX)) {
       return bearerHeader.substring(HEADER_PREFIX.length());
     }
-    throw new InvalidInputException("잘못된 Header Token 값 전송[Refresh]",HttpStatus.BAD_REQUEST);
+    throw new InvalidHeaderException("잘못된 Header Token 값 전송[Refresh]");
   }
 
 }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import seoultech.startapp.global.exception.ErrorType;
 
 class FailResponseTest {
 
@@ -12,9 +13,11 @@ class FailResponseTest {
   @DisplayName("failResponse DTO 테스트")
   public void failResponse() throws Exception {
     String message = "badRequest";
-    FailResponse failResponse = new FailResponse(HttpStatus.BAD_REQUEST.value(), message);
+    ErrorType errorType = ErrorType.INVALID_INPUT;
+    FailResponse failResponse = new FailResponse(errorType.getStatusCode(), message, errorType.getErrorType());
 
-    assertEquals(failResponse.getStatus(), 400);
-    assertEquals(failResponse.getMessage(), message);
+    assertEquals( 400, failResponse.getStatus());
+    assertEquals( message, failResponse.getMessage());
+    assertEquals( "ST001", failResponse.getErrorCode());
   }
 }

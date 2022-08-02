@@ -1,4 +1,4 @@
-package seoultech.startapp.member.application.port.in;
+package seoultech.startapp.member.application.port.in.command;
 
 import javax.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;

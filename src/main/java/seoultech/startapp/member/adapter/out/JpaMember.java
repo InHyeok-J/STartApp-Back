@@ -35,6 +35,12 @@ class JpaMember extends BaseTimeJpaEntity {
   @Column(nullable = false)
   private String department;
 
+  @Column(nullable = false)
+  private String email;
+
+  @Column(nullable = false)
+  private Boolean memberShip;
+
   @Column(name ="phone_no" ,nullable = false)
   private String phoneNo;
 
@@ -51,7 +57,7 @@ class JpaMember extends BaseTimeJpaEntity {
 
   @Builder
   public JpaMember(Long id ,String studentNo, String password, String name, String department,
-      String phoneNo, StudentStatus studentStatus,String fcmToken) {
+      String phoneNo, StudentStatus studentStatus,String fcmToken, String email, boolean memberShip) {
     this.id = id;
     this.studentNo = studentNo;
     this.password = password;
@@ -60,9 +66,15 @@ class JpaMember extends BaseTimeJpaEntity {
     this.phoneNo = phoneNo;
     this.studentStatus = studentStatus;
     this.fcmToken = fcmToken;
+    this.email = email;
+    this.memberShip = memberShip;
   }
 
   public void setFcmToken(String token){
     this.fcmToken = token;
+  }
+
+  public void setMemberShip(boolean isMemberShip){
+    this.memberShip = isMemberShip;
   }
 }
