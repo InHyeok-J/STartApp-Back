@@ -17,6 +17,8 @@ class PlanMapper {
             .color(jpaPlan.getColor())
             .startTime(jpaPlan.getStartTime())
             .endTime(jpaPlan.getEndTime())
+            .createdAt(jpaPlan.getCreatedAt())
+            .updatedAt(jpaPlan.getUpdatedAt())
             .build();
     }
 

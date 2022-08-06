@@ -7,22 +7,33 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
-import seoultech.startapp.plan.application.port.out.LoadPlanPagingPort;
+import seoultech.startapp.plan.application.port.out.LoadPlanPort;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 class PlanGetService implements PlanGetUseCase {
 
-    private final LoadPlanPagingPort loadPlanPagingPort;
+    private final LoadPlanPort loadPlanPort;
 
     @Override
     @Transactional(readOnly = true)
     public PlanPagingResult getAllPlanByPaging(PageRequest pageRequest) {
 
-        Page<PlanResponse> planResponses = loadPlanPagingPort.loadAllPlanByPaging(pageRequest)
+        Page<PlanResponse> planResponses = loadPlanPort.loadAllPlanByPaging(pageRequest)
                                                    .map(PlanResponse::ToPlanResponse);
 
         return new PlanPagingResult(planResponses.getTotalPages(),planResponses.getContent());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PlanResponse> getPlanByYearAndMonth(int year, int month) {
+        return loadPlanPort.getPlanByMonthAndYear(year,month)
+                            .stream().map(PlanResponse::ToPlanResponse)
+                            .collect(Collectors.toList());
     }
 }

@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
-import seoultech.startapp.event.application.port.out.LoadEventPagingPort;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.application.port.out.RemoveEventPort;
 import seoultech.startapp.event.application.port.out.SaveEventPort;
@@ -16,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class EventPersistenceAdapter implements LoadEventPort, SaveEventPort, RemoveEventPort, LoadEventPagingPort {
+public class EventPersistenceAdapter implements LoadEventPort, SaveEventPort, RemoveEventPort {
     private final JpaEventRepository jpaEventRepository;
     private final EventMapper eventMapper;
     @Override

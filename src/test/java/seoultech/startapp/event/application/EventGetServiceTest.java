@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import seoultech.startapp.event.application.port.out.LoadEventPagingPort;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.domain.Event;
 
@@ -28,9 +27,6 @@ class EventGetServiceTest {
 
     @Mock
     private LoadEventPort loadEventPort;
-
-    @Mock
-    private LoadEventPagingPort loadEventPagingPort;
 
     @InjectMocks
     private EventGetService eventGetService;
@@ -103,7 +99,7 @@ class EventGetServiceTest {
     @DisplayName("페이지네이션의 totalPage 확인")
     void getEventAllPaging_ok(){
 
-        when(loadEventPagingPort.loadAllEventByPaging(pageRequest))
+        when(loadEventPort.loadAllEventByPaging(pageRequest))
             .thenReturn(eventPage);
 
         EventPagingResult allEventByPaging = eventGetService.getAllEventByPaging(pageRequest);

@@ -19,12 +19,24 @@ public class Plan {
 
     private LocalDateTime endTime;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     @Builder
-    public Plan(Long planId, String planName, String color, LocalDateTime startTime, LocalDateTime endTime) {
+    public Plan(Long planId,
+                String planName,
+                String color,
+                LocalDateTime startTime,
+                LocalDateTime endTime,
+                LocalDateTime createdAt,
+                LocalDateTime updatedAt) {
         this.planId = planId;
         this.planName = planName;
         this.color = color;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

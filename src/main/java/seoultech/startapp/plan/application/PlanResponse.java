@@ -19,13 +19,25 @@ public class PlanResponse {
 
     private LocalDateTime endTime;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
     @Builder
-    public PlanResponse(Long planId, String planName, String color, LocalDateTime startTime, LocalDateTime endTime) {
+    public PlanResponse(Long planId,
+                        String planName,
+                        String color,
+                        LocalDateTime startTime,
+                        LocalDateTime endTime,
+                        LocalDateTime createdAt,
+                        LocalDateTime updatedAt) {
         this.planId = planId;
         this.planName = planName;
         this.color = color;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public static PlanResponse ToPlanResponse(Plan plan){
@@ -35,6 +47,8 @@ public class PlanResponse {
                            .planName(plan.getPlanName())
                            .startTime(plan.getStartTime())
                            .endTime(plan.getEndTime())
+                           .createdAt(plan.getCreatedAt())
+                           .updatedAt(plan.getUpdatedAt())
                            .build();
     }
 }

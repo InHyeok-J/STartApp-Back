@@ -10,7 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import seoultech.startapp.plan.application.port.out.LoadPlanPagingPort;
+import seoultech.startapp.plan.application.port.out.LoadPlanPort;
 import seoultech.startapp.plan.domain.Plan;
 
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 class PlanGetServiceTest {
 
     @Mock
-    private LoadPlanPagingPort loadPlanPagingPort;
+    private LoadPlanPort loadPlanPort;
 
     @InjectMocks
     private PlanGetService planGetService;
@@ -64,7 +64,7 @@ class PlanGetServiceTest {
     void getPlanPaging_ok(){
 
 
-        when(loadPlanPagingPort.loadAllPlanByPaging(pageRequest))
+        when(loadPlanPort.loadAllPlanByPaging(pageRequest))
             .thenReturn(planPage);
 
         PlanPagingResult allPlanByPaging = planGetService.getAllPlanByPaging(pageRequest);

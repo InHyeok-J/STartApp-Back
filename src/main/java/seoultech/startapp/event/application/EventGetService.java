@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.event.application.port.in.EventGetUseCase;
-import seoultech.startapp.event.application.port.out.LoadEventPagingPort;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.domain.Event;
 
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class EventGetService implements EventGetUseCase {
     private final LoadEventPort loadEventPort;
-    private final LoadEventPagingPort loadEventPagingPort;
 
     @Override
     @Transactional(readOnly = true)
@@ -43,7 +41,7 @@ class EventGetService implements EventGetUseCase {
     @Transactional(readOnly = true)
     public EventPagingResult getAllEventByPaging(PageRequest pageRequest) {
 
-        Page<EventResponse> eventResponses = loadEventPagingPort.loadAllEventByPaging(pageRequest)
+        Page<EventResponse> eventResponses = loadEventPort.loadAllEventByPaging(pageRequest)
                                                .map(EventResponse::eventToEventResponse);
 
         return new EventPagingResult(eventResponses.getTotalPages(),eventResponses.getContent());
