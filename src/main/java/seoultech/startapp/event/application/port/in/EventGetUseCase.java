@@ -1,10 +1,10 @@
 package seoultech.startapp.event.application.port.in;
 
 import org.springframework.data.domain.PageRequest;
+import seoultech.startapp.event.application.EventPagingResult;
 import seoultech.startapp.event.application.EventResponse;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EventGetUseCase {
 
@@ -12,5 +12,5 @@ public interface EventGetUseCase {
 
     List<EventResponse> getAllEvent();
 
-    Map<String,Object> getAllEventByPaging(PageRequest pageRequest);
+    EventPagingResult getAllEventByPaging(PageRequest pageRequest);
 }

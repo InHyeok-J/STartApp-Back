@@ -39,6 +39,8 @@ public class EventCommand extends SelfValidator<EventCommand> {
         this.validateSelf();
     }
 
+
+
     public Event ToDomainEvent(){
         return Event.builder()
                     .title(this.title)

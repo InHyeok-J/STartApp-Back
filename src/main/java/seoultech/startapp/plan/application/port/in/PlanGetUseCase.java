@@ -1,11 +1,10 @@
 package seoultech.startapp.plan.application.port.in;
 
 import org.springframework.data.domain.PageRequest;
-
-import java.util.Map;
+import seoultech.startapp.plan.application.PlanPagingResult;
 
 public interface PlanGetUseCase {
 
-    Map<String,Object> getAllPlanByPaging(PageRequest pageRequest);
+    PlanPagingResult getAllPlanByPaging(PageRequest pageRequest);
 
 }

@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
-import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
+import seoultech.startapp.plan.application.PlanPagingResult;
 import seoultech.startapp.plan.application.port.in.PlanCommand;
+import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
 import seoultech.startapp.plan.application.port.in.PlanRegisterUseCase;
 import seoultech.startapp.plan.application.port.in.PlanRemoveUseCase;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/admin/plan")
 @RequiredArgsConstructor
-class planAuthController {
+class PlanAuthController {
 
     private final PlanGetUseCase planGetUseCase;
     private final PlanRemoveUseCase planRemoveUseCase;
@@ -35,7 +34,7 @@ class planAuthController {
     public ResponseEntity<?> getPlanByPaging(@RequestParam int page, @RequestParam(required = false,defaultValue = "10") int count){
         PageRequest pageRequest = PageRequest.of(page,count);
 
-        Map<String, Object> allPlanByPaging = planGetUseCase.getAllPlanByPaging(pageRequest);
+        PlanPagingResult allPlanByPaging = planGetUseCase.getAllPlanByPaging(pageRequest);
 
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 plan을 찾았습니다.",allPlanByPaging);
     }
@@ -43,12 +42,7 @@ class planAuthController {
     @PostMapping("")
     public ResponseEntity<?> registerPlan(@RequestBody PlanRequest planRequest){
 
-        PlanCommand planCommand = PlanCommand.builder()
-                                             .planName(planRequest.getPlanName())
-                                             .color(planRequest.getColor())
-                                             .startTime(planRequest.getStartTime())
-                                             .endTime(planRequest.getEndTime())
-                                             .build();
+        PlanCommand planCommand = planRequest.ToPlanCommand();
 
         planRegisterUseCase.register(planCommand);
         return JsonResponse.ok(HttpStatus.CREATED, "학사일정을 생성했습니다.");

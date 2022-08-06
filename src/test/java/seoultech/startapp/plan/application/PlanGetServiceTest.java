@@ -66,10 +66,10 @@ class PlanGetServiceTest {
 
         when(loadPlanPagingPort.loadAllPlanByPaging(pageRequest))
             .thenReturn(planPage);
-        
-        Map<String, Object> allPlanByPaging = planGetService.getAllPlanByPaging(pageRequest);
 
-        assertThat(allPlanByPaging.get("totalPage")).isEqualTo(pageResult.get("totalPage"));
+        PlanPagingResult allPlanByPaging = planGetService.getAllPlanByPaging(pageRequest);
+
+        assertThat(allPlanByPaging.getTotalPage()).isEqualTo(pageResult.get("totalPage"));
     }
 
 }

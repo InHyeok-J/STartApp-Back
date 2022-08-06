@@ -11,9 +11,7 @@ import seoultech.startapp.event.application.port.out.LoadEventPagingPort;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.domain.Event;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -37,22 +35,17 @@ class EventGetService implements EventGetUseCase {
     @Transactional(readOnly = true)
     public List<EventResponse> getAllEvent() {
         return loadEventPort.loadAllEvent().stream()
-                            .map(event -> EventResponse.eventToEventResponse(event))
+                            .map(EventResponse::eventToEventResponse)
                             .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String,Object> getAllEventByPaging(PageRequest pageRequest) {
+    public EventPagingResult getAllEventByPaging(PageRequest pageRequest) {
 
         Page<EventResponse> eventResponses = loadEventPagingPort.loadAllEventByPaging(pageRequest)
                                                .map(EventResponse::eventToEventResponse);
 
-        Map<String,Object> pageResult = new HashMap<>();
-
-        pageResult.put("totalPage",eventResponses.getTotalPages());
-        pageResult.put("eventList",eventResponses.getContent());
-
-        return pageResult;
+        return new EventPagingResult(eventResponses.getTotalPages(),eventResponses.getContent());
     }
 }

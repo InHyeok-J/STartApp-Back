@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
 import seoultech.startapp.plan.application.port.out.LoadPlanPagingPort;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,16 +18,11 @@ class PlanGetService implements PlanGetUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public Map<String, Object> getAllPlanByPaging(PageRequest pageRequest) {
+    public PlanPagingResult getAllPlanByPaging(PageRequest pageRequest) {
 
         Page<PlanResponse> planResponses = loadPlanPagingPort.loadAllPlanByPaging(pageRequest)
                                                    .map(PlanResponse::ToPlanResponse);
 
-        Map<String,Object> pageResult = new HashMap<>();
-
-        pageResult.put("totalPage",planResponses.getTotalPages());
-        pageResult.put("planList",planResponses.getContent());
-
-        return pageResult;
+        return new PlanPagingResult(planResponses.getTotalPages(),planResponses.getContent());
     }
 }
