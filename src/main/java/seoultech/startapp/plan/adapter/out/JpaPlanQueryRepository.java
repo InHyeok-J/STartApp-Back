@@ -39,15 +39,7 @@ public class JpaPlanQueryRepository {
     }
 
     private BooleanExpression findPlanByStartAndEnd(LocalDateTime startTime, LocalDateTime endTime){
-        return startTimeBetween(startTime, endTime).or(endTimeBetween(startTime, endTime));
-    }
-
-    private BooleanExpression startTimeBetween(LocalDateTime startTime, LocalDateTime endTime){
-        return jpaPlan.startTime.between(startTime,endTime);
-    }
-
-    private BooleanExpression endTimeBetween(LocalDateTime startTime, LocalDateTime endTime){
-        return jpaPlan.endTime.between(startTime,endTime);
+        return jpaPlan.startTime.between(startTime,endTime).or(jpaPlan.endTime.between(startTime,endTime));
     }
 
 }
