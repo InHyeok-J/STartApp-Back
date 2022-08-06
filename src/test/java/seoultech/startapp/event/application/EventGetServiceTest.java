@@ -7,12 +7,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import seoultech.startapp.event.application.port.out.LoadEventPagingPort;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.domain.Event;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -23,11 +29,23 @@ class EventGetServiceTest {
     @Mock
     private LoadEventPort loadEventPort;
 
+    @Mock
+    private LoadEventPagingPort loadEventPagingPort;
+
     @InjectMocks
     private EventGetService eventGetService;
 
     private Event eventOne;
     private List<Event> eventList = new ArrayList<>();
+
+    private final int PAGE = 0;
+    private final int COUNT = 10;
+
+    private Map<String,Object> pageResult = new HashMap<>();
+
+    private Page<Event> eventPage;
+    private PageRequest pageRequest = PageRequest.of(PAGE, COUNT);
+
     @BeforeEach
     void setUp(){
         eventOne = Event.builder()
@@ -51,6 +69,9 @@ class EventGetServiceTest {
 
             eventList.add(event);
         }
+
+        eventPage = new PageImpl<>(eventList,pageRequest,8);
+        pageResult.put("totalPage",1);
     }
 
     @Test
@@ -76,6 +97,18 @@ class EventGetServiceTest {
         List<EventResponse> allEvent = eventGetService.getAllEvent();
 
         assertThat(allEvent.size()).isEqualTo(8);
+    }
+
+    @Test
+    @DisplayName("페이지네이션의 totalPage 확인")
+    void getEventAllPaging_ok(){
+
+        when(loadEventPagingPort.loadAllEventByPaging(pageRequest))
+            .thenReturn(eventPage);
+
+        Map<String, Object> allEventByPaging = eventGetService.getAllEventByPaging(pageRequest);
+
+        assertThat(allEventByPaging.get("totalPage")).isEqualTo(pageResult.get("totalPage"));
     }
 
 }

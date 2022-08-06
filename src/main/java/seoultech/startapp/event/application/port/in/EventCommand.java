@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import seoultech.startapp.event.domain.Event;
 import seoultech.startapp.global.common.SelfValidator;
 
@@ -25,11 +24,9 @@ public class EventCommand extends SelfValidator<EventCommand> {
     @NotBlank
     private String imageUrl;
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startTime;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
 
     @Builder

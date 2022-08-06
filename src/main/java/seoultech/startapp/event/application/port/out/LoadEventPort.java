@@ -9,4 +9,6 @@ public interface LoadEventPort {
     Event loadEventById(Long eventId);
 
     List<Event> loadAllEvent();
+
+
 }

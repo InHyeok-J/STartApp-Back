@@ -2,7 +2,6 @@ package seoultech.startapp.event.adapter.out;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.event.application.port.out.LoadEventPort;
 import seoultech.startapp.event.application.port.out.SaveEventPort;
@@ -30,9 +29,11 @@ public class EventPersistenceAdapter implements LoadEventPort, SaveEventPort {
         return eventMapper.mapToDomainEventList(jpaEvents);
     }
 
+
     @Override
     public void saveEvent(Event event) {
         JpaEvent jpaEvent = eventMapper.mapToJpaEvent(event);
         jpaEventRepository.save(jpaEvent);
     }
+
 }
