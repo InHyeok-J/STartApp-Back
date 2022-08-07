@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlanPagingResult {
+public class PlanPagingResponse {
 
     private int totalPage;
 

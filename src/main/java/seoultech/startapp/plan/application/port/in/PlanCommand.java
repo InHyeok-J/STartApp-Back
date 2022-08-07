@@ -39,12 +39,11 @@ public class PlanCommand extends SelfValidator<PlanCommand> {
     }
 
     public static Plan ToDomainPlan(PlanCommand planCommand){
-        Plan plan = Plan.builder()
-                         .planName(planCommand.getPlanName())
-                         .color(planCommand.getPlanName())
-                         .startTime(planCommand.getStartTime())
-                         .endTime(planCommand.getEndTime())
-                         .build();
-        return plan;
+        return Plan.builder()
+                   .planName(planCommand.getPlanName())
+                   .color(planCommand.getPlanName())
+                   .startTime(planCommand.getStartTime())
+                   .endTime(planCommand.getEndTime())
+                   .build();
     }
 }

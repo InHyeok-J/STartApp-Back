@@ -21,12 +21,12 @@ class PlanGetService implements PlanGetUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public PlanPagingResult getAllPlanByPaging(PageRequest pageRequest) {
+    public PlanPagingResponse getAllPlanByPaging(PageRequest pageRequest) {
 
         Page<PlanResponse> planResponses = loadPlanPort.loadAllPlanByPaging(pageRequest)
                                                    .map(PlanResponse::ToPlanResponse);
 
-        return new PlanPagingResult(planResponses.getTotalPages(),planResponses.getContent());
+        return new PlanPagingResponse(planResponses.getTotalPages(), planResponses.getContent());
     }
 
     @Override

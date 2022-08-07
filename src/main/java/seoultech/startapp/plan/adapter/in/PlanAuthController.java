@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
-import seoultech.startapp.plan.application.PlanPagingResult;
+import seoultech.startapp.plan.application.PlanPagingResponse;
 import seoultech.startapp.plan.application.port.in.PlanCommand;
 import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
 import seoultech.startapp.plan.application.port.in.PlanRegisterUseCase;
@@ -34,7 +34,7 @@ class PlanAuthController {
     public ResponseEntity<?> getPlanByPaging(@RequestParam int page, @RequestParam(required = false,defaultValue = "10") int count){
         PageRequest pageRequest = PageRequest.of(page,count);
 
-        PlanPagingResult allPlanByPaging = planGetUseCase.getAllPlanByPaging(pageRequest);
+        PlanPagingResponse allPlanByPaging = planGetUseCase.getAllPlanByPaging(pageRequest);
 
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 plan을 찾았습니다.",allPlanByPaging);
     }
