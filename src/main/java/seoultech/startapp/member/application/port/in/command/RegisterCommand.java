@@ -1,16 +1,17 @@
 package seoultech.startapp.member.application.port.in.command;
 
-import java.util.HashSet;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
 import seoultech.startapp.member.adapter.in.RegisterMemberRequest;
 import seoultech.startapp.member.domain.StudentStatus;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.HashSet;
 
 @Getter
 @EqualsAndHashCode(callSuper = false)
@@ -56,7 +57,6 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
   }
 
   public RegisterCommand(RegisterMemberRequest request){
-    System.out.println("tesr");
     this.StudentNo = request.studentNo();
     this.appPassword = request.appPassword();
     this.name = request.name();

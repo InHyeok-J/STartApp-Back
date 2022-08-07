@@ -1,23 +1,19 @@
 package seoultech.startapp.event.adapter.in;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import seoultech.startapp.event.application.port.in.EventCommand;
 
 import java.time.LocalDateTime;
 
-@Getter
-@AllArgsConstructor
-class EventRequest {
+record EventRequest(String title, String formLink, String imageUrl, LocalDateTime startTime, LocalDateTime endTime) {
 
-
-    private final String title;
-
-    private final String formLink;
-
-    private final String imageUrl;
-
-    private final LocalDateTime startTime;
-
-    private final LocalDateTime endTime;
+    public EventCommand ToEventCommand() {
+        return EventCommand.builder()
+                           .title(title)
+                           .formLink(formLink)
+                           .imageUrl(imageUrl)
+                           .startTime(startTime)
+                           .endTime(endTime)
+                           .build();
+    }
 
 }

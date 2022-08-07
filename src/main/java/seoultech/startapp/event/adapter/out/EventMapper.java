@@ -1,5 +1,6 @@
 package seoultech.startapp.event.adapter.out;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.event.domain.Event;
 
@@ -22,6 +23,10 @@ class EventMapper {
                            .build();
         event.checkEventStatus(LocalDateTime.now());
         return event;
+    }
+
+    Page<Event> mapToDomainEventPage(Page<JpaEvent> jpaEventPages){
+        return jpaEventPages.map(jpaEvent -> mapToDomainEvent(jpaEvent));
     }
 
     List<Event> mapToDomainEventList(List<JpaEvent> jpaEvents){
