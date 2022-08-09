@@ -1,5 +1,6 @@
 package seoultech.startapp.member.adapter.out;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.member.domain.Member;
 
@@ -37,5 +38,9 @@ class MemberMapper {
                         .email(member.getEmaill())
                         .memberShip(member.getMemberShip())
                         .build();
+    }
+
+    Page<Member> mapToDomainMemberPage(Page<JpaMember> jpaMemberPage){
+        return jpaMemberPage.map(this::mapToDomainMember);
     }
 }

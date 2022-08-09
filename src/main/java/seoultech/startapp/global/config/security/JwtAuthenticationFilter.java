@@ -3,6 +3,7 @@ package seoultech.startapp.global.config.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
@@ -33,7 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     String jwtToken = headerTokenExtractor.extractAccessToken(request);
     if(StringUtils.hasText(jwtToken) && jwtResolver.validateAccessToken(jwtToken)){
       Authentication authentication = jwtResolver.getAuthentication(jwtToken);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      SecurityContext context = SecurityContextHolder.createEmptyContext();
+      context.setAuthentication(authentication);
+      SecurityContextHolder.setContext(context);
     }
     filterChain.doFilter(request,response);
   }
