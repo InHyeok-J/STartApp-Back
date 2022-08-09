@@ -3,12 +3,17 @@ package seoultech.startapp.member.adapter.in;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seoultech.startapp.global.config.web.AuthMember;
+import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.application.AllToken;
+import seoultech.startapp.member.application.MemberResponse;
+import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 
@@ -18,10 +23,17 @@ import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 public class MemberController {
 
   private final RegisterUseCase registerUseCase;
+  private final MemberGetUserCase memberGetUserCase;
 
   @PostMapping("")
   public ResponseEntity<?> register(@RequestBody RegisterMemberRequest request){
     AllToken token = registerUseCase.register(new RegisterCommand(request));
     return JsonResponse.okWithData(HttpStatus.CREATED,"회원가입 성공",token);
+  }
+
+  @GetMapping("")
+  public ResponseEntity<?> getMyInfo(@LoginMember AuthMember member){
+    MemberResponse result = memberGetUserCase.getMemberOne(member.getMemberId());
+    return JsonResponse.okWithData(HttpStatus.OK , "내 정보 조회 성공", result);
   }
 }
