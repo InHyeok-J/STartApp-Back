@@ -21,7 +21,7 @@ public class Member {
 
   private String fcmToken;
 
-  private String emaill;
+  private String email;
 
   private Boolean memberShip;
 
@@ -35,7 +35,7 @@ public class Member {
 
   @Builder
   public Member(Long memberId, String studentNo, String name, String password,
-      String department, String phoneNo, String fcmToken, String emaill, Boolean memberShip,
+      String department, String phoneNo, String fcmToken, String email, Boolean memberShip,
       StudentStatus studentStatus, MemberRole memberRole, LocalDateTime createdAt,
       LocalDateTime updatedAt) {
     this.memberId = memberId;
@@ -45,7 +45,7 @@ public class Member {
     this.department = department;
     this.phoneNo = phoneNo;
     this.fcmToken = fcmToken;
-    this.emaill = emaill;
+    this.email = email;
     this.memberShip = memberShip;
     this.studentStatus = studentStatus;
     this.memberRole = memberRole;

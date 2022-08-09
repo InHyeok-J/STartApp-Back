@@ -16,7 +16,7 @@ class MemberMapper {
                      .department(jpaMember.getDepartment())
                      .phoneNo(jpaMember.getPhoneNo())
                      .fcmToken(jpaMember.getFcmToken())
-                     .emaill(jpaMember.getEmail())
+                     .email(jpaMember.getEmail())
                      .memberShip(jpaMember.getMemberShip())
                      .studentStatus(jpaMember.getStudentStatus())
                      .memberRole(jpaMember.getMemberRole())
@@ -35,7 +35,7 @@ class MemberMapper {
                         .phoneNo(member.getPhoneNo())
                         .studentStatus(member.getStudentStatus())
                         .fcmToken(member.getFcmToken())
-                        .email(member.getEmaill())
+                        .email(member.getEmail())
                         .memberShip(member.getMemberShip())
                         .build();
     }

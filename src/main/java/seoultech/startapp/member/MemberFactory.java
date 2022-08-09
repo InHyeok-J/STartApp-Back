@@ -18,7 +18,7 @@ public class MemberFactory {
         .phoneNo(command.getPhoneNo())
         .fcmToken(command.getFcmToken())
         .studentStatus(command.getStudentStatus())
-        .emaill(command.getEmail())
+        .email(command.getEmail())
         .memberRole(MemberRole.MEMBER)
         .build();
   }
