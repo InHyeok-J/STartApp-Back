@@ -7,7 +7,7 @@ import seoultech.startapp.member.domain.MemberRole;
 
 @Getter
 @AllArgsConstructor
-public class AuthUser {
+public class AuthMember {
 
   private Long memberId;
 
