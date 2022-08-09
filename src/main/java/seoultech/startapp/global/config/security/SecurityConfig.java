@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import seoultech.startapp.member.domain.MemberRole;
 
 @Configuration
 @RequiredArgsConstructor
@@ -35,6 +33,8 @@ public class SecurityConfig {
             .accessDeniedHandler(jwtAccessDeniedHandler);
 
     http.authorizeRequests()
+        .antMatchers("/api/admin/member/list**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/**").hasAuthority("ADMIN")
         .antMatchers("/api/admin/**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
         .anyRequest().permitAll();
     return http.build();

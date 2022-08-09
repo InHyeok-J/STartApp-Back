@@ -22,6 +22,8 @@ public class MemberGetService implements MemberGetUserCase {
 
   @Override
   public MemberResponse getMemberOne(Long memberId) {
-    return null;
+    Member findMember = loadMemberPort.loadByMemberId(memberId);
+
+    return MemberResponse.toDto(findMember);
   }
 }
