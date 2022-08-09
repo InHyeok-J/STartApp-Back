@@ -9,7 +9,7 @@ import seoultech.startapp.member.domain.Member;
 @AllArgsConstructor
 public class MemberPagingResponse {
 
-  private List<MemberListResponse> member;
+  private List<MemberListResponse> memberList;
   private int totalPage;
 
   public static MemberPagingResponse toDto(List<Member> members, int totalPage){
