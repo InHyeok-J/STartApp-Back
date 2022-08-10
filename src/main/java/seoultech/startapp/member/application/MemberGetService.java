@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.domain.Member;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberGetService implements MemberGetUserCase {
 
   private final LoadMemberPort loadMemberPort;

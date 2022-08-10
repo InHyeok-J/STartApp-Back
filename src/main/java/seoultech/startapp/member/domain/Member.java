@@ -3,6 +3,7 @@ package seoultech.startapp.member.domain;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
+import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand;
 
 @Getter
 public class Member {
@@ -63,5 +64,14 @@ public class Member {
 
   public void isMemberShip(Boolean memberShip){
     this.memberShip = memberShip;
+  }
+
+  public void updateMemberInfo(UpdateMemberCommand command){
+    this.name =command.getName();
+    this.department = command.getDepartment();
+    this.email = command.getEmail();
+    this.phoneNo = command.getPhoneNo();
+    this.studentStatus = command.getStudentStatus();
+    this.memberShip = command.getMemberShip();
   }
 }
