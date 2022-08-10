@@ -69,6 +69,7 @@ class PlanGetServiceTest {
 
         PlanPagingResponse allPlanByPaging = planGetService.getAllPlanByPaging(PAGE,COUNT);
 
+
         assertThat(allPlanByPaging.getTotalPage()).isEqualTo(pageResult.get("totalPage"));
     }
 

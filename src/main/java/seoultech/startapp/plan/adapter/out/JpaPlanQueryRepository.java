@@ -15,7 +15,7 @@ import static seoultech.startapp.plan.adapter.out.QJpaPlan.jpaPlan;
 
 @Repository
 @RequiredArgsConstructor
-public class JpaPlanQueryRepository {
+class JpaPlanQueryRepository {
 
     private final JPAQueryFactory query;
 
