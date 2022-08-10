@@ -9,11 +9,11 @@ import seoultech.startapp.member.domain.Member;
 @AllArgsConstructor
 public class MemberPagingResponse {
 
-  private List<MemberListResponse> memberList;
+  private List<MemberResponse> memberList;
   private int totalPage;
 
   public static MemberPagingResponse toDto(List<Member> members, int totalPage){
-    return new MemberPagingResponse(members.stream().map(MemberListResponse::toDto)
+    return new MemberPagingResponse(members.stream().map(MemberResponse::toSummaryDto)
         .toList(), totalPage);
   }
 }

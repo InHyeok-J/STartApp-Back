@@ -1,6 +1,5 @@
 package seoultech.startapp.member.adapter.in;
 
-import javax.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.adapter.out.NotFoundJpaMemberException;
-import seoultech.startapp.member.application.MemberListResponse;
 import seoultech.startapp.member.application.MemberPagingResponse;
 import seoultech.startapp.member.application.MemberResponse;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
@@ -37,7 +35,7 @@ public class MemberAdminController {
   @GetMapping("/search")
   public ResponseEntity<?> getMemberByStudentNo(@RequestParam("studentNo") String studentNo){
     try {
-      MemberListResponse result = memberGetUserCase.getMemberByStudentNo(studentNo);
+      MemberResponse result = memberGetUserCase.getMemberByStudentNo(studentNo);
       return JsonResponse.okWithData(HttpStatus.OK, "회원 조회 성공", result);
 
     }catch (NotFoundJpaMemberException e){

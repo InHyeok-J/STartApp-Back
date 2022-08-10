@@ -1,5 +1,6 @@
 package seoultech.startapp.member.application;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import seoultech.startapp.member.domain.StudentStatus;
 
 @Getter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponse {
 
   private Long memberId;
@@ -33,6 +35,14 @@ public class MemberResponse {
         .studentStatus(member.getProfile().getStudentStatus())
         .createdAt(member.getCreatedAt())
         .updatedAt(member.getUpdatedAt())
+        .build();
+  }
+
+  public static MemberResponse toSummaryDto(Member member){
+    return MemberResponse.builder()
+        .memberId(member.getMemberId())
+        .studentNo(member.getProfile().getStudentNo())
+        .name(member.getProfile().getName())
         .build();
   }
 }

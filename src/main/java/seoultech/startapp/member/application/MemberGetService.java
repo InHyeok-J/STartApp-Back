@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seoultech.startapp.member.adapter.out.NotFoundJpaMemberException;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.domain.Member;
@@ -31,8 +30,8 @@ public class MemberGetService implements MemberGetUserCase {
   }
 
   @Override
-  public MemberListResponse getMemberByStudentNo(String studentNo) {
+  public MemberResponse getMemberByStudentNo(String studentNo) {
     Member findMember = loadMemberPort.loadByStudentNo(studentNo);
-    return MemberListResponse.toDto(findMember);
+    return MemberResponse.toSummaryDto(findMember);
   }
 }
