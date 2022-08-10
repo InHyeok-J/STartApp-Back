@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
+import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.StudentStatus;
 
 @Getter
@@ -56,5 +57,17 @@ public class UpdateMemberCommand extends SelfValidator<UpdateMemberCommand> {
     }catch (Exception e){
       throw new ConstraintViolationException("validation fail", new HashSet<>());
     }
+  }
+
+  public MemberProfile toProfile(String studentNo){
+    return MemberProfile.builder()
+        .studentNo(studentNo)
+        .name(name)
+        .department(department)
+        .phoneNo(phoneNo)
+        .email(email)
+        .studentStatus(studentStatus)
+        .memberShip(false)
+        .build();
   }
 }

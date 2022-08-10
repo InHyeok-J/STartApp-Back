@@ -3,6 +3,7 @@ package seoultech.startapp.member.adapter.out;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.domain.MemberProfile;
 
 @Component
 class MemberMapper {
@@ -10,33 +11,35 @@ class MemberMapper {
     Member mapToDomainMember(JpaMember jpaMember) {
         return Member.builder()
                      .memberId(jpaMember.getId())
-                     .studentNo(jpaMember.getStudentNo())
-                     .name(jpaMember.getName())
                      .password(jpaMember.getPassword())
-                     .department(jpaMember.getDepartment())
-                     .phoneNo(jpaMember.getPhoneNo())
                      .fcmToken(jpaMember.getFcmToken())
-                     .email(jpaMember.getEmail())
-                     .memberShip(jpaMember.getMemberShip())
-                     .studentStatus(jpaMember.getStudentStatus())
                      .memberRole(jpaMember.getMemberRole())
                      .createdAt(jpaMember.getCreatedAt())
                      .updatedAt(jpaMember.getUpdatedAt())
+                     .memberProfile(MemberProfile.builder()
+                         .studentNo(jpaMember.getStudentNo())
+                         .name(jpaMember.getName())
+                         .department(jpaMember.getDepartment())
+                         .phoneNo(jpaMember.getPhoneNo())
+                         .email(jpaMember.getEmail())
+                         .studentStatus(jpaMember.getStudentStatus())
+                         .memberShip(jpaMember.getMemberShip())
+                         .build())
                      .build();
     }
 
     JpaMember mapToJpaMember(Member member) {
         return JpaMember.builder()
                         .id(member.getMemberId() == null ? null : member.getMemberId())
-                        .studentNo(member.getStudentNo())
+                        .studentNo(member.getProfile().getStudentNo())
                         .password(member.getPassword())
-                        .name(member.getName())
-                        .department(member.getDepartment())
-                        .phoneNo(member.getPhoneNo())
-                        .studentStatus(member.getStudentStatus())
+                        .name(member.getProfile().getName())
+                        .department(member.getProfile().getDepartment())
+                        .phoneNo(member.getProfile().getPhoneNo())
+                        .studentStatus(member.getProfile().getStudentStatus())
                         .fcmToken(member.getFcmToken())
-                        .email(member.getEmail())
-                        .memberShip(member.getMemberShip())
+                        .email(member.getProfile().getEmail())
+                        .memberShip(member.getProfile().getMemberShip())
                         .build();
     }
 

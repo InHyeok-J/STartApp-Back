@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seoultech.startapp.member.MemberFactory;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
@@ -33,7 +32,7 @@ public class RegisterService implements RegisterUseCase {
   /*
    *  TODO: 자치회비 납부 여부 체크 해야 함.
    */
-    preRegisterMember.isMemberShip(false);
+    preRegisterMember.changeMemberShip(false);
 
     Member registeredMember = saveMemberPort.save(preRegisterMember);
 

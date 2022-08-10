@@ -15,8 +15,8 @@ public class MemberListResponse {
   public static MemberListResponse toDto(Member member){
     return MemberListResponse.builder()
         .memberId(member.getMemberId())
-        .studentNo(member.getStudentNo())
-        .name(member.getName())
+        .studentNo(member.getProfile().getStudentNo())
+        .name(member.getProfile().getName())
         .build();
   }
 }

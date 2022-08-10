@@ -8,6 +8,7 @@ import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.domain.MemberProfile;
 
 @Service
 @Transactional
@@ -20,7 +21,8 @@ public class UpdateService implements UpdateUseCase {
   @Override
   public void update(UpdateMemberCommand command) {
     Member member = loadMemberPort.loadByMemberId(command.getMemberId());
-    member.updateMemberInfo(command);
+    MemberProfile memberProfile = command.toProfile(member.getProfile().getStudentNo());
+    member.updateProfile(memberProfile);
     saveMemberPort.save(member);
   }
 }

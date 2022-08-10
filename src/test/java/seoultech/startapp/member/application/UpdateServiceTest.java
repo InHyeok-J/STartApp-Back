@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
@@ -51,28 +52,14 @@ class UpdateServiceTest {
   @DisplayName("업데이트 성공")
   public void updateSuccess() throws Exception {
     //given
-    Member member = mockMember(updateMemberCommand.getMemberId());
+    Member member = MockDomainMember.generalMockMemberByMemberId(1L);
     given(loadMemberPort.loadByMemberId(any())).willReturn(member);
 
     //when
     updateService.update(updateMemberCommand);
     //then
-    assertEquals(updateMemberCommand.getName(), member.getName());
+    assertEquals(updateMemberCommand.getName(), member.getProfile().getName());
     verify(saveMemberPort, times(1)).save(member);
   }
 
-  private Member mockMember(Long memberId){
-    return Member.builder()
-        .memberId(memberId)
-        .studentNo("학번")
-        .name("이름")
-        .phoneNo("010-")
-        .studentStatus(StudentStatus.STUDENT)
-        .memberShip(true)
-        .memberRole(MemberRole.MEMBER)
-        .department("학과")
-        .createdAt(LocalDateTime.now())
-        .updatedAt(LocalDateTime.now())
-        .build();
-  }
 }
