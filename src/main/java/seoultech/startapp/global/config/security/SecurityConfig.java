@@ -34,6 +34,7 @@ public class SecurityConfig {
 
     http.authorizeRequests()
         .antMatchers("/api/admin/member/list**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/search**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
         .antMatchers("/api/admin/member/**").hasAuthority("ADMIN")
         .antMatchers("/api/admin/**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
         .anyRequest().permitAll();
