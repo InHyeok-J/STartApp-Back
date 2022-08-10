@@ -39,9 +39,9 @@ class EventGetService implements EventGetUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public EventPagingResult getAllEventByPaging(PageRequest pageRequest) {
+    public EventPagingResult getAllEventByPaging(int page, int count) {
 
-        Page<EventResponse> eventResponses = loadEventPort.loadAllEventByPaging(pageRequest)
+        Page<EventResponse> eventResponses = loadEventPort.loadAllEventByPaging(PageRequest.of(page,count))
                                                .map(EventResponse::eventToEventResponse);
 
         return new EventPagingResult(eventResponses.getTotalPages(),eventResponses.getContent());
