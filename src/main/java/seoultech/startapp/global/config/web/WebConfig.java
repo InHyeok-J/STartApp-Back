@@ -13,11 +13,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-  private final LoginUserArgumentResolver loginUserArgumentResolver;
+  private final LoginMemberArgumentResolver loginMemberArgumentResolver;
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(loginUserArgumentResolver);
+    argumentResolvers.add(loginMemberArgumentResolver);
   }
 
   @Bean

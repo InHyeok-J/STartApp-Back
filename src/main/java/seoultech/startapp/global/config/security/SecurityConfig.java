@@ -16,6 +16,7 @@ public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
   private final JwtExceptionFilter jwtExceptionFilter;
+  private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,7 +26,18 @@ public class SecurityConfig {
 
     http.csrf().disable();
 
-    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+    http.exceptionHandling()
+            .accessDeniedHandler(jwtAccessDeniedHandler);
+
+    http.authorizeRequests()
+        .antMatchers("/api/admin/member/list**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/search**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/**").hasAuthority("ADMIN")
+        .antMatchers("/api/admin/**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .anyRequest().permitAll();
     return http.build();
   }
 

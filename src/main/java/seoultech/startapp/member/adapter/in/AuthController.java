@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.common.HeaderTokenExtractor;
-import seoultech.startapp.global.config.web.AuthUser;
-import seoultech.startapp.global.config.web.LoginUser;
+import seoultech.startapp.global.config.web.AuthMember;
+import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.application.AccessToken;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
@@ -40,7 +40,7 @@ public class AuthController {
   }
 
   @GetMapping(" ")
-  public ResponseEntity<?> authCheck(@LoginUser AuthUser authUser) {
+  public ResponseEntity<?> authCheck(@LoginMember AuthMember authUser) {
 
     return JsonResponse.okWithData(HttpStatus.OK, "토큰 확인", authUser);
   }
@@ -54,7 +54,7 @@ public class AuthController {
   }
 
   @GetMapping("/logout")
-  public ResponseEntity<?> logout(@LoginUser AuthUser authUser, HttpServletRequest request) {
+  public ResponseEntity<?> logout(@LoginMember AuthMember authUser, HttpServletRequest request) {
     String toke = headerTokenExtractor.extractRefreshToken(request);
     LogoutCommand command = new LogoutCommand(authUser.getMemberId(), toke);
 

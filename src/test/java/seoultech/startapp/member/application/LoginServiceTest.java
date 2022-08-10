@@ -16,6 +16,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import seoultech.startapp.global.property.JwtProperty;
+import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
@@ -48,14 +49,9 @@ class LoginServiceTest {
   LoginCommand loginCommand;
   @BeforeEach
   void setUp(){
-    this.loginCommand = new LoginCommand("1701256","inputPassword");
-    this.savedMember = Member.builder()
-        .memberId(1L)
-        .name("저장된유저")
-        .studentNo("180808")
-        .password("savedPassword")
-        .phoneNo("010-9999-9999")
-        .build();
+    LoginCommand command =new LoginCommand("1701256","inputPassword");
+    this.loginCommand = command;
+    this.savedMember = MockDomainMember.generalMockMemberByStudentNo(command.getStudentNo());
   }
 
   @Test

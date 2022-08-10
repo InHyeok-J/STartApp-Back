@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.domain.Member;
-import seoultech.startapp.member.domain.StudentStatus;
 import seoultech.startapp.member.exception.DuplicateStudentNoException;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,13 +49,7 @@ class MemberRegisterServiceTest {
     this.registerCommand = new RegisterCommand(studentNo, "appPassword", "이름", "컴퓨터공학과",
         "010-9999-9999", "token..", "STUDENT", "email@email.com");
 
-    this.savedMember = Member.builder()
-        .memberId(1L)
-        .studentNo("180800")
-        .name("이름")
-        .password("appPassword")
-        .studentStatus(StudentStatus.STUDENT)
-        .build();
+    this.savedMember = MockDomainMember.generalMockMemberByStudentNo(studentNo);
   }
 
   @Test
