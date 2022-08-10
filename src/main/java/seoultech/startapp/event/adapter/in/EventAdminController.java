@@ -2,7 +2,6 @@ package seoultech.startapp.event.adapter.in;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,9 +32,8 @@ class EventAdminController {
     @GetMapping("/list")
     public ResponseEntity<?> getAllEventByPaging(@RequestParam int page, @RequestParam(defaultValue = "10",required = false) int count){
 
-        PageRequest pageRequest = PageRequest.of(page, count);
 
-        EventPagingResult pageEvents = eventGetUseCase.getAllEventByPaging(pageRequest);
+        EventPagingResult pageEvents = eventGetUseCase.getAllEventByPaging(page,count);
 
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 이벤트를 찾았습니다.",pageEvents);
     }

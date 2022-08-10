@@ -2,7 +2,6 @@ package seoultech.startapp.plan.adapter.in;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,9 +31,8 @@ class PlanAuthController {
 
     @GetMapping("")
     public ResponseEntity<?> getPlanByPaging(@RequestParam int page, @RequestParam(required = false,defaultValue = "10") int count){
-        PageRequest pageRequest = PageRequest.of(page,count);
 
-        PlanPagingResponse allPlanByPaging = planGetUseCase.getAllPlanByPaging(pageRequest);
+        PlanPagingResponse allPlanByPaging = planGetUseCase.getAllPlanByPaging(page,count);
 
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 plan을 찾았습니다.",allPlanByPaging);
     }
