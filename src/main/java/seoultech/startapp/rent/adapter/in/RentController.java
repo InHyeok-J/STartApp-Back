@@ -8,16 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
-import seoultech.startapp.rent.application.port.in.RentCommand;
-import seoultech.startapp.rent.application.port.in.RentGetUseCase;
 import seoultech.startapp.rent.application.port.in.RentRegisterUseCase;
+import seoultech.startapp.rent.application.port.in.command.RentCommand;
 
 @RestController
 @RequestMapping("/api/rent")
 @RequiredArgsConstructor
 class RentController {
 
-    private final RentGetUseCase rentGetUseCase;
     private final RentRegisterUseCase rentRegisterUseCase;
 
     @PostMapping("")

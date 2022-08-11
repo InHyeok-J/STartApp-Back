@@ -3,26 +3,42 @@ package seoultech.startapp.rent.domain;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 public class Rent {
 
-    private ItemCategory itemCategory;
+    private Long rentId;
 
-    private long amount;
+    private Long memberId;
+
+    private int account;
 
     private String purpose;
 
-    private LocalDateTime startTime;
+    private RentStatus rentStatus;
 
-    private LocalDateTime endTime;
+    private ItemCategory itemCategory;
+
+    private LocalDate startTime;
+
+    private LocalDate endTime;
 
     @Builder
-    public Rent(ItemCategory itemCategory, long amount, String purpose, LocalDateTime startTime, LocalDateTime endTime) {
-        this.itemCategory = itemCategory;
-        this.amount = amount;
+    public Rent(Long rentId,
+                Long memberId,
+                int account,
+                String purpose,
+                RentStatus rentStatus,
+                ItemCategory itemCategory,
+                LocalDate startTime,
+                LocalDate endTime) {
+        this.rentId = rentId;
+        this.memberId = memberId;
+        this.account = account;
         this.purpose = purpose;
+        this.rentStatus = rentStatus;
+        this.itemCategory = itemCategory;
         this.startTime = startTime;
         this.endTime = endTime;
     }
