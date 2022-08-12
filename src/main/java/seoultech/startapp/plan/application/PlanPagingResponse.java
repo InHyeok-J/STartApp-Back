@@ -13,5 +13,5 @@ public class PlanPagingResponse {
 
     private int totalPage;
 
-    private List<PlanResponse> pageList;
+    private List<PlanResponse> planList;
 }

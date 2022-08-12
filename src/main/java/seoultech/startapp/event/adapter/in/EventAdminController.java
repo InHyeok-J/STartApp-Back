@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import seoultech.startapp.event.application.EventPagingResult;
+import seoultech.startapp.event.application.EventPagingResponse;
 import seoultech.startapp.event.application.port.in.EventCommand;
 import seoultech.startapp.event.application.port.in.EventGetUseCase;
 import seoultech.startapp.event.application.port.in.EventRegisterUseCase;
@@ -33,7 +33,7 @@ class EventAdminController {
     public ResponseEntity<?> getAllEventByPaging(@RequestParam int page, @RequestParam(defaultValue = "10",required = false) int count){
 
 
-        EventPagingResult pageEvents = eventGetUseCase.getAllEventByPaging(page,count);
+        EventPagingResponse pageEvents = eventGetUseCase.getAllEventByPaging(page, count);
 
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 이벤트를 찾았습니다.",pageEvents);
     }

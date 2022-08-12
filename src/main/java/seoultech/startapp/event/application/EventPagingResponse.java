@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventPagingResult {
+public class EventPagingResponse {
 
     private int totalPage;
 
-    private List<EventResponse> pageList;
+    private List<EventResponse> eventList;
 
 }
