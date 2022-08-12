@@ -63,7 +63,7 @@ class RentRegisterService implements RentRegisterUseCase {
         long currentCanRentItemCount = trueAvailableItemCount - maxNotRentAccount;
 
         if(memberRequestAccount > currentCanRentItemCount){
-            throw new ExceedNumberOfCurrentAvailableItem("요청한 갯수만큼 물품을 대여할 수 없습니다.");
+            throw new ExceedAvailableItem("요청한 갯수만큼 물품을 대여할 수 없습니다.");
         }
     }
 }

@@ -94,7 +94,7 @@ class RentRegisterServiceTest {
         //캐노피 총 10개 있고 max 값 6개, 고장난 거 1개
         // 10 - 6 - 1 = 3개까지 빌릴 수 있음.
         //근데 5개 요청함
-        ExceedNumberOfCurrentAvailableItem exceedNumberOfCurrentAvailableItem = assertThrows(ExceedNumberOfCurrentAvailableItem.class,
+        ExceedAvailableItem exceedNumberOfCurrentAvailableItem = assertThrows(ExceedAvailableItem.class,
                                                                                              () -> rentRegisterService.registerRent(
                                                                                                  registerRentCommand));
 
