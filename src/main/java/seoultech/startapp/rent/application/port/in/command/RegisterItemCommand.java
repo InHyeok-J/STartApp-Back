@@ -2,14 +2,18 @@ package seoultech.startapp.rent.application.port.in.command;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import seoultech.startapp.global.common.SelfValidator;
 import seoultech.startapp.rent.domain.Item;
 import seoultech.startapp.rent.domain.ItemCategory;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 
+@Slf4j
 @Getter
-public class ItemCommand extends SelfValidator<ItemCommand> {
+public class RegisterItemCommand extends SelfValidator<RegisterItemCommand> {
 
     @NotNull
     private ItemCategory itemCategory;
@@ -21,8 +25,8 @@ public class ItemCommand extends SelfValidator<ItemCommand> {
     private Boolean isAvailable;
 
     @Builder
-    public ItemCommand(ItemCategory itemCategory, String itemNo, Boolean isAvailable) {
-        this.itemCategory = itemCategory;
+    public RegisterItemCommand(String itemCategory, String itemNo, Boolean isAvailable) {
+        this.itemCategory = itemCategoryValidate(itemCategory);
         this.itemNo = itemNo;
         this.isAvailable = isAvailable;
         this.validateSelf();
@@ -34,5 +38,13 @@ public class ItemCommand extends SelfValidator<ItemCommand> {
             .itemCategory(itemCategory)
             .isAvailable(isAvailable)
             .build();
+    }
+
+    private ItemCategory itemCategoryValidate(String itemCategory){
+        try{
+            return ItemCategory.valueOf(itemCategory);
+        }catch (Exception e){
+            throw new ConstraintViolationException("잘못된 itemCategory를 입력했습니다.", new HashSet<>());
+        }
     }
 }

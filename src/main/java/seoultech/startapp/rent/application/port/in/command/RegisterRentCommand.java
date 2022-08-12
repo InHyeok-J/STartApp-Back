@@ -7,11 +7,14 @@ import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentStatus;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 
 @Getter
-public class RentCommand extends SelfValidator<RentCommand> {
+public class RegisterRentCommand extends SelfValidator<RegisterRentCommand> {
 
     @NotNull
     private Long memberId;
@@ -22,6 +25,7 @@ public class RentCommand extends SelfValidator<RentCommand> {
     @NotNull
     private String purpose;
 
+    @Min(1)
     @NotNull
     private int account;
 
@@ -32,14 +36,14 @@ public class RentCommand extends SelfValidator<RentCommand> {
     private LocalDate endTime;
 
     @Builder
-    public RentCommand(Long memberId,
-                       ItemCategory itemCategory,
-                       String purpose,
-                       int account,
-                       LocalDate startTime,
-                       LocalDate endTime) {
+    public RegisterRentCommand(Long memberId,
+                               String itemCategory,
+                               String purpose,
+                               int account,
+                               LocalDate startTime,
+                               LocalDate endTime) {
         this.memberId = memberId;
-        this.itemCategory = itemCategory;
+        this.itemCategory = itemCategoryValidate(itemCategory);
         this.purpose = purpose;
         this.account = account;
         this.startTime = startTime;
@@ -57,5 +61,13 @@ public class RentCommand extends SelfValidator<RentCommand> {
             .startTime(this.startTime)
             .endTime(this.endTime)
             .build();
+    }
+
+    private ItemCategory itemCategoryValidate(String itemCategory){
+        try{
+            return ItemCategory.valueOf(itemCategory);
+        }catch (Exception e){
+            throw new ConstraintViolationException("잘못된 itemCategory를 입력했습니다.", new HashSet<>());
+        }
     }
 }

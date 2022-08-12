@@ -1,8 +1,8 @@
 package seoultech.startapp.rent.application.port.in;
 
-import seoultech.startapp.rent.application.port.in.command.ItemCommand;
+import seoultech.startapp.rent.application.port.in.command.RegisterItemCommand;
 
 public interface ItemRegisterUseCase {
 
-    void registerItem(ItemCommand itemCommand);
+    void registerItem(RegisterItemCommand registerItemCommand);
 }

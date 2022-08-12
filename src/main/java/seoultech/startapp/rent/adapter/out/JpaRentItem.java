@@ -26,12 +26,12 @@ class JpaRentItem {
     @Column(name = "rent_item_id")
     private Long id;
 
-   // @Id
+
     @JoinColumn(name = "rent_id")
     @ManyToOne(fetch = LAZY)
     private JpaRent rentId;
 
-    //@Id
+
     @JoinColumn(name = "item_id")
     @ManyToOne(fetch = LAZY)
     private JpaItem itemId;

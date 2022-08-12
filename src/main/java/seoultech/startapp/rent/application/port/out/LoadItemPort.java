@@ -4,7 +4,7 @@ import seoultech.startapp.rent.domain.ItemCategory;
 
 public interface LoadItemPort {
 
-    long countAllCategoryItems(ItemCategory itemCategory);
+    long countByCategory(ItemCategory itemCategory);
 
-    long countAvailableFalseCategoryItems(ItemCategory itemCategory);
+    long countNotAvailableByCategory(ItemCategory itemCategory);
 }

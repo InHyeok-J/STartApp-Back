@@ -3,12 +3,15 @@ package seoultech.startapp.rent.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seoultech.startapp.rent.application.port.in.command.RentCommand;
+import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.in.RentRegisterUseCase;
+import seoultech.startapp.rent.application.port.out.CountRentPort;
 import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
+
+import java.time.LocalDate;
 
 import static java.lang.Math.max;
 
@@ -20,35 +23,47 @@ class RentRegisterService implements RentRegisterUseCase {
 
     private final LoadItemPort loadItemPort;
 
+    private final CountRentPort countRentPort;
+
 
     @Override
     @Transactional
-    public void registerRent(RentCommand rentCommand) {
-        Rent rent = rentCommand.ToDomainRent();
+    public void registerRent(RegisterRentCommand registerRentCommand) {
+        Rent rent = registerRentCommand.ToDomainRent();
+        ItemCategory itemCategory = rent.getItemCategory();
 
-        canRent(rent);
+        long memberRequestAccount = rent.getAccount();
+
+        long alreadyRentedAccount = getAlreadyRentedAccount(rent.getStartTime(),rent.getEndTime(),itemCategory);
+        long trueAvailableItemCount = getAvailableItemCount(itemCategory);
+
+        checkCanRent(memberRequestAccount,trueAvailableItemCount,alreadyRentedAccount);
 
         saveRentPort.saveRent(rent);
     }
 
-    private void canRent(Rent rent){
+    private long getAlreadyRentedAccount(LocalDate startTime, LocalDate endTime,ItemCategory itemCategory) {
 
-        ItemCategory itemCategory = rent.getItemCategory();
-        long memberRequestAccount = rent.getAccount();
+        long includedStartTimeCount = countRentPort.countIncludingStartTime(startTime,itemCategory);
+        long includedEndTimeCount = countRentPort.countIncludingEndTIme(endTime,itemCategory);
 
-        long countAllCategoryItems = loadItemPort.countAllCategoryItems(itemCategory);
+        return max(includedStartTimeCount,includedEndTimeCount);
+    }
 
-        long countStartTime = saveRentPort.countIncludingStartTime(rent.getStartTime(),itemCategory);
-        long countEndTime = saveRentPort.countIncludingEndTIme(rent.getEndTime(),itemCategory);
-        long maxCount = max(countStartTime,countEndTime);
+    private long getAvailableItemCount(ItemCategory itemCategory){
 
-        long countFalseItems = loadItemPort.countAvailableFalseCategoryItems(itemCategory);
+        long itemCategoryCount = loadItemPort.countByCategory(itemCategory);
+        long notAvailableCategory = loadItemPort.countNotAvailableByCategory(itemCategory);
 
-        long countCurrentCanRentItems = countAllCategoryItems - (maxCount + countFalseItems);
+        return itemCategoryCount - notAvailableCategory;
+    }
 
-        if(memberRequestAccount > countCurrentCanRentItems){
-            throw new NotRentItemException("요청한 갯수만큼 물품을 대여할 수 없습니다.");
+    private void checkCanRent(long memberRequestAccount,long trueAvailableItemCount,long maxNotRentAccount){
+
+        long currentCanRentItemCount = trueAvailableItemCount - maxNotRentAccount;
+
+        if(memberRequestAccount > currentCanRentItemCount){
+            throw new ExceedNumberOfCurrentAvailableItem("요청한 갯수만큼 물품을 대여할 수 없습니다.");
         }
-
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.rent.application.port.in.ItemRegisterUseCase;
-import seoultech.startapp.rent.application.port.in.command.ItemCommand;
+import seoultech.startapp.rent.application.port.in.command.RegisterItemCommand;
 
 @RestController
 @RequestMapping("/api/admin/rent")
@@ -19,9 +19,9 @@ class RentAdminController {
     private final ItemRegisterUseCase itemRegisterUseCase;
 
     @PostMapping("/item")
-    public ResponseEntity<?> registerItem(@RequestBody ItemRequest itemRequest){
-        ItemCommand itemCommand = itemRequest.toItemCommand();
-        itemRegisterUseCase.registerItem(itemCommand);
+    public ResponseEntity<?> registerItem(@RequestBody RegisterItemRequest registerItemRequest){
+        RegisterItemCommand registerItemCommand = registerItemRequest.toItemCommand();
+        itemRegisterUseCase.registerItem(registerItemCommand);
         return JsonResponse.ok(HttpStatus.OK,"대여 물품이 정상 등록되었습니다.");
     }
 }
