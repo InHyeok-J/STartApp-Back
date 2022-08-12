@@ -29,7 +29,7 @@ class PlanAuthController {
     private final PlanRemoveUseCase planRemoveUseCase;
     private final PlanRegisterUseCase planRegisterUseCase;
 
-    @GetMapping("")
+    @GetMapping("/list")
     public ResponseEntity<?> getPlanByPaging(@RequestParam int page, @RequestParam(required = false,defaultValue = "10") int count){
 
         PlanPagingResponse allPlanByPaging = planGetUseCase.getAllPlanByPaging(page,count);

@@ -102,7 +102,7 @@ class EventGetServiceTest {
         when(loadEventPort.loadAllEventByPaging(pageRequest))
             .thenReturn(eventPage);
 
-        EventPagingResult allEventByPaging = eventGetService.getAllEventByPaging(PAGE,COUNT);
+        EventPagingResponse allEventByPaging = eventGetService.getAllEventByPaging(PAGE, COUNT);
 
         assertThat(allEventByPaging.getTotalPage()).isEqualTo(pageResult.get("totalPage"));
     }
