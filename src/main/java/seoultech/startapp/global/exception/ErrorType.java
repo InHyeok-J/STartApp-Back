@@ -19,7 +19,12 @@ public enum ErrorType {
   NOT_LOGIN_MEMBER("ST051",409),
   NOT_MATCH_LOGIN_INFO("ST052", 409),
   DUPLICATE_STUDENT_NO("ST053",409),
+
+  EXCEED_AVAILABLE_ITEM("ST054",409),
+
+  DUPLICATE_ITEM_NO("ST055",409),
   INTERNAL_SERVER_ERROR("ST999",500);
+
 
   private final String errorType;
   private final int statusCode;
