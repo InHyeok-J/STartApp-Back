@@ -35,7 +35,7 @@ public class RegisterBannerCommand extends SelfValidator<RegisterBannerCommand> 
     this.validateSelf();
   }
 
-  public Banner toDomainBanner(){
+  public Banner toDomainBanner() {
     return Banner.builder()
         .bannerId(null)
         .title(title)
@@ -45,4 +45,12 @@ public class RegisterBannerCommand extends SelfValidator<RegisterBannerCommand> 
         .build();
   }
 
+  @Override
+  public String toString() {
+    return "RegisterBannerCommand{" +
+        "title='" + title + '\'' +
+        ", imageUrl='" + imageUrl + '\'' +
+        ", priority=" + priority +
+        '}';
+  }
 }

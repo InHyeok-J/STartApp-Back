@@ -1,6 +1,7 @@
 package seoultech.startapp.banner.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.banner.application.port.in.RegisterBannerUseCase;
@@ -14,6 +15,7 @@ public class RegisterBannerService implements RegisterBannerUseCase {
 
   private final SaveBannerPort saveBannerPort;
 
+  @CacheEvict(value = "bannerCache",allEntries=true)
   @Transactional
   @Override
   public void register(RegisterBannerCommand command) {

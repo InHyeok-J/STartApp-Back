@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import seoultech.startapp.global.common.BaseTimeJpaEntity;
 
 @Getter
 @NoArgsConstructor
 @Entity(name = "banner")
-public class JpaBanner {
+public class JpaBanner extends BaseTimeJpaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,6 +2,7 @@ package seoultech.startapp.banner.application;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class BannerGetService implements BannerGetUseCase {
 
   private final LoadBannerPort loadBannerPort;
 
+  @Cacheable(value = "bannerCache")
   @Override
   public List<BannerResponse> getAllNotDeleted() {
     List<Banner> banners = loadBannerPort.loadAllByNotDeleted();
