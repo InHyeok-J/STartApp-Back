@@ -7,6 +7,7 @@ import seoultech.startapp.banner.domain.Banner;
 
 public interface LoadBannerPort {
 
+  Banner loadById(Long id);
   List<Banner> loadAllByNotDeleted();
   Page<Banner> loadAllByPaging(PageRequest pageRequest);
 }

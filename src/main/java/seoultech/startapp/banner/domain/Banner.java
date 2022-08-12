@@ -26,4 +26,12 @@ public class Banner {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
+
+  public void changePriority(int priority){
+    this.priority = priority;
+  }
+
+  public void delete(){
+    this.isDeleted = true;
+  }
 }

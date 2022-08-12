@@ -1,5 +1,6 @@
 package seoultech.startapp.banner.adapter.out;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +34,13 @@ public class JpaBanner extends BaseTimeJpaEntity {
   private Boolean isDeleted;
 
   @Builder
-  public JpaBanner(Long id, String title, String imageUrl, int priority, Boolean isDeleted) {
+  public JpaBanner(Long id, String title, String imageUrl, int priority, Boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.title = title;
     this.imageUrl = imageUrl;
     this.priority = priority;
     this.isDeleted = isDeleted;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 }

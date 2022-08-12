@@ -19,12 +19,15 @@ class BannerMapper {
   }
 
   public JpaBanner mapToJpaBanner(Banner banner) {
+
     return JpaBanner.builder()
         .id(banner.getBannerId() == null ? null : banner.getBannerId())
         .imageUrl(banner.getImageUrl())
         .title(banner.getTitle())
         .priority(banner.getPriority())
         .isDeleted(banner.getIsDeleted())
+        .createdAt(banner.getCreatedAt())
+        .updatedAt(banner.getUpdatedAt())
         .build();
   }
 }

@@ -30,6 +30,14 @@ public class BannerPersistenceAdapter implements LoadBannerPort, SaveBannerPort 
   @Override
   public void save(Banner banner) {
     JpaBanner jpaBanner = mapper.mapToJpaBanner(banner);
+    System.out.println("jpa배너 : "+ jpaBanner.getCreatedAt());
     jpaBannerRepository.save(jpaBanner);
+  }
+
+  @Override
+  public Banner loadById(Long id) {
+    JpaBanner jpaBanner = jpaBannerRepository.findById(id)
+        .orElseThrow(() -> new NotFoundJpaBannerException("banner를 찾을 수 없습니다."));
+    return mapper.mapToDomainBanner(jpaBanner);
   }
 }
