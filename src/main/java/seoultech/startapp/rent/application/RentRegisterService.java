@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.in.RentRegisterUseCase;
+import seoultech.startapp.rent.application.port.out.CountItemPort;
 import seoultech.startapp.rent.application.port.out.CountRentPort;
 import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
@@ -24,6 +25,8 @@ class RentRegisterService implements RentRegisterUseCase {
     private final LoadItemPort loadItemPort;
 
     private final CountRentPort countRentPort;
+
+    private final CountItemPort countItemPort;
 
 
     @Override
@@ -52,8 +55,8 @@ class RentRegisterService implements RentRegisterUseCase {
 
     private long getAvailableItemCount(ItemCategory itemCategory){
 
-        long itemCategoryCount = loadItemPort.countByCategory(itemCategory);
-        long notAvailableCategory = loadItemPort.countNotAvailableByCategory(itemCategory);
+        long itemCategoryCount = countItemPort.countByCategory(itemCategory);
+        long notAvailableCategory = countItemPort.countNotAvailableByCategory(itemCategory);
 
         return itemCategoryCount - notAvailableCategory;
     }
