@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
+import seoultech.startapp.rent.application.port.out.CountItemPort;
 import seoultech.startapp.rent.application.port.out.CountRentPort;
 import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
@@ -34,6 +35,9 @@ class RentRegisterServiceTest {
 
     @Mock
     private CountRentPort countRentPort;
+
+    @Mock
+    private CountItemPort countItemPort;
 
     @InjectMocks
     private RentRegisterService rentRegisterService;
@@ -69,8 +73,8 @@ class RentRegisterServiceTest {
 
         ItemCategory itemCategory = rent.getItemCategory();
 
-        given(loadItemPort.countByCategory(rent.getItemCategory())).willReturn(10L);
-        given(loadItemPort.countNotAvailableByCategory(rent.getItemCategory())).willReturn(1L);
+        given(countItemPort.countByCategory(rent.getItemCategory())).willReturn(10L);
+        given(countItemPort.countNotAvailableByCategory(rent.getItemCategory())).willReturn(1L);
         given(countRentPort.countIncludingEndTIme(rent.getEndTime(),itemCategory)).willReturn(2L);
         given(countRentPort.countIncludingStartTime(rent.getStartTime(),itemCategory)).willReturn(3L);
 
@@ -86,8 +90,8 @@ class RentRegisterServiceTest {
 
         ItemCategory itemCategory = rent.getItemCategory();
 
-        given(loadItemPort.countByCategory(rent.getItemCategory())).willReturn(10L);
-        given(loadItemPort.countNotAvailableByCategory(rent.getItemCategory())).willReturn(1L);
+        given(countItemPort.countByCategory(rent.getItemCategory())).willReturn(10L);
+        given(countItemPort.countNotAvailableByCategory(rent.getItemCategory())).willReturn(1L);
         given(countRentPort.countIncludingEndTIme(rent.getEndTime(),itemCategory)).willReturn(2L);
         given(countRentPort.countIncludingStartTime(rent.getStartTime(),itemCategory)).willReturn(6L);
 

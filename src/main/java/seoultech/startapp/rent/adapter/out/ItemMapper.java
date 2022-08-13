@@ -1,5 +1,6 @@
 package seoultech.startapp.rent.adapter.out;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.rent.domain.Item;
 
@@ -22,5 +23,9 @@ class ItemMapper {
             .itemNo(item.getItemNo())
             .isAvailable(item.getIsAvailable())
             .build();
+    }
+
+    Page<Item> mapToDomainEventPage(Page<JpaItem> jpaItemPage){
+        return jpaItemPage.map(jpaItem -> mapToDomainItem(jpaItem));
     }
 }

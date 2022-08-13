@@ -21,4 +21,8 @@ public class Item {
         this.itemNo = itemNo;
         this.isAvailable = isAvailable;
     }
+
+    public void changeAvailable(Boolean isAvailable){
+        this.isAvailable = isAvailable;
+    }
 }

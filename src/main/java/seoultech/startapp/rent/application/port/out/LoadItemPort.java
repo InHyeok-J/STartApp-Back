@@ -1,10 +1,16 @@
 package seoultech.startapp.rent.application.port.out;
 
-import seoultech.startapp.rent.domain.ItemCategory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import seoultech.startapp.rent.domain.Item;
+
+import java.util.Optional;
 
 public interface LoadItemPort {
 
-    long countByCategory(ItemCategory itemCategory);
+    Page<Item> loadAllItemByPaging(PageRequest pageRequest);
 
-    long countNotAvailableByCategory(ItemCategory itemCategory);
+    Item loadById(Long itemId);
+
+    Optional<Item> loadByItemNo(String itemNo);
 }
