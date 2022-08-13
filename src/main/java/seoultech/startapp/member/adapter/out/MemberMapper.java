@@ -40,6 +40,8 @@ class MemberMapper {
                         .fcmToken(member.getFcmToken())
                         .email(member.getProfile().getEmail())
                         .memberShip(member.getProfile().getMemberShip())
+                        .createdAt(member.getCreatedAt())
+                        .updatedAt(member.getUpdatedAt())
                         .build();
     }
 
