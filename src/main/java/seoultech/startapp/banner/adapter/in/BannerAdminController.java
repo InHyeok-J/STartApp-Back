@@ -30,8 +30,8 @@ public class BannerAdminController {
   private final DeleteBannerUseCase deleteBannerUseCase;
 
   @PostMapping("")
-  public ResponseEntity<?> register(@RequestBody RegisterBannerRequest dto){
-    registerBannerUseCase.register(dto.toRegisterBannerCommand());
+  public ResponseEntity<?> register(@RequestBody RegisterBannerRequest requestDto){
+    registerBannerUseCase.register(requestDto.toRegisterBannerCommand());
     return JsonResponse.ok(HttpStatus.CREATED, "배너 생성 성공");
   }
 

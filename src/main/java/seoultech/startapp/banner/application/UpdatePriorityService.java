@@ -22,7 +22,6 @@ public class UpdatePriorityService implements UpdatePriorityUserCase {
   @Override
   public void updatePriority(UpdatePriorityCommand command) {
     Banner banner = loadBannerPort.loadById(command.getBannerId());
-    System.out.println("배너 생성 날짜 "+banner.getCreatedAt());
     banner.changePriority(command.getPriority());
     saveBannerPort.save(banner);
   }
