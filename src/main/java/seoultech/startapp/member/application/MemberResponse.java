@@ -18,7 +18,7 @@ public class MemberResponse {
   private String department;
   private String phoneNo;
   private String email;
-  private Boolean isMemberShip;
+  private Boolean memberShip;
   private StudentStatus studentStatus;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
@@ -31,7 +31,7 @@ public class MemberResponse {
         .department(member.getProfile().getDepartment())
         .phoneNo(member.getProfile().getPhoneNo())
         .email(member.getProfile().getEmail())
-        .isMemberShip(member.getProfile().getMemberShip())
+        .memberShip(member.getProfile().getMemberShip())
         .studentStatus(member.getProfile().getStudentStatus())
         .createdAt(member.getCreatedAt())
         .updatedAt(member.getUpdatedAt())

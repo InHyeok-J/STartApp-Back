@@ -67,7 +67,7 @@ public class UpdateMemberCommand extends SelfValidator<UpdateMemberCommand> {
         .phoneNo(phoneNo)
         .email(email)
         .studentStatus(studentStatus)
-        .memberShip(false)
+        .memberShip(memberShip)
         .build();
   }
 }

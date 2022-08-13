@@ -1,5 +1,6 @@
 package seoultech.startapp.member.adapter.out;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,14 +20,15 @@ import seoultech.startapp.member.domain.StudentStatus;
 @Entity(name = "member")
 class JpaMember extends BaseTimeJpaEntity {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "member_id")
   private Long id;
 
   @Column(name = "student_no", unique = true, nullable = false)
   private String studentNo;
 
-  @Column( nullable = false)
+  @Column(nullable = false)
   private String password;
 
   @Column(nullable = false)
@@ -41,7 +43,7 @@ class JpaMember extends BaseTimeJpaEntity {
   @Column(nullable = false)
   private Boolean memberShip;
 
-  @Column(name ="phone_no" ,nullable = false)
+  @Column(name = "phone_no", nullable = false)
   private String phoneNo;
 
   @Column(name = "fcm_token")
@@ -56,8 +58,11 @@ class JpaMember extends BaseTimeJpaEntity {
   private MemberRole memberRole = MemberRole.MEMBER;
 
   @Builder
-  public JpaMember(Long id ,String studentNo, String password, String name, String department,
-      String phoneNo, StudentStatus studentStatus,String fcmToken, String email, boolean memberShip) {
+  public JpaMember(Long id, String studentNo, String password, String name, String department,
+      String phoneNo, StudentStatus studentStatus, String fcmToken, String email,
+      boolean memberShip,
+      LocalDateTime createdAt, LocalDateTime updatedAt
+  ) {
     this.id = id;
     this.studentNo = studentNo;
     this.password = password;
@@ -68,13 +73,15 @@ class JpaMember extends BaseTimeJpaEntity {
     this.fcmToken = fcmToken;
     this.email = email;
     this.memberShip = memberShip;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
-  public void setFcmToken(String token){
+  public void setFcmToken(String token) {
     this.fcmToken = token;
   }
 
-  public void setMemberShip(boolean isMemberShip){
+  public void setMemberShip(boolean isMemberShip) {
     this.memberShip = isMemberShip;
   }
 }
