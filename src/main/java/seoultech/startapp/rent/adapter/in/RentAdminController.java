@@ -17,7 +17,7 @@ import seoultech.startapp.rent.application.port.in.ItemGetUseCase;
 import seoultech.startapp.rent.application.port.in.ItemRegisterUseCase;
 import seoultech.startapp.rent.application.port.in.ItemUpdateUseCase;
 import seoultech.startapp.rent.application.port.in.command.RegisterItemCommand;
-import seoultech.startapp.rent.application.port.in.command.UpdateItemCommand;
+import seoultech.startapp.rent.application.port.in.command.UpdateItemAvailableCommand;
 
 @RestController
 @RequestMapping("/api/admin/rent")
@@ -26,7 +26,6 @@ class RentAdminController {
 
     private final ItemRegisterUseCase itemRegisterUseCase;
     private final ItemGetUseCase itemGetUseCase;
-
     private final ItemUpdateUseCase itemUpdateUseCase;
 
     @PostMapping("/item")
@@ -43,9 +42,9 @@ class RentAdminController {
     }
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity<?> updatedByAvailable(@PathVariable("itemId") Long itemId, @RequestBody UpdateItemRequest updateItemRequest){
-        UpdateItemCommand updateItemCommand = updateItemRequest.ToItemCommand();
-        itemUpdateUseCase.updateByAvailable(itemId,updateItemCommand);
+    public ResponseEntity<?> updatedByAvailable(@PathVariable("itemId") Long itemId, @RequestBody UpdateIteAvailableRequest updateIteAvailableRequest){
+        UpdateItemAvailableCommand updateItemAvailableCommand = updateIteAvailableRequest.ToItemCommand();
+        itemUpdateUseCase.updateByAvailable(itemId, updateItemAvailableCommand);
         return JsonResponse.ok(HttpStatus.OK,"해당 상시사업 물품의 사용 여부를 변경했습니다");
     }
 

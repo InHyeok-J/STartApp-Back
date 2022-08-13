@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import seoultech.startapp.rent.domain.ItemCategory;
 
-import java.util.Optional;
-
 interface JpaItemRepository extends JpaRepository<JpaItem,Long> {
 
     long countAllByItemCategory(ItemCategory itemCategory);
@@ -15,5 +13,5 @@ interface JpaItemRepository extends JpaRepository<JpaItem,Long> {
     
     Page<JpaItem> findAllByOrderByItemNoAsc(Pageable pageable);
 
-    Optional<JpaItem> findByItemNo(String itemNo);
+    Boolean existsByItemNo(String itemNo);
 }

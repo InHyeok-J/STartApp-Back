@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 
 @Getter
-public class UpdateItemCommand extends SelfValidator<UpdateItemCommand> {
+public class UpdateItemAvailableCommand extends SelfValidator<UpdateItemAvailableCommand> {
 
     @NotNull
     private Boolean available;
 
     @Builder
-    public UpdateItemCommand(String available) {
-        this.available = validateAvailable(available);
+    public UpdateItemAvailableCommand(Boolean available) {
+        this.available = available;
         this.validateSelf();
     }
 

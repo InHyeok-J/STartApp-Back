@@ -24,9 +24,9 @@ class ItemRegisterService implements ItemRegisterUseCase {
     }
 
     private void checkDuplicatedItemNo(String itemNo){
-        loadItemPort.loadByItemNo(itemNo)
-                    .ifPresent(item -> {
-                        throw new DuplicatedItemNo("ItemNo이 중복됩니다. 다른 ItemNo을 사용해주세요");
-                    });
+        if(loadItemPort.loadByItemNo(itemNo)){
+            throw new DuplicatedItemNo("ItemNo이 중복됩니다. 다른 ItemNo을 사용해주세요");
+        }
     }
+
 }
