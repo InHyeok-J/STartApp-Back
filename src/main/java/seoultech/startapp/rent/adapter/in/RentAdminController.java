@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +40,10 @@ class RentAdminController {
         return JsonResponse.okWithData(HttpStatus.OK,"해당 페이지에 해당하는 상시사업 물품을 불러왔습니다",itemPagingResponse);
     }
 
-    @PatchMapping("/{itemId}")
-    public ResponseEntity<?> updatedByAvailable(@PathVariable("itemId") Long itemId, @RequestBody UpdateIteAvailableRequest updateIteAvailableRequest){
-        UpdateItemAvailableCommand updateItemAvailableCommand = updateIteAvailableRequest.ToItemCommand();
-        itemUpdateUseCase.updateByAvailable(itemId, updateItemAvailableCommand);
+    @PatchMapping("/item")
+    public ResponseEntity<?> updatedByAvailable(@RequestBody UpdateItemAvailableRequest updateItemAvailableRequest){
+        UpdateItemAvailableCommand updateItemAvailableCommand = updateItemAvailableRequest.ToItemCommand();
+        itemUpdateUseCase.updateByAvailable(updateItemAvailableCommand);
         return JsonResponse.ok(HttpStatus.OK,"해당 상시사업 물품의 사용 여부를 변경했습니다");
     }
 

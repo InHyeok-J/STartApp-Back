@@ -10,5 +10,5 @@ public interface LoadItemPort {
 
     Item loadById(Long itemId);
 
-    Boolean loadByItemNo(String itemNo);
+    Boolean existsByItemNo(String itemNo);
 }

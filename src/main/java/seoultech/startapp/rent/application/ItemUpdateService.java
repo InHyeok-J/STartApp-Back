@@ -16,8 +16,8 @@ class ItemUpdateService implements ItemUpdateUseCase {
     private final LoadItemPort loadItemPort;
     private final SaveItemPort saveItemPort;
     @Override
-    public void updateByAvailable(Long itemId, UpdateItemAvailableCommand updateItemAvailableCommand) {
-        Item item = loadItemPort.loadById(itemId);
+    public void updateByAvailable(UpdateItemAvailableCommand updateItemAvailableCommand) {
+        Item item = loadItemPort.loadById(updateItemAvailableCommand.getItemId());
         item.changeAvailable(updateItemAvailableCommand.getAvailable());
         saveItemPort.saveItem(item);
     }

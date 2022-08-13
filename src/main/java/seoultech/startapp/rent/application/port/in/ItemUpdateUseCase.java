@@ -4,5 +4,5 @@ import seoultech.startapp.rent.application.port.in.command.UpdateItemAvailableCo
 
 public interface ItemUpdateUseCase {
 
-    void updateByAvailable(Long itemId, UpdateItemAvailableCommand updateItemAvailableCommand);
+    void updateByAvailable(UpdateItemAvailableCommand updateItemAvailableCommand);
 }

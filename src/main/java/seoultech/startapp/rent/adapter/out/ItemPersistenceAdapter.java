@@ -47,7 +47,7 @@ public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, Count
     }
 
     @Override
-    public Boolean loadByItemNo(String itemNo) {
+    public Boolean existsByItemNo(String itemNo) {
         return jpaItemRepository.existsByItemNo(itemNo);
     }
 }
