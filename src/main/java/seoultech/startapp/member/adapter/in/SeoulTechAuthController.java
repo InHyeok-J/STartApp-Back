@@ -64,7 +64,7 @@ public class SeoulTechAuthController {
   }
 
   private boolean checkParams( String keys, String encodedValue) {
-    if ( !StringUtils.hasText(keys)  || encodedValue == null) {
+    if ( !StringUtils.hasText(keys)  || !StringUtils.hasText(encodedValue)) {
       log.error(" 키 : " + keys + " 인코딩 벨류: " + encodedValue);
       return false ;
     }
