@@ -79,7 +79,7 @@ class LoginServiceTest {
     //then
     verify(jwtProvider, times(1)).createAccessToken(any(TokenInfo.class));
     verify(jwtProvider,times(1)).createRefreshToken();
-    verify(redisCachePort,times(1)).setStringWithDayTTL(any(),any(),any());
+    verify(redisCachePort,times(1)).setStringWithTTL(any(),any(),any(),any());
   }
 
 }

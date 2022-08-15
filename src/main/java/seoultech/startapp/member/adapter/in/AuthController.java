@@ -13,6 +13,7 @@ import seoultech.startapp.global.common.HeaderTokenExtractor;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
+import seoultech.startapp.member.adapter.in.dto.LoginRequest;
 import seoultech.startapp.member.application.AccessToken;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;

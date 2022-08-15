@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain) throws ServletException , IOException {
-
+    System.out.println("test  + " + request.getRequestURI());
     String jwtToken = headerTokenExtractor.extractAccessToken(request);
     if(StringUtils.hasText(jwtToken) && jwtResolver.validateAccessToken(jwtToken)){
       Authentication authentication = jwtResolver.getAuthentication(jwtToken);
@@ -52,6 +52,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     skipPathList.add(new AntPathRequestMatcher("/api/event", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/plan", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/banner", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/auth/seoultech**"));
+    skipPathList.add(new AntPathRequestMatcher("/api/auth/seoultech/check**", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/auth/loading", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/favicon.ico**", HttpMethod.GET.name()));
     OrRequestMatcher orRequestMatcher = new OrRequestMatcher(new ArrayList<>(skipPathList));
     return skipPathList.stream()
         .anyMatch(p -> orRequestMatcher.matches(request));

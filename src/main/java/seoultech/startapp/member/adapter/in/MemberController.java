@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
+import seoultech.startapp.member.adapter.in.dto.RegisterMemberRequest;
 import seoultech.startapp.member.application.AllToken;
 import seoultech.startapp.member.application.MemberResponse;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;

@@ -1,4 +1,4 @@
-package seoultech.startapp.member.adapter.in;
+package seoultech.startapp.member.adapter.in.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

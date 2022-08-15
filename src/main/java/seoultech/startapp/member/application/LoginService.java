@@ -1,5 +1,6 @@
 package seoultech.startapp.member.application;
 
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class LoginService implements LoginUseCase {
     String accessToken = jwtProvider.createAccessToken(member.createAccessTokenInfo());
     String refreshToken = jwtProvider.createRefreshToken();
 
-    redisCachePort.setStringWithDayTTL(member.getMemberId().toString(), refreshToken, jwtProperty.getRefreshExpiredDay());
+    redisCachePort.setStringWithTTL(member.getMemberId().toString(), refreshToken, jwtProperty.getRefreshExpiredDay(), TimeUnit.DAYS);
 
     return new AllToken(accessToken, refreshToken);
   }
