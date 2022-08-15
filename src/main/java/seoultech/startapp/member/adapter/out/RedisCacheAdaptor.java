@@ -14,10 +14,10 @@ public class RedisCacheAdaptor implements RedisCachePort {
   private final StringRedisTemplate stringRedisTemplate;
 
   @Override
-  public void setStringWithDayTTL(String key, String value, Integer ttl) {
+  public void setStringWithTTL(String key, String value, Integer ttl , TimeUnit unit) {
     ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
     valueOperations.set(key, value);
-    stringRedisTemplate.expire(key, ttl, TimeUnit.DAYS);
+    stringRedisTemplate.expire(key, ttl, unit);
   }
 
   @Override

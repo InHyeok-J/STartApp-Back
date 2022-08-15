@@ -10,4 +10,6 @@ public interface MemberGetUserCase {
   MemberResponse getMemberOne(Long memberId);
 
   MemberResponse getMemberByStudentNo(String studentNo);
+
+  void checkDuplicateStudentNo(String studentNo);
 }

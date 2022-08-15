@@ -1,4 +1,4 @@
-package seoultech.startapp.member.adapter.in;
+package seoultech.startapp.member.adapter.in.dto;
 
 import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand;
 

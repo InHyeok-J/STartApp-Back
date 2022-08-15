@@ -3,7 +3,7 @@ package seoultech.startapp.member.application.port.in.command;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
-import seoultech.startapp.member.adapter.in.RegisterMemberRequest;
+import seoultech.startapp.member.adapter.in.dto.RegisterMemberRequest;
 import seoultech.startapp.member.domain.StudentStatus;
 
 import javax.validation.ConstraintViolationException;
