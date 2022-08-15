@@ -8,6 +8,7 @@ class RentMapper {
 
     public Rent mapToDomainRent(JpaRent jpaRent){
         return Rent.builder()
+            .rentId(jpaRent.getId())
             .memberId(jpaRent.getMemberId())
             .account(jpaRent.getAccount())
             .purpose(jpaRent.getPurpose())

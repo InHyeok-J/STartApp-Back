@@ -15,6 +15,8 @@ import seoultech.startapp.rent.domain.ItemCategory;
 public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, CountItemPort {
 
     private final JpaItemRepository jpaItemRepository;
+
+    private final JpaItemQueryRepository  jpaItemQueryRepository;
     private final ItemMapper itemMapper;
 
     @Override
@@ -34,9 +36,9 @@ public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, Count
     }
 
     @Override
-    public Page<Item> loadAllItemByPaging(PageRequest pageRequest) {
-        Page<JpaItem> jpaItemPage = jpaItemRepository.findAllByOrderByItemNoAsc(pageRequest);
-        return itemMapper.mapToDomainEventPage(jpaItemPage);
+    public Page<Item> loadByPaging(PageRequest pageRequest, ItemCategory itemCategory) {
+        return jpaItemQueryRepository.findAllByOrderByItemNoAsc(pageRequest,itemCategory)
+                                .map(itemMapper::mapToDomainItem);
     }
 
     @Override

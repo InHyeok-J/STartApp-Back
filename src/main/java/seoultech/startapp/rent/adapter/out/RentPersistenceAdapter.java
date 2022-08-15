@@ -1,17 +1,21 @@
 package seoultech.startapp.rent.adapter.out;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import seoultech.startapp.rent.application.port.out.CountRentPort;
+import seoultech.startapp.rent.application.port.out.LoadRentPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
+import seoultech.startapp.rent.domain.RentStatus;
 
 import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
-public class RentPersistenceAdapter implements SaveRentPort, CountRentPort {
+public class RentPersistenceAdapter implements SaveRentPort, CountRentPort, LoadRentPort {
 
     private final JpaRentQueryRepository jpaRentQueryRepository;
     private final JpaRentRepository jpaRentRepository;
@@ -33,4 +37,9 @@ public class RentPersistenceAdapter implements SaveRentPort, CountRentPort {
         return jpaRentQueryRepository.countIncludingEndTime(endTime,itemCategory);
     }
 
+    @Override
+    public Page<Rent> loadByPaging(PageRequest pageRequest, RentStatus status) {
+        return jpaRentQueryRepository.findAllByRentStatusOrderByStartTimeDesc(pageRequest, status)
+                                .map(rentMapper::mapToDomainRent);
+    }
 }
