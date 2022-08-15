@@ -24,21 +24,22 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
   private final HeaderTokenExtractor headerTokenExtractor;
   private final JwtResolver jwtResolver;
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-      FilterChain filterChain) throws ServletException , IOException {
+      FilterChain filterChain) throws ServletException, IOException {
     System.out.println("test  + " + request.getRequestURI());
     String jwtToken = headerTokenExtractor.extractAccessToken(request);
-    if(StringUtils.hasText(jwtToken) && jwtResolver.validateAccessToken(jwtToken)){
+    if (StringUtils.hasText(jwtToken) && jwtResolver.validateAccessToken(jwtToken)) {
       Authentication authentication = jwtResolver.getAuthentication(jwtToken);
       SecurityContext context = SecurityContextHolder.createEmptyContext();
       context.setAuthentication(authentication);
       SecurityContextHolder.setContext(context);
     }
-    filterChain.doFilter(request,response);
+    filterChain.doFilter(request, response);
   }
 
   @Override
@@ -53,7 +54,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     skipPathList.add(new AntPathRequestMatcher("/api/plan", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/banner", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/auth/seoultech**"));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/seoultech/check**", HttpMethod.GET.name()));
+    skipPathList.add(
+        new AntPathRequestMatcher("/api/auth/seoultech/check**", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/member/duplicate**", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/auth/loading", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/favicon.ico**", HttpMethod.GET.name()));
     OrRequestMatcher orRequestMatcher = new OrRequestMatcher(new ArrayList<>(skipPathList));

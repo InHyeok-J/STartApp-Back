@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.exception.DuplicateStudentNoException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,12 @@ public class MemberGetService implements MemberGetUserCase {
   public MemberResponse getMemberByStudentNo(String studentNo) {
     Member findMember = loadMemberPort.loadByStudentNo(studentNo);
     return MemberResponse.toSummaryDto(findMember);
+  }
+
+  @Override
+  public void checkDuplicateStudentNo(String studentNo) {
+    if(loadMemberPort.existByStudentNo(studentNo)) {
+      throw new DuplicateStudentNoException("이미 있는 학번입니다.");
+    }
   }
 }
