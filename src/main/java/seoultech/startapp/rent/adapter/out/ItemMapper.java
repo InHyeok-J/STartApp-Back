@@ -12,6 +12,9 @@ class ItemMapper {
             .itemCategory(jpaItem.getItemCategory())
             .itemId(jpaItem.getId())
             .isAvailable(jpaItem.getIsAvailable())
+            .isRentable(jpaItem.getIsRentable())
+            .createAt(jpaItem.getCreatedAt())
+            .updateAt(jpaItem.getUpdatedAt())
             .build();
     }
 
@@ -21,6 +24,9 @@ class ItemMapper {
             .itemCategory(item.getItemCategory())
             .itemNo(item.getItemNo())
             .isAvailable(item.getIsAvailable())
+            .isRentable(item.getIsRentable())
+            .createAt(item.getCreateAt())
+            .updateAt(item.getUpdateAt())
             .build();
     }
 

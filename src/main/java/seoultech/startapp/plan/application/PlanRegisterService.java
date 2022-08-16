@@ -12,6 +12,7 @@ import seoultech.startapp.plan.domain.Plan;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+public
 class PlanRegisterService implements PlanRegisterUseCase {
 
     private final SavePlanPort savePlanPort;

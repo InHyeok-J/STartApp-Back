@@ -1,42 +1,48 @@
 package seoultech.startapp.rent.adapter.out;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import seoultech.startapp.rent.domain.RentStatus;
+import seoultech.startapp.global.common.BaseTimeJpaEntity;
+import seoultech.startapp.rent.domain.RentItemStatus;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @NoArgsConstructor
 @Entity(name = "rent_item")
-class JpaRentItem {
+@IdClass(JpaRentItemId.class)
+public class JpaRentItem extends BaseTimeJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "rent_item_id")
-    private Long id;
-
-
     @JoinColumn(name = "rent_id")
     @ManyToOne(fetch = LAZY)
-    private JpaRent rentId;
+    private JpaRent jpaRent;
 
-
+    @Id
     @JoinColumn(name = "item_id")
     @ManyToOne(fetch = LAZY)
-    private JpaItem itemId;
+    private JpaItem jpaItem;
 
     @Enumerated(STRING)
-    private RentStatus rentStatus;
+    private RentItemStatus rentItemStatus;
 
+//    public void addJpaRent(JpaRent jpaRent){
+//        this.jpaRent = jpaRent;
+//        jpaRent.getRentItems().add(this);
+//    }
+    @Builder
+    public JpaRentItem(JpaRent jpaRent, JpaItem jpaItem, RentItemStatus rentItemStatus) {
+        this.jpaRent = jpaRent;
+        this.jpaItem = jpaItem;
+        this.rentItemStatus = rentItemStatus;
+    }
 }

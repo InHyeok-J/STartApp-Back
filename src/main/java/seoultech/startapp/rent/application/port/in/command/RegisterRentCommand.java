@@ -1,11 +1,13 @@
 package seoultech.startapp.rent.application.port.in.command;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentStatus;
+import seoultech.startapp.rent.domain.Renter;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
@@ -14,6 +16,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 
 @Getter
+@EqualsAndHashCode
 public class RegisterRentCommand extends SelfValidator<RegisterRentCommand> {
 
     @NotNull
@@ -53,7 +56,7 @@ public class RegisterRentCommand extends SelfValidator<RegisterRentCommand> {
 
     public Rent ToDomainRent(){
         return Rent.builder()
-            .memberId(this.memberId)
+            .renter(Renter.builder().renterId(this.memberId).build())
             .account(this.account)
             .purpose(this.purpose)
             .rentStatus(RentStatus.WAIT)

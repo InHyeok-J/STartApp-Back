@@ -3,6 +3,7 @@ package seoultech.startapp.rent.adapter.out;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import seoultech.startapp.global.common.BaseTimeJpaEntity;
 import seoultech.startapp.global.converter.BooleanToYNConverter;
 import seoultech.startapp.rent.domain.ItemCategory;
 
@@ -13,13 +14,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import java.time.LocalDateTime;
+
+import static java.lang.Boolean.FALSE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Entity(name = "item")
 @NoArgsConstructor
-class JpaItem {
+class JpaItem extends BaseTimeJpaEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -37,11 +41,18 @@ class JpaItem {
     @Convert(converter = BooleanToYNConverter.class)
     private Boolean isAvailable;
 
+    @Column(name = "is_rentable")
+    @Convert(converter = BooleanToYNConverter.class)
+    private Boolean isRentable = FALSE;
+
     @Builder
-    public JpaItem(Long id, ItemCategory itemCategory, String itemNo, Boolean isAvailable) {
+    public JpaItem(Long id, ItemCategory itemCategory, String itemNo, Boolean isAvailable, Boolean isRentable, LocalDateTime createAt,LocalDateTime updateAt) {
         this.id = id;
         this.itemCategory = itemCategory;
         this.itemNo = itemNo;
         this.isAvailable = isAvailable;
+        this.isRentable = isRentable;
+        this.createdAt = createAt;
+        this.updatedAt = updateAt;
     }
 }

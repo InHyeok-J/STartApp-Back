@@ -22,8 +22,8 @@ public class RentPersistenceAdapter implements SaveRentPort, CountRentPort, Load
     private final RentMapper rentMapper;
 
     @Override
-    public void saveRent(Rent rent) {
-        JpaRent jpaRent = rentMapper.mapToJpaRent(rent);
+    public void save(Rent rent) {
+        JpaRent jpaRent = rentMapper. mapToJpaRent(rent);
         jpaRentRepository.save(jpaRent);
     }
 
@@ -41,5 +41,12 @@ public class RentPersistenceAdapter implements SaveRentPort, CountRentPort, Load
     public Page<Rent> loadByPaging(PageRequest pageRequest, RentStatus status) {
         return jpaRentQueryRepository.findAllByRentStatusOrderByStartTimeDesc(pageRequest, status)
                                 .map(rentMapper::mapToDomainRent);
+    }
+
+    @Override
+    public Rent loadById(Long rentId) {
+        JpaRent jpaRent = jpaRentRepository.findById(rentId)
+                                           .orElseThrow(() -> new NotFoundItemException("rentId에 해당하는 rent가 없습니다"));
+        return rentMapper.mapToDomainRent(jpaRent);
     }
 }

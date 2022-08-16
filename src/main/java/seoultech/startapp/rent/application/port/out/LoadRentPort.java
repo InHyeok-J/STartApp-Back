@@ -7,4 +7,6 @@ import seoultech.startapp.rent.domain.RentStatus;
 
 public interface LoadRentPort {
     Page<Rent> loadByPaging(PageRequest pageRequest, RentStatus status);
+
+    Rent loadById(Long rentId);
 }

@@ -2,6 +2,7 @@ package seoultech.startapp.rent.application;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.rent.adapter.out.DuplicatedItemNo;
 import seoultech.startapp.rent.application.port.in.ItemRegisterUseCase;
 import seoultech.startapp.rent.application.port.in.command.RegisterItemCommand;
@@ -17,6 +18,7 @@ class ItemRegisterService implements ItemRegisterUseCase {
 
     private final LoadItemPort loadItemPort;
     @Override
+    @Transactional
     public void registerItem(RegisterItemCommand registerItemCommand) {
         Item item = registerItemCommand.toDomainItem();
         checkDuplicatedItemNo(item.getItemNo());

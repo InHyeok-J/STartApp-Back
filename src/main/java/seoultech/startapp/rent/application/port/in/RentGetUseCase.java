@@ -1,8 +1,9 @@
 package seoultech.startapp.rent.application.port.in;
 
 import seoultech.startapp.rent.application.RentPagingResponse;
+import seoultech.startapp.rent.application.port.in.command.RentPagingCommand;
 
 public interface RentGetUseCase {
 
-    RentPagingResponse getByPaging(int page, int count, String status);
+    RentPagingResponse getByPaging(RentPagingCommand rentPagingCommand);
 }

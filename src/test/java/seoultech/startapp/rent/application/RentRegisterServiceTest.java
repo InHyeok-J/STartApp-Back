@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.out.CountItemPort;
 import seoultech.startapp.rent.application.port.out.CountRentPort;
-import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
@@ -19,7 +18,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.refEq;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,9 +28,6 @@ class RentRegisterServiceTest {
 
     @Mock
     private SaveRentPort saveRentPort;
-
-    @Mock
-    private LoadItemPort loadItemPort;
 
     @Mock
     private CountRentPort countRentPort;
@@ -80,7 +76,7 @@ class RentRegisterServiceTest {
 
         rentRegisterService.registerRent(registerRentCommand);
 
-        verify(saveRentPort,times(1)).saveRent(refEq(rent));
+        verify(saveRentPort,times(1)).save(any());
 
     }
 
@@ -105,7 +101,5 @@ class RentRegisterServiceTest {
         assertEquals(409, exceedNumberOfCurrentAvailableItem.getErrorType().getStatusCode());
 
     }
-
-
 
 }

@@ -37,6 +37,7 @@ public class RegisterItemCommand extends SelfValidator<RegisterItemCommand> {
             .itemNo(itemNo)
             .itemCategory(itemCategory)
             .isAvailable(isAvailable)
+            .isRentable(Boolean.TRUE)
             .build();
     }
 

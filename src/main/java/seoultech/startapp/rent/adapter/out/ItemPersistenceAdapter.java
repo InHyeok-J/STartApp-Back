@@ -10,6 +10,8 @@ import seoultech.startapp.rent.application.port.out.SaveItemPort;
 import seoultech.startapp.rent.domain.Item;
 import seoultech.startapp.rent.domain.ItemCategory;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, CountItemPort {
@@ -46,6 +48,12 @@ public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, Count
         JpaItem jpaItem = jpaItemRepository.findById(itemId)
                                            .orElseThrow(() -> new NotFoundItemException("itemId에 해당하는 item이 없습니다."));
         return itemMapper.mapToDomainItem(jpaItem);
+    }
+
+    @Override
+    public List<Item> loadByIds(List<Long> itemIds) {
+        return jpaItemRepository.findAllByIdIn(itemIds).stream().map(itemMapper::mapToDomainItem)
+                                .toList();
     }
 
     @Override

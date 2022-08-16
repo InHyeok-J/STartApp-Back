@@ -46,7 +46,7 @@ class RegisterRentCommandTest {
     void rentCommandToDomainRent_ok(){
         Rent rent = registerRentCommand.ToDomainRent();
 
-        assertThat(rent.getMemberId()).isEqualTo(MEMBER_ID);
+        assertThat(rent.getRenter().getRenterId()).isEqualTo(MEMBER_ID);
         assertThat(rent.getAccount()).isEqualTo(ACCOUNT);
         assertThat(rent.getItemCategory()).isEqualTo(ItemCategory.TABLE);
         assertThat(rent.getStartTime()).isEqualTo(START_TIME);

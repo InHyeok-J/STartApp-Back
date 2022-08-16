@@ -1,9 +1,10 @@
 package seoultech.startapp.rent.application.port.in;
 
 import seoultech.startapp.rent.application.ItemPagingResponse;
+import seoultech.startapp.rent.application.port.in.command.ItemPagingCommand;
 
 public interface ItemGetUseCase {
 
-    ItemPagingResponse getByPaging(int page, int count,String itemCategory);
+    ItemPagingResponse getByPaging(ItemPagingCommand itemPagingCommand);
 
 }
