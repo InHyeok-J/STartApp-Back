@@ -3,11 +3,10 @@ package seoultech.startapp.rent.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.in.RentRegisterUseCase;
+import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.out.CountItemPort;
 import seoultech.startapp.rent.application.port.out.CountRentPort;
-import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
@@ -21,8 +20,6 @@ import static java.lang.Math.max;
 class RentRegisterService implements RentRegisterUseCase {
 
     private final SaveRentPort saveRentPort;
-
-    private final LoadItemPort loadItemPort;
 
     private final CountRentPort countRentPort;
 

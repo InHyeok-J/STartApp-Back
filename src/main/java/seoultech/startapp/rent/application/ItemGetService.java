@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.rent.application.port.in.ItemGetUseCase;
 import seoultech.startapp.rent.application.port.out.LoadItemPort;
+import seoultech.startapp.rent.domain.ItemCategory;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +17,8 @@ class ItemGetService implements ItemGetUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public ItemPagingResponse getAllByPaging(int page, int count) {
-        Page<ItemResponse> itemResponses = loadItemPort.loadAllItemByPaging(PageRequest.of(page, count))
+    public ItemPagingResponse getByPaging(int page, int count,String itemCategory) {
+        Page<ItemResponse> itemResponses = loadItemPort.loadByPaging(PageRequest.of(page, count), ItemCategory.valueOf(itemCategory))
                                              .map(ItemResponse::itemToItemResponse);
         return new ItemPagingResponse(itemResponses.getTotalPages(),itemResponses.getContent());
     }

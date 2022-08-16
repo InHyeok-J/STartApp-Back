@@ -4,6 +4,6 @@ import seoultech.startapp.rent.application.ItemPagingResponse;
 
 public interface ItemGetUseCase {
 
-    ItemPagingResponse getAllByPaging(int page, int count);
+    ItemPagingResponse getByPaging(int page, int count,String itemCategory);
 
 }
