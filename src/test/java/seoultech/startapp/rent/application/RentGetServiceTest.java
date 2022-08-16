@@ -10,10 +10,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import seoultech.startapp.rent.application.port.in.command.RentPagingCommand;
 import seoultech.startapp.rent.application.port.out.LoadRentPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentStatus;
+import seoultech.startapp.rent.domain.Renter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ class RentGetServiceTest {
                              .rentStatus(RentStatus.WAIT)
                              .itemCategory(ItemCategory.TABLE)
                              .account(i)
-                             .memberId(Long.valueOf(i))
+                             .renter(Renter.builder().renterId(Long.valueOf(i)).build())
                              .startTime(LocalDate.now().plusDays(i))
                              .endTime(LocalDate.now().plusDays(i + 1))
                              .purpose("목적" + i)
@@ -62,7 +64,13 @@ class RentGetServiceTest {
         when(loadRentPort.loadByPaging(pageRequest, RENT_STATUS))
             .thenReturn(rentPage);
 
-        RentPagingResponse pagingResponse = rentGetService.getByPaging(0, 10, "WAIT");
+        RentPagingCommand rentPagingCommand = RentPagingCommand.builder()
+                                                   .page(0)
+                                                   .count(10)
+                                                   .rentStatus("WAIT")
+                                                   .build();
+
+        RentPagingResponse pagingResponse = rentGetService.getByPaging(rentPagingCommand);
 
         assertThat(pagingResponse.getTotalPage()).isEqualTo(5);
 

@@ -10,8 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 class RegisterRentRequest {
 
-    private Long memberId;
-
     private String itemCategory;
 
     private int account;
@@ -22,9 +20,9 @@ class RegisterRentRequest {
 
     private LocalDate endTime;
 
-    public RegisterRentCommand toRentCommand(){
+    public RegisterRentCommand toRentCommand(Long memberId){
         return RegisterRentCommand.builder()
-                                  .memberId(this.memberId)
+                                  .memberId(memberId)
                                   .itemCategory(this.itemCategory)
                                   .purpose(this.purpose)
                                   .account(this.account)

@@ -39,7 +39,7 @@ class RentRegisterService implements RentRegisterUseCase {
 
         checkCanRent(memberRequestAccount,trueAvailableItemCount,alreadyRentedAccount);
 
-        saveRentPort.saveRent(rent);
+        saveRentPort.save(rent);
     }
 
     private long getAlreadyRentedAccount(LocalDate startTime, LocalDate endTime,ItemCategory itemCategory) {
