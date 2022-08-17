@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import seoultech.startapp.global.common.BaseTimeJpaEntity;
 import seoultech.startapp.member.domain.MemberRole;
-import seoultech.startapp.member.domain.StudentStatus;
+import seoultech.startapp.member.domain.MemberStatus;
 
 @Getter
 @NoArgsConstructor
@@ -38,12 +38,9 @@ class JpaMember extends BaseTimeJpaEntity {
   private String department;
 
   @Column(nullable = false)
-  private String email;
-
-  @Column(nullable = false)
   private Boolean memberShip;
 
-  @Column(name = "phone_no", nullable = false)
+  @Column(name = "phone_no", nullable = true)
   private String phoneNo;
 
   @Column(name = "fcm_token")
@@ -51,17 +48,16 @@ class JpaMember extends BaseTimeJpaEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
-  private StudentStatus studentStatus;
+  private MemberRole memberRole = MemberRole.MEMBER;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false)
-  private MemberRole memberRole = MemberRole.MEMBER;
+  @Column(nullable = false, name = "member_status")
+  private MemberStatus memberStatus;
 
   @Builder
   public JpaMember(Long id, String studentNo, String password, String name, String department,
-      String phoneNo, StudentStatus studentStatus, String fcmToken, String email,
-      boolean memberShip,
-      LocalDateTime createdAt, LocalDateTime updatedAt
+      String phoneNo, String fcmToken, boolean memberShip,
+      LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus memberStatus
   ) {
     this.id = id;
     this.studentNo = studentNo;
@@ -69,12 +65,11 @@ class JpaMember extends BaseTimeJpaEntity {
     this.name = name;
     this.department = department;
     this.phoneNo = phoneNo;
-    this.studentStatus = studentStatus;
     this.fcmToken = fcmToken;
-    this.email = email;
     this.memberShip = memberShip;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.memberStatus = memberStatus;
   }
 
   public void setFcmToken(String token) {

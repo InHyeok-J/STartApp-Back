@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +18,6 @@ import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.domain.Member;
-import seoultech.startapp.member.domain.MemberRole;
-import seoultech.startapp.member.domain.StudentStatus;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateServiceTest {
@@ -41,10 +38,8 @@ class UpdateServiceTest {
         .memberId(1L)
         .name("홍길동")
         .phoneNo("010-0000-0000")
-        .studentStatus("STUDENT")
         .department("학과")
         .memberShip(true)
-        .email("email@email.com")
         .build();
   }
 

@@ -3,7 +3,6 @@ package seoultech.startapp.rent.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import seoultech.startapp.member.domain.StudentStatus;
 
 @Getter
 @NoArgsConstructor
@@ -21,9 +20,6 @@ public class Renter {
 
     private String phoneNo;
 
-    private String email;
-
-    private StudentStatus studentStatus;
     private String fcmToken;
 
     @Builder
@@ -32,16 +28,12 @@ public class Renter {
                   String name,
                   String department,
                   String phoneNo,
-                  String email,
-                  StudentStatus studentStatus,
                   String fcmToken) {
         this.renterId = renterId;
         this.studentNo = studentNo;
         this.name = name;
         this.department = department;
         this.phoneNo = phoneNo;
-        this.email = email;
-        this.studentStatus = studentStatus;
         this.fcmToken = fcmToken;
     }
 }

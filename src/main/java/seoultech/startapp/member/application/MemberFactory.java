@@ -5,6 +5,7 @@ import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.MemberRole;
+import seoultech.startapp.member.domain.MemberStatus;
 
 @Component
 public class MemberFactory {
@@ -15,13 +16,12 @@ public class MemberFactory {
         .password(command.getAppPassword())
         .fcmToken(command.getFcmToken())
         .memberRole(MemberRole.MEMBER)
+        .memberStatus(MemberStatus.PRE_CARD_AUTH)
         .memberProfile(MemberProfile.builder()
             .studentNo(command.getStudentNo())
             .name(command.getName())
             .department(command.getDepartment())
             .phoneNo(command.getPhoneNo())
-            .email(command.getEmail())
-            .studentStatus(command.getStudentStatus())
             .memberShip(false)
             .build())
         .build();

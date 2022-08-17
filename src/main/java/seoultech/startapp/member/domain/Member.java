@@ -22,10 +22,14 @@ public class Member {
 
   private LocalDateTime updatedAt;
 
+  private MemberStatus memberStatus;
+
   @Builder
   public Member(Long memberId, String password,String fcmToken,
        MemberRole memberRole, LocalDateTime createdAt,
-      LocalDateTime updatedAt, MemberProfile memberProfile) {
+      LocalDateTime updatedAt, MemberProfile memberProfile,
+    MemberStatus memberStatus
+  ) {
     this.memberId = memberId;
     this.password = password;
     this.fcmToken = fcmToken;
@@ -33,6 +37,7 @@ public class Member {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.profile = memberProfile;
+    this.memberStatus = memberStatus;
   }
 
   public TokenInfo createAccessTokenInfo() {

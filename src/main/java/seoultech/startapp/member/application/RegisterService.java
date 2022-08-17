@@ -29,11 +29,6 @@ public class RegisterService implements RegisterUseCase {
   Member preRegisterMember = MemberFactory.preRegisterMember(command);
     preRegisterMember.changePassword(passwordEncoder.encode(command.getAppPassword()));
 
-  /*
-   *  TODO: 자치회비 납부 여부 체크 해야 함.
-   */
-    preRegisterMember.changeMemberShip(false);
-
     Member registeredMember = saveMemberPort.save(preRegisterMember);
 
     return loginService.generateToken(registeredMember);

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import seoultech.startapp.global.common.S3Uploader;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
@@ -22,7 +20,6 @@ import seoultech.startapp.member.application.AllToken;
 import seoultech.startapp.member.application.MemberResponse;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
-import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 
 @RestController
 @RequestMapping("/api/member")
@@ -35,7 +32,7 @@ public class MemberController {
 
   @PostMapping("")
   public ResponseEntity<?> register(@RequestBody RegisterMemberRequest request){
-    AllToken token = registerUseCase.register(new RegisterCommand(request));
+    AllToken token = registerUseCase.register(request.toCommand());
     return JsonResponse.okWithData(HttpStatus.CREATED,"회원가입 성공",token);
   }
 

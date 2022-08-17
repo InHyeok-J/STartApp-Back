@@ -47,7 +47,7 @@ class MemberRegisterServiceTest {
   @BeforeEach
   void setUp() {
     this.registerCommand = new RegisterCommand(studentNo, "appPassword", "이름", "컴퓨터공학과",
-        "010-9999-9999", "token..", "STUDENT", "email@email.com");
+        "010-9999-9999", "token..");
 
     this.savedMember = MockDomainMember.generalMockMemberByStudentNo(studentNo);
   }
