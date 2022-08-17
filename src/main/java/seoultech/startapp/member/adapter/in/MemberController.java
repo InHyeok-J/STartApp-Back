@@ -1,5 +1,6 @@
 package seoultech.startapp.member.adapter.in;
 
+import java.io.IOException;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import seoultech.startapp.global.common.S3Uploader;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
