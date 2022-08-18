@@ -4,6 +4,7 @@ import com.slack.api.app_backend.interactive_components.payload.BlockActionPaylo
 import com.slack.api.util.json.GsonFactory;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +26,7 @@ import seoultech.startapp.member.application.port.in.RegisterUseCase;
 @RequestMapping("/api/member")
 @Validated
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
   private final RegisterUseCase registerUseCase;
@@ -32,6 +34,7 @@ public class MemberController {
 
   @PostMapping("")
   public ResponseEntity<?> register(@ModelAttribute RegisterMemberRequest request){
+    log.info(request.toString());
     registerUseCase.register(request.toCommand());
     return JsonResponse.ok(HttpStatus.CREATED,"회원가입 성공");
   }
