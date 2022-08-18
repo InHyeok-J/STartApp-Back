@@ -10,5 +10,6 @@ public interface LoadMemberPort {
   boolean existByStudentNoAndNotLeave(String studentNo);
   Member loadByStudentNoNullable(String studentNo);
 
-  Page<Member> loadByPaging(PageRequest pageRequest);
+  Page<Member> loadNotPreAutMemberByPaging(PageRequest pageRequest);
+  Page<Member> loadPreAuthMemberByPaging(PageRequest pageRequest);
 }

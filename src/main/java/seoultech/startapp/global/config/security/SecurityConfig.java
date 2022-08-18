@@ -30,11 +30,14 @@ public class SecurityConfig {
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     http.exceptionHandling()
-            .accessDeniedHandler(jwtAccessDeniedHandler);
+        .accessDeniedHandler(jwtAccessDeniedHandler);
 
     http.authorizeRequests()
-        .antMatchers("/api/admin/member/list**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
-        .antMatchers("/api/admin/member/search**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/list**", "/api/admin/member/auth/**",
+            "/api/admin/member/auth/list/**")
+        .access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
+        .antMatchers("/api/admin/member/search**")
+        .access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
         .antMatchers("/api/admin/member/**").hasAuthority("ADMIN")
         .antMatchers("/api/admin/**").access("hasAuthority('ADMIN') or hasAuthority('MANAGER')")
         .anyRequest().permitAll();

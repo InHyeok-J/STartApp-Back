@@ -60,9 +60,17 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
-  public Page<Member> loadByPaging(PageRequest pageRequest) {
-    Page<JpaMember> jpaPageMembers = jpaMemberRepository.findAllByMemberRoleOrderByIdDesc(
-        MemberRole.MEMBER, pageRequest);
+  public Page<Member> loadNotPreAutMemberByPaging(PageRequest pageRequest) {
+    Page<JpaMember> jpaPageMembers = jpaMemberRepository.findAllByMemberRoleAndMemberStatusNotOrderByIdAsc(
+        MemberRole.MEMBER, MemberStatus.PRE_CARD_AUTH, pageRequest);
+
+    return memberMapper.mapToDomainMemberPage(jpaPageMembers);
+  }
+
+  @Override
+  public Page<Member> loadPreAuthMemberByPaging(PageRequest pageRequest) {
+    Page<JpaMember> jpaPageMembers = jpaMemberRepository.findAllByMemberRoleAndMemberStatusOrderByIdAsc(
+        MemberRole.MEMBER,  MemberStatus.PRE_CARD_AUTH,pageRequest);
 
     return memberMapper.mapToDomainMemberPage(jpaPageMembers);
   }

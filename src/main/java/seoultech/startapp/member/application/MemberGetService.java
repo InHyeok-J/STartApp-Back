@@ -19,7 +19,13 @@ public class MemberGetService implements MemberGetUserCase {
 
   @Override
   public MemberPagingResponse getMemberList(int page, int count) {
-    Page<Member> pageMembers = loadMemberPort.loadByPaging(PageRequest.of(page, count));
+    Page<Member> pageMembers = loadMemberPort.loadNotPreAutMemberByPaging(PageRequest.of(page, count));
+    return MemberPagingResponse.toDto(pageMembers.getContent(), pageMembers.getTotalPages());
+  }
+
+  @Override
+  public MemberPagingResponse getMemberListPreCardAuth(int page, int count) {
+    Page<Member> pageMembers = loadMemberPort.loadPreAuthMemberByPaging(PageRequest.of(page, count));
     return MemberPagingResponse.toDto(pageMembers.getContent(), pageMembers.getTotalPages());
   }
 

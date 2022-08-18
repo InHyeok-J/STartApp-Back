@@ -10,6 +10,12 @@ import seoultech.startapp.member.domain.MemberStatus;
 interface JpaMemberRepository extends JpaRepository<JpaMember, Long> {
 
   Optional<JpaMember> findByStudentNo(String studentNo);
+
   boolean existsByStudentNoAndMemberStatusNot(String studentNo, MemberStatus memberStatus);
-  Page<JpaMember> findAllByMemberRoleOrderByIdDesc(MemberRole role, PageRequest pageRequest);
+
+  Page<JpaMember> findAllByMemberRoleAndMemberStatusNotOrderByIdAsc(MemberRole role,
+       MemberStatus memberStatus, PageRequest pageRequest);
+
+  Page<JpaMember> findAllByMemberRoleAndMemberStatusOrderByIdAsc(MemberRole role,
+       MemberStatus memberStatus,PageRequest pageRequest);
 }
