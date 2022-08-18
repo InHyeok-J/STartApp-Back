@@ -8,6 +8,7 @@ public interface LoadMemberPort {
   Member loadByMemberId(Long memberId);
   Member loadByStudentNo(String studentNo);
   boolean existByStudentNo(String studentNo);
+  Member loadByStudentNoNullable(String studentNo);
 
   Page<Member> loadByPaging(PageRequest pageRequest);
 }

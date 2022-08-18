@@ -44,6 +44,11 @@ dependencies {
 	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.268')
 	implementation 'com.amazonaws:aws-java-sdk-s3'
 
+	implementation("com.slack.api:bolt:1.24.0")
+	implementation("com.slack.api:bolt-servlet:1.24.0")
+	implementation("com.slack.api:bolt-jetty:1.24.0")
+	implementation("com.google.code.gson:gson")
+
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'

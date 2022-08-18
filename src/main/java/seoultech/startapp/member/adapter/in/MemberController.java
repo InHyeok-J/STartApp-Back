@@ -1,12 +1,14 @@
 package seoultech.startapp.member.adapter.in;
 
-import java.io.IOException;
+import com.slack.api.app_backend.interactive_components.payload.BlockActionPayload;
+import com.slack.api.util.json.GsonFactory;
 import javax.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +33,19 @@ public class MemberController {
   private final MemberGetUserCase memberGetUserCase;
 
   @PostMapping("")
-  public ResponseEntity<?> register(@RequestBody RegisterMemberRequest request){
-    AllToken token = registerUseCase.register(request.toCommand());
-    return JsonResponse.okWithData(HttpStatus.CREATED,"회원가입 성공",token);
+  public ResponseEntity<?> register(@ModelAttribute RegisterMemberRequest request){
+    registerUseCase.register(request.toCommand());
+    return JsonResponse.ok(HttpStatus.CREATED,"회원가입 성공");
   }
 
+
+  @PostMapping("/slack")
+  public String test(@RequestParam(required = false) String payload){
+    BlockActionPayload blockActionPayload = GsonFactory.createSnakeCase()
+        .fromJson(payload, BlockActionPayload.class);
+    registerUseCase.studentCardSlackHook(blockActionPayload);
+    return "success";
+  }
 
   @GetMapping("/duplicate")
   public ResponseEntity<?> duplicateStudentNo(@RequestParam("studentNo") @NotBlank String studentNo){

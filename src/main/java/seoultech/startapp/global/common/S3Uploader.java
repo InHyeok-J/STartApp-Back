@@ -23,7 +23,7 @@ public class S3Uploader {
   private final AwsS3Property property;
   private final String AWSURL = "https://startappbucket.s3.ap-northeast-2.amazonaws.com/";
 
-  public String uploadFile(String directoryPath, MultipartFile multipartFile) throws IOException {
+  public String uploadFile(String directoryPath, MultipartFile multipartFile) {
 
     String fileName = createFileName( directoryPath, multipartFile.getOriginalFilename());
     ObjectMetadata objectMetadata = new ObjectMetadata();

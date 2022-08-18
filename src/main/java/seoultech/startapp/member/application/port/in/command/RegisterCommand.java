@@ -1,8 +1,10 @@
 package seoultech.startapp.member.application.port.in.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 import seoultech.startapp.global.common.SelfValidator;
 
 import javax.validation.constraints.NotBlank;
@@ -26,20 +28,20 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
   private final String department;
 
   @NotBlank
-  private final String phoneNo;
-
-  @NotBlank
   private final String fcmToken;
+
+  @NotNull
+  private final MultipartFile file;
 
   @Builder
   public RegisterCommand(String studentNo, String appPassword, String name,
-      String department, String phoneNo, String fcmToken) {
+      String department, String fcmToken, MultipartFile file) {
     this.StudentNo = studentNo;
     this.appPassword = appPassword;
     this.name = name;
     this.department = department;
-    this.phoneNo = phoneNo;
     this.fcmToken = fcmToken;
+    this.file = file;
     this.validateSelf();
   }
 

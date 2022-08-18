@@ -54,10 +54,14 @@ class JpaMember extends BaseTimeJpaEntity {
   @Column(nullable = false, name = "member_status")
   private MemberStatus memberStatus;
 
+  @Column(name = "student_card_image")
+  private String studentCardImage;
+
   @Builder
-  public JpaMember(Long id, String studentNo, String password, String name, String department,
-      String phoneNo, String fcmToken, boolean memberShip,
-      LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus memberStatus
+  public JpaMember(Long id, String studentNo, String password, String name,
+      String department, String phoneNo, String fcmToken, boolean memberShip,
+      LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus memberStatus,
+      String studentCardImage
   ) {
     this.id = id;
     this.studentNo = studentNo;
@@ -70,6 +74,7 @@ class JpaMember extends BaseTimeJpaEntity {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.memberStatus = memberStatus;
+    this.studentCardImage = studentCardImage;
   }
 
   public void setFcmToken(String token) {
