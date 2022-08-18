@@ -16,7 +16,9 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+
 application-local.yml
+application-dev.yml
 ### IntelliJ IDEA ###
 .idea
 *.iws

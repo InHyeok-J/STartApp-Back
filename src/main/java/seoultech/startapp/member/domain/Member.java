@@ -22,10 +22,16 @@ public class Member {
 
   private LocalDateTime updatedAt;
 
+  private MemberStatus memberStatus;
+
+  private String studentCardImage;
+
   @Builder
   public Member(Long memberId, String password,String fcmToken,
        MemberRole memberRole, LocalDateTime createdAt,
-      LocalDateTime updatedAt, MemberProfile memberProfile) {
+      LocalDateTime updatedAt, MemberProfile memberProfile,
+    MemberStatus memberStatus, String studentCardImage
+  ) {
     this.memberId = memberId;
     this.password = password;
     this.fcmToken = fcmToken;
@@ -33,15 +39,22 @@ public class Member {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.profile = memberProfile;
+    this.memberStatus = memberStatus;
+    this.studentCardImage = studentCardImage;
   }
 
   public TokenInfo createAccessTokenInfo() {
     return TokenInfo.accessTokenInfo(this.memberId, this.memberRole);
   }
 
-  public void changePassword(String password){
-    this.password = password;
+  public void cardApprove(){
+    this.memberStatus = MemberStatus.POST_CARD_AUTH;
   }
+
+  public void leaveMember(){
+    this.memberStatus = MemberStatus.LEAVE;
+  }
+
 
   public void changeMemberShip(Boolean memberShip){
     this.profile.changeMemberShip(memberShip);

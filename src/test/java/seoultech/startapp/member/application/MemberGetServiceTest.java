@@ -35,7 +35,7 @@ class MemberGetServiceTest {
     int count = 3;
     PageRequest pageRequest = PageRequest.of(page, count);
     Page<Member> pageMember = mockPageMember(count);
-    given(loadMemberPort.loadByPaging(pageRequest)).willReturn(pageMember);
+    given(loadMemberPort.loadNotPreAutMemberByPaging(pageRequest)).willReturn(pageMember);
     //when
     MemberPagingResponse memberList = memberGetService.getMemberList(page, count);
 

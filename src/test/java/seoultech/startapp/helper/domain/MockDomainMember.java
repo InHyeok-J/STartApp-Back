@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.MemberRole;
-import seoultech.startapp.member.domain.StudentStatus;
+import seoultech.startapp.member.domain.MemberStatus;
 
 public class MockDomainMember {
 
@@ -16,13 +16,12 @@ public class MockDomainMember {
         .fcmToken("fcmToken")
         .createdAt(LocalDateTime.now())
         .updatedAt(LocalDateTime.now())
+        .memberStatus(MemberStatus.PRE_CARD_AUTH)
         .memberProfile(MemberProfile.builder()
             .studentNo(studentNo)
             .name("학생이름")
             .department("학과")
             .phoneNo("010-9999-9999")
-            .email("email@email.ocm")
-            .studentStatus(StudentStatus.STUDENT)
             .memberShip(false)
             .build()
         )
@@ -37,13 +36,12 @@ public class MockDomainMember {
         .fcmToken("fcmToken")
         .createdAt(LocalDateTime.now())
         .updatedAt(LocalDateTime.now())
+        .memberStatus(MemberStatus.POST_CARD_AUTH)
         .memberProfile(MemberProfile.builder()
             .studentNo("학번")
             .name("학생이름")
             .department("학과")
             .phoneNo("010-9999-9999")
-            .email("email@email.ocm")
-            .studentStatus(StudentStatus.STUDENT)
             .memberShip(false)
             .build()
         )
