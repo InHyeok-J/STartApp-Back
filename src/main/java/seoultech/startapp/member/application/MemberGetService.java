@@ -27,7 +27,7 @@ public class MemberGetService implements MemberGetUserCase {
   public MemberResponse getMemberOne(Long memberId) {
     Member findMember = loadMemberPort.loadByMemberId(memberId);
 
-    return MemberResponse.toDto(findMember);
+    return MemberResponse.toDetailDto(findMember);
   }
 
   @Override
@@ -37,8 +37,15 @@ public class MemberGetService implements MemberGetUserCase {
   }
 
   @Override
+  public MemberResponse getMemberMyInfo(Long memberId) {
+    Member findMember = loadMemberPort.loadByMemberId(memberId);
+
+    return MemberResponse.toMyInfo(findMember);
+  }
+
+  @Override
   public void checkDuplicateStudentNo(String studentNo) {
-    if(loadMemberPort.existByStudentNo(studentNo)) {
+    if(loadMemberPort.existByStudentNoAndNotLeave(studentNo)) {
       throw new DuplicateStudentNoException("이미 있는 학번입니다.");
     }
   }

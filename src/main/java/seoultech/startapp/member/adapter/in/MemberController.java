@@ -55,7 +55,7 @@ public class MemberController {
 
   @GetMapping("")
   public ResponseEntity<?> getMyInfo(@LoginMember AuthMember member){
-    MemberResponse result = memberGetUserCase.getMemberOne(member.getMemberId());
+    MemberResponse result = memberGetUserCase.getMemberMyInfo(member.getMemberId());
     return JsonResponse.okWithData(HttpStatus.OK , "내 정보 조회 성공", result);
   }
 }

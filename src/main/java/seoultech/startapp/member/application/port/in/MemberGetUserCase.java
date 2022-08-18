@@ -11,5 +11,7 @@ public interface MemberGetUserCase {
 
   MemberResponse getMemberByStudentNo(String studentNo);
 
+  MemberResponse getMemberMyInfo(Long memberId);
+
   void checkDuplicateStudentNo(String studentNo);
 }

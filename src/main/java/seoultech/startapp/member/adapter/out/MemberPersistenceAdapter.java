@@ -11,6 +11,7 @@ import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberRole;
+import seoultech.startapp.member.domain.MemberStatus;
 
 @Component
 @RequiredArgsConstructor
@@ -54,8 +55,8 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
-  public boolean existByStudentNo(String studentNo) {
-    return jpaMemberRepository.existsByStudentNo(studentNo);
+  public boolean existByStudentNoAndNotLeave(String studentNo) {
+    return jpaMemberRepository.existsByStudentNoAndMemberStatusNot(studentNo, MemberStatus.LEAVE);
   }
 
   @Override
