@@ -28,6 +28,8 @@ public class LoginService implements LoginUseCase {
   public AllToken login(LoginCommand command) {
     Member member = loadMemberPort.loadByStudentNo(command.getStudentNo());
 
+    member.canLoginValidation();
+
     if(!passwordEncoder.matches(command.getPassword(), member.getPassword())){
       throw new NotMatchPasswordException("패스워드가 일치하지 않습니다");
     }

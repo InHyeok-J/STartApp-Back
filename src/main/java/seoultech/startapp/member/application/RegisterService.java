@@ -58,7 +58,7 @@ public class RegisterService implements RegisterUseCase {
 
   private void checkMemberStatus(MemberStatus memberStatus) {
     switch (memberStatus) {
-      case PRE_CARD_AUTH, POST_CARD_AUTH -> throw new DuplicateStudentNoException("학생증 중복");
+      case PRE_CARD_AUTH, POST_CARD_AUTH -> throw new DuplicateStudentNoException("학번이 중복됐습니다.");
       case LEAVE -> throw new LeaveMemberException("탈퇴된 회원 정보입니다.");
     }
   }

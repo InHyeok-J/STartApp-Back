@@ -47,4 +47,24 @@ public class MockDomainMember {
         )
         .build();
   }
+
+  public static Member generalMockMemberByMemberStauts(MemberStatus status){
+    return Member.builder()
+        .memberId(1L)
+        .memberRole(MemberRole.MEMBER)
+        .password("password")
+        .fcmToken("fcmToken")
+        .createdAt(LocalDateTime.now())
+        .updatedAt(LocalDateTime.now())
+        .memberStatus(status)
+        .memberProfile(MemberProfile.builder()
+            .studentNo("학번")
+            .name("학생이름")
+            .department("학과")
+            .phoneNo("010-9999-9999")
+            .memberShip(false)
+            .build()
+        )
+        .build();
+  }
 }

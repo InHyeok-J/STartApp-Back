@@ -21,8 +21,11 @@ import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.domain.TokenInfo;
+import seoultech.startapp.member.exception.LeaveMemberException;
 import seoultech.startapp.member.exception.NotMatchPasswordException;
+import seoultech.startapp.member.exception.RequireCardAuthException;
 
 @ExtendWith(MockitoExtension.class)
 class LoginServiceTest {
@@ -45,34 +48,49 @@ class LoginServiceTest {
   @InjectMocks
   LoginService loginService;
 
-  Member savedMember;
+  Member preCardAuthMember;
+  Member postCardAuthMember;
+  Member leaveMember;
   LoginCommand loginCommand;
   @BeforeEach
   void setUp(){
     LoginCommand command =new LoginCommand("1701256","inputPassword");
     this.loginCommand = command;
-    this.savedMember = MockDomainMember.generalMockMemberByStudentNo(command.getStudentNo());
+    this.preCardAuthMember =
+        MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.PRE_CARD_AUTH);
+    this.postCardAuthMember =
+        MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.POST_CARD_AUTH);
+    this.leaveMember=
+        MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.LEAVE);
   }
 
   @Test
-  @DisplayName("로그인시 패스워드 불일치")
-  public void loginNotMatchPasswordFail() throws Exception {
+  @DisplayName("로그인시 학생증 미인증 회원")
+  public void loginNotCardAuthMember() throws Exception {
     //given
-    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
-    given(passwordEncoder.matches(any(),any())).willReturn(false);
-    //when
-    NotMatchPasswordException e = assertThrows(NotMatchPasswordException.class, ()->
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(preCardAuthMember);
+
+    assertThrows(RequireCardAuthException.class, ()->
           loginService.login(loginCommand));
-    //then
-    assertEquals( 409,e.getErrorType().getStatusCode());
   }
+
+  @Test
+  @DisplayName("로그인 시 이미 탈퇴한 회원으로 실패")
+  public void loingLeaveMember() throws Exception {
+    //given
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(leaveMember);
+
+    assertThrows(LeaveMemberException.class, ()->
+        loginService.login(loginCommand));
+  }
+
 
   @Test
   @DisplayName("로그인 성공후 토큰 발급")
   public void loginSuccess() throws Exception {
     //given
     given(passwordEncoder.matches(any(),any())).willReturn(true);
-    given(loadMemberPort.loadByStudentNo(any())).willReturn(savedMember);
+    given(loadMemberPort.loadByStudentNo(any())).willReturn(postCardAuthMember);
 
     //when
     AllToken result = loginService.login(loginCommand);

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand;
+import seoultech.startapp.member.exception.LeaveMemberException;
+import seoultech.startapp.member.exception.RequireCardAuthException;
 
 @Getter
 public class Member {
@@ -50,6 +52,14 @@ public class Member {
   public void cardApprove(){
     this.memberStatus = MemberStatus.POST_CARD_AUTH;
   }
+
+  public void canLoginValidation(){
+    switch (this.memberStatus){
+      case PRE_CARD_AUTH -> throw new RequireCardAuthException("학생증 인증 중인 회원입니다.");
+      case LEAVE -> throw new LeaveMemberException("탈퇴한 회원 정보입니다.");
+    }
+  }
+
 
   public void leaveMember(){
     this.memberStatus = MemberStatus.LEAVE;
