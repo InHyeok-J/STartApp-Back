@@ -3,7 +3,7 @@ package seoultech.startapp.festival.application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import seoultech.startapp.festival.application.port.in.StampCommand;
+import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.application.port.in.StampUseCase;
 import seoultech.startapp.festival.application.port.out.LoadStampPort;
 import seoultech.startapp.festival.application.port.out.SaveStampPort;

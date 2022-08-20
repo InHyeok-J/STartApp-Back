@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.festival.application.StampResponse;
-import seoultech.startapp.festival.application.port.in.StampCommand;
+import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.application.port.in.StampUseCase;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;

@@ -1,4 +1,4 @@
-package seoultech.startapp.festival.application.port.in;
+package seoultech.startapp.festival.application.port.in.command;
 
 import java.util.HashSet;
 import javax.validation.ConstraintViolationException;

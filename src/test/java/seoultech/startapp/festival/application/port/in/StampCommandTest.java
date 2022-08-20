@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.domain.StampList;
 
 class StampCommandTest {

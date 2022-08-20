@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import seoultech.startapp.festival.application.port.in.StampCommand;
+import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.application.port.out.LoadStampPort;
 import seoultech.startapp.festival.application.port.out.SaveStampPort;
 import seoultech.startapp.festival.domain.Stamp;

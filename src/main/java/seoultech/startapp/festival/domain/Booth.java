@@ -16,4 +16,8 @@ public class Booth {
     this.name = name;
     this.congestion = congestion;
   }
+
+  public void changeCongestion(int congestion) {
+    this.congestion = congestion;
+  }
 }
