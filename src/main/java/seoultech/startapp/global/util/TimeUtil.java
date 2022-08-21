@@ -9,6 +9,9 @@ public class TimeUtil {
     }
 
     public static LocalDate makeEndTime(int year,int month){
+        if(month == 12){
+            return LocalDate.of(year + 1,1,1);
+        }
         return LocalDate.of(year,month + 1,1);
     }
 }

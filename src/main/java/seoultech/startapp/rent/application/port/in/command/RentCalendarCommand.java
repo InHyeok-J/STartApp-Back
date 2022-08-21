@@ -1,14 +1,15 @@
 package seoultech.startapp.rent.application.port.in.command;
 
-import java.util.HashSet;
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
 import seoultech.startapp.rent.domain.ItemCategory;
+
+import javax.validation.ConstraintViolationException;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 
 @Getter
 public class RentCalendarCommand extends SelfValidator<RentCalendarCommand> {
@@ -20,7 +21,7 @@ public class RentCalendarCommand extends SelfValidator<RentCalendarCommand> {
 
   @NotNull
   @Min(1)
-  @Max(31)
+  @Max(12)
   private int month;
 
   @NotNull
