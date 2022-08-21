@@ -37,21 +37,21 @@ public class ItemAdminController {
   public ResponseEntity<?> getItemByPaging(
       @RequestParam("page") int page,
       @RequestParam(value = "count", defaultValue = "10", required = false) int count,
-      @RequestParam(value = "category", defaultValue = "ALL", required = false) String itemCategory)
-  {
+      @RequestParam(value = "category", defaultValue = "ALL", required = false) String itemCategory) {
     ItemPagingCommand itemPagingCommand = ItemPagingCommand.builder()
         .page(page)
         .count(count)
         .itemCategory(itemCategory).build();
     ItemPagingResponse itemPagingResponse = itemGetUseCase.getByPaging(itemPagingCommand);
 
-    return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 상시사업 물품을 불러왔습니다",itemPagingResponse);
+    return JsonResponse.okWithData(HttpStatus.OK, "페이지에 해당하는 상시사업 물품을 불러왔습니다", itemPagingResponse);
   }
 
-  @PatchMapping("/item")
-  public ResponseEntity<?> updateItemByAvailable(@RequestBody UpdateItemAvailableRequest updateItemAvailableRequest){
+  @PatchMapping("")
+  public ResponseEntity<?> updateItemByAvailable(
+      @RequestBody UpdateItemAvailableRequest updateItemAvailableRequest) {
     UpdateItemAvailableCommand updateItemAvailableCommand = updateItemAvailableRequest.ToItemCommand();
     itemUpdateUseCase.updateByAvailable(updateItemAvailableCommand);
-    return JsonResponse.ok(HttpStatus.OK,"해당 상시사업 물품의 사용 가능 여부를 변경했습니다");
+    return JsonResponse.ok(HttpStatus.OK, "해당 상시사업 물품의 사용 가능 여부를 변경했습니다");
   }
 }

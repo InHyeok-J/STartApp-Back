@@ -1,12 +1,13 @@
 package seoultech.startapp.rent.application;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
+import seoultech.startapp.rent.domain.RentItem;
 import seoultech.startapp.rent.domain.RentStatus;
-import seoultech.startapp.rent.domain.Renter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class RentResponse {
 
     private Long rentId;
 
-    private Renter renter;
+    private RenterResponse renter;
     private int account;
 
     private String purpose;
@@ -30,12 +31,14 @@ public class RentResponse {
 
     private LocalDate endTime;
 
+    private List<ItemResponse> rentItemList;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @Builder
     public RentResponse(Long rentId,
-                        Renter renter,
+        RenterResponse renterResponse,
                         int account,
                         String purpose,
                         RentStatus rentStatus,
@@ -43,9 +46,10 @@ public class RentResponse {
                         LocalDate startTime,
                         LocalDate endTime,
                         LocalDateTime createdAt,
-                        LocalDateTime updatedAt) {
+                        LocalDateTime updatedAt,
+                        List<ItemResponse> rentItemList) {
         this.rentId = rentId;
-        this.renter = renter;
+        this.renter = renterResponse;
         this.account = account;
         this.purpose = purpose;
         this.rentStatus = rentStatus;
@@ -54,21 +58,37 @@ public class RentResponse {
         this.endTime = endTime;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.rentItemList = rentItemList;
+    }
+
+    public static RentResponse toMyRentList(Rent rent){
+        return RentResponse.builder()
+            .rentId(rent.getRentId())
+            .account(rent.getAccount())
+            .purpose(rent.getPurpose())
+            .rentStatus(rent.getRentStatus())
+            .itemCategory(rent.getItemCategory())
+            .startTime(rent.getStartTime())
+            .endTime(rent.getEndTime())
+            .createdAt(rent.getCreateAt())
+            .updatedAt(rent.getUpdateAt())
+            .build();
     }
 
 
-
-
-    public static RentResponse rentToRentResponse(Rent rent){
+    public static RentResponse toDetailResponse(Rent rent, List<RentItem> rentItemList){
         return RentResponse.builder()
             .rentId(rent.getRentId())
-            .renter(rent.getRenter())
+            .renterResponse(RenterResponse.toDto(rent.getRenter()))
             .account(rent.getAccount())
             .itemCategory(rent.getItemCategory())
             .purpose(rent.getPurpose())
             .rentStatus(rent.getRentStatus())
             .startTime(rent.getStartTime())
             .endTime(rent.getEndTime())
+            .createdAt(rent.getCreateAt())
+            .updatedAt(rent.getUpdateAt())
+            .rentItemList(rentItemList.stream().map(rentItem -> ItemResponse.itemToItemResponse(rentItem.getItem())).toList())
             .build();
     }
 
@@ -76,10 +96,13 @@ public class RentResponse {
         return RentResponse.builder()
             .rentId(rent.getRentId())
             .account(rent.getAccount())
+            .renterResponse(RenterResponse.toDto(rent.getRenter()))
             .rentStatus(rent.getRentStatus())
             .itemCategory(rent.getItemCategory())
             .startTime(rent.getStartTime())
             .endTime(rent.getEndTime())
+            .createdAt(rent.getCreateAt())
+            .updatedAt(rent.getUpdateAt())
             .build();
     }
 }

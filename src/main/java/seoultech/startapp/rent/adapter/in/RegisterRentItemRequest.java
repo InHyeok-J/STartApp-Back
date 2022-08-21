@@ -10,15 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 class RegisterRentItemRequest {
 
-    private Long rentId;
-    private String rentItemStatus;
     private List<Long> itemIds;
 
 
-    public RegisterRentItemCommand toRegisterCommand(){
+    public RegisterRentItemCommand toRegisterCommand(Long rentId){
         return RegisterRentItemCommand.builder()
             .rentId(rentId)
-            .rentItemStatus(rentItemStatus)
             .itemIds(itemIds)
             .build();
     }

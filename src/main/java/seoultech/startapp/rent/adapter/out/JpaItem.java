@@ -1,5 +1,8 @@
 package seoultech.startapp.rent.adapter.out;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

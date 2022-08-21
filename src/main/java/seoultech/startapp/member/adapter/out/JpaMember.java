@@ -18,7 +18,7 @@ import seoultech.startapp.member.domain.MemberStatus;
 @Getter
 @NoArgsConstructor
 @Entity(name = "member")
-class JpaMember extends BaseTimeJpaEntity {
+public class JpaMember extends BaseTimeJpaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

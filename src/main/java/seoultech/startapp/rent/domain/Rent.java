@@ -1,11 +1,13 @@
 package seoultech.startapp.rent.domain;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import seoultech.startapp.rent.exception.NotConfirmRentException;
 
 @Getter
 @EqualsAndHashCode
@@ -43,7 +45,9 @@ public class Rent {
                 LocalDate startTime,
                 LocalDate endTime,
                 LocalDateTime createAt,
-                LocalDateTime updateAt) {
+                LocalDateTime updateAt,
+                List<RentItem> rentItems
+        ) {
         this.rentId = rentId;
         this.renter = renter;
         this.account = account;
@@ -58,4 +62,10 @@ public class Rent {
     public void changeRentStatus(RentStatus rentStatus){
         this.rentStatus = rentStatus;
     }
+
+    public void rent(){
+        this.rentStatus = RentStatus.RENT;
+    }
+
+
 }

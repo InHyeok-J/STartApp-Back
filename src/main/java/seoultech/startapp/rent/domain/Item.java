@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import seoultech.startapp.rent.exception.NotRentableItemException;
 
 @Getter
 public class Item {
@@ -45,5 +46,11 @@ public class Item {
 
     public void rent(Boolean isRentable){
         this.isRentable = isRentable;
+    }
+
+    public void validationRent(){
+        if(! isAvailable ||  !isRentable){
+            throw new NotRentableItemException("해당 아이템을 빌릴 수 없습니다.");
+        }
     }
 }

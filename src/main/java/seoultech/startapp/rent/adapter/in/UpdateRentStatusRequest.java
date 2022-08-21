@@ -8,11 +8,10 @@ import seoultech.startapp.rent.application.port.in.command.UpdateRentStatusComma
 @NoArgsConstructor
 class UpdateRentStatusRequest {
 
-    private Long rentId;
     private String rentStatus;
 
 
-    public UpdateRentStatusCommand ToUpdateRentCommand(){
+    public UpdateRentStatusCommand ToUpdateRentCommand(Long rentId){
         return UpdateRentStatusCommand.builder()
                                       .rentStatus(rentStatus)
                                       .rentId(rentId)

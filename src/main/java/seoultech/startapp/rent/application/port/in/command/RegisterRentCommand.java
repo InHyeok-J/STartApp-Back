@@ -1,5 +1,6 @@
 package seoultech.startapp.rent.application.port.in.command;
 
+import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class RegisterRentCommand extends SelfValidator<RegisterRentCommand> {
     @NotNull
     private ItemCategory itemCategory;
 
-    @NotNull
+    @NotBlank
     private String purpose;
 
     @Min(1)
