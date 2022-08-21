@@ -39,11 +39,17 @@ public class SlackAdapter implements SlackSenderPort {
 
   @Override
   public void sendStudentCard(SlackStudentCardDto dto) {
+    System.out.println(dto.getStudentCardImage());
     try {
-      Slack.getInstance().send(slackProperty.getWebhookUrl(), payload(p-> p
+      WebhookResponse response = Slack.getInstance()
+          .send(slackProperty.getWebhookUrl(), payload(p -> p
               .text("학생증 인증 요청")
               .blocks(createBlock(dto))
           ));
+      if(response.getCode() == 400){
+        log.error(response.getBody());
+        throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "슬랙 전송 실패");
+      }
     } catch (Exception e) {
       e.printStackTrace();
       throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "슬랙 전송 실패");
