@@ -31,20 +31,10 @@ import seoultech.startapp.rent.application.port.in.command.UpdateRentStatusComma
 @RequiredArgsConstructor
 class RentAdminController {
 
-    private final ItemRegisterUseCase itemRegisterUseCase;
-    private final ItemGetUseCase itemGetUseCase;
-    private final ItemUpdateUseCase itemUpdateUseCase;
     private final RentGetUseCase rentGetUseCase;
     private final RentUpdateUseCase rentUpdateUseCase;
-
     private final RentItemRegisterUseCase rentItemRegisterUseCase;
 
-    @PostMapping("/item")
-    public ResponseEntity<?> registerItem(@RequestBody RegisterItemRequest registerItemRequest){
-        RegisterItemCommand registerItemCommand = registerItemRequest.toItemCommand();
-        itemRegisterUseCase.registerItem(registerItemCommand);
-        return JsonResponse.ok(HttpStatus.OK,"대여 물품이 정상 등록되었습니다.");
-    }
 
     @PostMapping("/items")
     public ResponseEntity<?> registerRentItem(@RequestBody RegisterRentItemRequest registerRentItemRequest){
@@ -53,17 +43,6 @@ class RentAdminController {
         return JsonResponse.ok(HttpStatus.OK,"해당 rent에 대해서 Item을 빌려줬습니다.");
     }
 
-    @GetMapping("/item/list")
-    public ResponseEntity<?> getItemByPaging(@RequestParam("page") int page,
-                                             @RequestParam(value = "count",defaultValue = "10",required = false) int count,
-                                             @RequestParam(value = "category",defaultValue = "ALL",required = false) String itemCategory){
-        ItemPagingCommand itemPagingCommand = ItemPagingCommand.builder()
-                                                   .page(page)
-                                                   .count(count)
-                                                   .itemCategory(itemCategory).build();
-        ItemPagingResponse itemPagingResponse = itemGetUseCase.getByPaging(itemPagingCommand);
-        return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 상시사업 물품을 불러왔습니다",itemPagingResponse);
-    }
 
     @GetMapping("/list")
     public ResponseEntity<?> getRentByPaging(@RequestParam("page") int page,
@@ -77,13 +56,6 @@ class RentAdminController {
                                                    .build();
         RentPagingResponse rentPagingResponse = rentGetUseCase.getByPaging(rentPagingCommand);
         return JsonResponse.okWithData(HttpStatus.OK,"페이지에 해당하는 Rent를 불러왔습니다.",rentPagingResponse);
-    }
-
-    @PatchMapping("/item")
-    public ResponseEntity<?> updateItemByAvailable(@RequestBody UpdateItemAvailableRequest updateItemAvailableRequest){
-        UpdateItemAvailableCommand updateItemAvailableCommand = updateItemAvailableRequest.ToItemCommand();
-        itemUpdateUseCase.updateByAvailable(updateItemAvailableCommand);
-        return JsonResponse.ok(HttpStatus.OK,"해당 상시사업 물품의 사용 여부를 변경했습니다");
     }
 
     @PatchMapping("")
