@@ -40,10 +40,15 @@ public class SlackAdapter implements SlackSenderPort {
   @Override
   public void sendStudentCard(SlackStudentCardDto dto) {
     try {
-      Slack.getInstance().send(slackProperty.getWebhookUrl(), payload(p-> p
+      WebhookResponse response = Slack.getInstance()
+          .send(slackProperty.getWebhookUrl(), payload(p -> p
               .text("학생증 인증 요청")
               .blocks(createBlock(dto))
           ));
+      if (response.getCode() == 400) {
+        log.error(response.getBody());
+        throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "슬랙 전송 실패");
+      }
     } catch (Exception e) {
       e.printStackTrace();
       throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "슬랙 전송 실패");
@@ -66,12 +71,13 @@ public class SlackAdapter implements SlackSenderPort {
     try {
       WebhookResponse send = sender.send(dto.getResponseUrl(), response);
       log.info(send.getBody());
-    }catch (Exception e){
-      e.printStackTrace();;
+    } catch (Exception e) {
+      e.printStackTrace();
+      ;
     }
   }
 
-  private LayoutBlock replaceImageBlock(ImageBlock layoutBlock){
+  private LayoutBlock replaceImageBlock(ImageBlock layoutBlock) {
     return image(
         image -> image.title(PlainTextObject.builder().text("학생증 사진").build())
             .imageUrl(layoutBlock.getImageUrl())
@@ -81,7 +87,8 @@ public class SlackAdapter implements SlackSenderPort {
 
   private List<LayoutBlock> createBlock(SlackStudentCardDto dto) {
     List<LayoutBlock> layoutBlocks = new ArrayList<>();
-    layoutBlocks.add(section(section -> section.text(markdownText(":star: *신규 학생증 등록 요청입니다.* :star:"))));
+    layoutBlocks.add(
+        section(section -> section.text(markdownText(":star: *신규 학생증 등록 요청입니다.* :star:"))));
     layoutBlocks.add(divider());
     layoutBlocks.add(section(
         section -> section.text(markdownText("*[요청 정보]* \n" + "```\n" + makeBody(dto) + "```"))));
@@ -91,19 +98,19 @@ public class SlackAdapter implements SlackSenderPort {
             .altText("학생증 사진")
     ));
     layoutBlocks.add(actions(actions ->
-        actions.elements((asElements(
-            button(b -> b.text(plainText(pt -> pt.emoji(true).text("승인")))
-                .value(dto.getMemberId().toString())
-                .style("primary")
-                .actionId("student_card_approve")
-            ),
-            button(b -> b.text(plainText(pt -> pt.emoji(true).text("거절")))
-                .value(dto.getMemberId().toString())
-                .style("danger")
-                .actionId("student_card_reject")
-            )
-        )))
-      )
+            actions.elements((asElements(
+                button(b -> b.text(plainText(pt -> pt.emoji(true).text("승인")))
+                    .value(dto.getMemberId().toString())
+                    .style("primary")
+                    .actionId("student_card_approve")
+                ),
+                button(b -> b.text(plainText(pt -> pt.emoji(true).text("거절")))
+                    .value(dto.getMemberId().toString())
+                    .style("danger")
+                    .actionId("student_card_reject")
+                )
+            )))
+        )
     );
     return layoutBlocks;
   }

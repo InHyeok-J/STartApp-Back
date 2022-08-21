@@ -70,20 +70,49 @@ public class RegisterService implements RegisterUseCase {
     payload.getMessage().getBlocks().remove(4);
     payload.getActions().forEach(action -> {
       Long memberId = Long.valueOf(action.getValue());
-      Member member = loadMemberPort.loadByMemberId(memberId);
-      if (action.getActionId().equals(SLACK_CARD_APPROVE)) {
-        log.info("학생증 승인");
-        member.cardApprove();
-        saveMemberPort.save(member);
-        payload.getMessage().getBlocks().add(approveBlock(payload.getUser().getName()));
-      } else {
-        log.info("학생증 거절");
-        deleteMemberPort.deleteMember(member);
-        payload.getMessage().getBlocks().add(rejectBlock(payload.getUser().getName()));
+      Member member = loadMemberPort.loadByMemberIdNullable(memberId);
+
+      if (member == null) {
+        // 없는 경우 이미 거절됐다고 판단.
+        payload.getMessage().getBlocks().add(alreadyReject());
+      }
+      else if(member.getMemberStatus() == MemberStatus.POST_CARD_AUTH) {
+        //이미 승인된 경우
+        payload.getMessage().getBlocks().add(alreadyApprove());
+      }
+      else {
+        //이미 있고 승인되지 않은 유저인 경우
+        if (action.getActionId().equals(SLACK_CARD_APPROVE)) {
+          log.info("학생증 승인");
+          member.cardApprove();
+          saveMemberPort.save(member);
+          payload.getMessage().getBlocks().add(approveBlock(payload.getUser().getName()));
+        } else {
+          log.info("학생증 거절");
+          deleteMemberPort.deleteMember(member);
+          payload.getMessage().getBlocks().add(rejectBlock(payload.getUser().getName()));
+        }
       }
       slackSenderPort.sendResponseSlackHook(
           new ResponseSlackHookDto(payload.getResponseUrl(), payload.getMessage().getBlocks()));
+
     });
+  }
+
+  private LayoutBlock alreadyApprove(){
+    return section(section ->
+        section.text(MarkdownTextObject.builder()
+            .text(":white_check_mark: 학생증 인증이 [어드민] 에서 *`승인`* 됐습니다.")
+            .build()
+        ));
+  }
+
+  private LayoutBlock alreadyReject(){
+    return section(section ->
+        section.text(MarkdownTextObject.builder()
+            .text(":white_check_mark: 학생증 인증이 [어드민] 에서 *`거절`* 됐습니다.")
+            .build()
+        ));
   }
 
   private LayoutBlock approveBlock(String requestUser) {
