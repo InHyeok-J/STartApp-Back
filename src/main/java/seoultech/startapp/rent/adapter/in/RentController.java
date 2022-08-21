@@ -1,6 +1,5 @@
 package seoultech.startapp.rent.adapter.in;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,8 @@ import seoultech.startapp.rent.application.port.in.RentGetUseCase;
 import seoultech.startapp.rent.application.port.in.RentRegisterUseCase;
 import seoultech.startapp.rent.application.port.in.command.RegisterRentCommand;
 import seoultech.startapp.rent.application.port.in.command.RentCalendarCommand;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rent")
@@ -46,10 +47,10 @@ class RentController {
         @RequestParam("category") String category
     ){
         List<RentResponse> result = rentGetUseCase.getCalendar(RentCalendarCommand.builder()
-            .month(month)
-            .year(year)
-            .itemCategory(category)
-            .build());
+                                                                                  .month(month)
+                                                                                  .year(year)
+                                                                                  .itemCategory(category)
+                                                                                  .build());
         return JsonResponse.okWithData(HttpStatus.OK, "조회 성공", result);
     }
 

@@ -1,7 +1,5 @@
 package seoultech.startapp.rent.adapter.out;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +13,8 @@ import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentStatus;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -75,7 +75,8 @@ public class RentPersistenceAdapter implements SaveRentPort, CountRentPort, Load
   }
 
   @Override
-  public List<Rent> loadListByYearMonthCategory(int year, int month, ItemCategory category) {
-    return null;
+  public List<Rent> loadListByYearMonthCategory(LocalDate startTime, LocalDate endTime, ItemCategory category) {
+    List<JpaRent> jpaRents = jpaRentQueryRepository.findAllByYearAndMonthAndItemCategory(startTime, endTime, category);
+    return jpaRents.stream().map(rentMapper::mapToDomainRent).collect(Collectors.toList());
   }
 }
