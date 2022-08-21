@@ -16,7 +16,8 @@ public class RentItemMapper {
         return RentItem.builder()
             .rent(rentMapper.mapToDomainRent(jpaRentItem.getJpaRent()))
             .item(itemMapper.mapToDomainItem(jpaRentItem.getJpaItem()))
-            .rentItemStatus(jpaRentItem.getRentItemStatus())
+            .createdAt(jpaRentItem.getCreatedAt())
+            .updatedAt(jpaRentItem.getUpdatedAt())
             .build();
     }
 
@@ -24,7 +25,8 @@ public class RentItemMapper {
         return JpaRentItem.builder()
             .jpaRent(rentMapper.mapToJpaRent(rentItem.getRent()))
             .jpaItem(itemMapper.mapToJpaItem(rentItem.getItem()))
-            .rentItemStatus(rentItem.getRentItemStatus())
+            .createdAt(rentItem.getCreatedAt())
+            .updatedAt(rentItem.getUpdatedAt())
             .build();
     }
 

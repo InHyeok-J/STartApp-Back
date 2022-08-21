@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SaveRentItemPort {
 
-    void save(List<RentItem> rentItems);
+    void saveAll(List<RentItem> rentItems);
 }

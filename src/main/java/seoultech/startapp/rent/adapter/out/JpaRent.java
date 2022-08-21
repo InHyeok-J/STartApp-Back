@@ -56,6 +56,7 @@ public class JpaRent extends BaseTimeJpaEntity {
 
     @OneToMany(mappedBy = "jpaRent")
     private List<JpaRentItem> rentItems = new ArrayList<>();
+
     @Builder
     public JpaRent(Long id,
                    Long memberId,

@@ -40,5 +40,19 @@ class RentMapper {
                       .build();
     }
 
+    public Rent mapToDomainRentWithRenter(JpaRent jpaRent, Renter renter){
+        return Rent.builder()
+            .rentId(jpaRent.getId())
+            .renter(renter)
+            .account(jpaRent.getAccount())
+            .purpose(jpaRent.getPurpose())
+            .rentStatus(jpaRent.getRentStatus())
+            .itemCategory(jpaRent.getItemCategory())
+            .startTime(jpaRent.getStartTime())
+            .endTime(jpaRent.getEndTime())
+            .createAt(jpaRent.getCreatedAt())
+            .updateAt(jpaRent.getUpdatedAt())
+            .build();
+    }
 }
 

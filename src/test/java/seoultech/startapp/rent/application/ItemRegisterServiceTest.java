@@ -46,14 +46,14 @@ class ItemRegisterServiceTest {
         .build();
   }
 
-//    @Test
-//    @DisplayName("loadItemPort의 save가 정상적으로 작동되는 지 확인")
-//    void save_ok(){
-//        itemRegisterService.registerItem(registerItemCommand);
-//
-//        given(loadItemPort.existsByItemNo(anyString())).willReturn(FALSE);
-//
-//        verify(saveItemPort, times(1)).saveItem(any());
-//    }
+    @Test
+    @DisplayName("loadItemPort의 save가 정상적으로 작동되는 지 확인")
+    void save_ok(){
+        given(loadItemPort.existsByItemNo(anyString())).willReturn(FALSE);
+
+        itemRegisterService.registerItem(registerItemCommand);
+
+        verify(saveItemPort, times(1)).saveItem(any());
+    }
 
 }

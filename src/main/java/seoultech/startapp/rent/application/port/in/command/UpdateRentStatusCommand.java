@@ -30,7 +30,11 @@ public class UpdateRentStatusCommand extends SelfValidator<UpdateRentStatusComma
 
     private RentStatus rentStatusValidate(String rentStatus){
         try{
-            return RentStatus.valueOf(rentStatus);
+            RentStatus status = RentStatus.valueOf(rentStatus);
+            if(status == RentStatus.ALL){
+                throw new ConstraintViolationException("잘못된 rentStatus를 입력했습니다.", new HashSet<>());
+            }
+            return status;
         }catch (Exception e){
             throw new ConstraintViolationException("잘못된 rentStatus를 입력했습니다.", new HashSet<>());
         }
