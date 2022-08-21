@@ -33,6 +33,7 @@ public class RentCalendarCommand extends SelfValidator<RentCalendarCommand> {
     this.year = year;
     this.month = month;
     this.itemCategory = validationCategory(itemCategory);
+    this.validateSelf();
   }
 
   private ItemCategory validationCategory(String category){
