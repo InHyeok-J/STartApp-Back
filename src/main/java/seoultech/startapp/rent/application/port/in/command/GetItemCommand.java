@@ -1,6 +1,5 @@
 package seoultech.startapp.rent.application.port.in.command;
 
-import lombok.Builder;
 import lombok.Getter;
 import seoultech.startapp.global.common.SelfValidator;
 import seoultech.startapp.rent.domain.ItemCategory;
@@ -10,20 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 
 @Getter
-public class ItemPagingCommand extends SelfValidator<ItemPagingCommand> {
-
-
-    private int page;
-
-    private int count;
+public class GetItemCommand extends SelfValidator<GetItemCommand> {
 
     @NotNull
     private ItemCategory itemCategory;
 
-    @Builder
-    public ItemPagingCommand(int page, int count, String itemCategory) {
-        this.page = page;
-        this.count = count;
+    public GetItemCommand(String itemCategory) {
         this.itemCategory = itemCategoryValidate(itemCategory);
         this.validateSelf();
     }
@@ -32,7 +23,7 @@ public class ItemPagingCommand extends SelfValidator<ItemPagingCommand> {
         try {
             return ItemCategory.valueOf(itemCategory);
         }catch(Exception e){
-            throw new ConstraintViolationException("validation fail",new HashSet<>());
+            throw new ConstraintViolationException("validation fail", new HashSet<>());
         }
     }
 }
