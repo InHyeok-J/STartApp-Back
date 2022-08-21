@@ -6,6 +6,7 @@ import seoultech.startapp.member.domain.Member;
 
 public interface LoadMemberPort {
   Member loadByMemberId(Long memberId);
+  Member loadByMemberIdNullable(Long memberId);
   Member loadByStudentNo(String studentNo);
   boolean existByStudentNoAndNotLeave(String studentNo);
   Member loadByStudentNoNullable(String studentNo);

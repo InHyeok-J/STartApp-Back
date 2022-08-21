@@ -28,6 +28,12 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
+  public Member loadByMemberIdNullable(Long memberId) {
+    return jpaMemberRepository.findById(memberId)
+        .map(memberMapper::mapToDomainMember).orElse(null);
+  }
+
+  @Override
   public Member loadByStudentNo(String studentNo) {
     JpaMember jpaMember = jpaMemberRepository.findByStudentNo(studentNo)
         .orElseThrow(() -> new NotFoundJpaMemberException("member를 찾을 수 없습니다"));
