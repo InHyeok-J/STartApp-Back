@@ -45,8 +45,8 @@ class RentRegisterServiceTest {
     private final int ACCOUNT = 5;
     private final String ITEM_CATEGORY = "TABLE";
     private final String PURPOSE = "산공과";
-    private final LocalDate START_TIME = LocalDate.of(2022, 8, 11);
-    private final LocalDate END_TIME = LocalDate.of(2022, 8, 15);
+    private final LocalDate START_TIME = LocalDate.now();
+    private final LocalDate END_TIME = LocalDate.now();
 
     @BeforeEach
     void setUp(){
