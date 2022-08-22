@@ -15,7 +15,9 @@ import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.application.port.out.LoadStampPort;
 import seoultech.startapp.festival.application.port.out.SaveStampPort;
 import seoultech.startapp.festival.domain.Stamp;
+import seoultech.startapp.festival.exception.AlreadyPrizedException;
 import seoultech.startapp.festival.exception.AlreadyStampException;
+import seoultech.startapp.festival.exception.RequireStampException;
 
 @ExtendWith(MockitoExtension.class)
 class StampServiceTest {
@@ -41,6 +43,7 @@ class StampServiceTest {
         .exhibition(false)
         .fleamarket(false)
         .ground(false)
+        .isPrized(false)
         .build();
     allTrueStamp = Stamp.builder()
         .stampId(1L)
@@ -50,6 +53,7 @@ class StampServiceTest {
         .exhibition(true)
         .fleamarket(true)
         .ground(true)
+        .isPrized(true)
         .build();
   }
 
@@ -93,6 +97,31 @@ class StampServiceTest {
 
     assertThrows(AlreadyStampException.class , ()->
         stampService.stamp(command));
+  }
 
+  @Test
+  @DisplayName("상품 수여 요청시 다른 STAMP가 안찍혀있으면 실패")
+  public void stamp_prized_fail() throws Exception {
+    StampCommand command = StampCommand.builder()
+        .memberId(1L)
+        .target("prized")
+        .build();
+
+    given(loadStampPort.loadByMemberId(command.getMemberId())).willReturn(allFalseStamp);
+
+    assertThrows(RequireStampException.class, ()-> stampService.stamp(command));
+  }
+
+  @Test
+  @DisplayName("상품 수여 요청시 이미 상품을 받았으면 실패")
+  public void stamp_prized_fail_alreadyPrized() throws Exception {
+    StampCommand command = StampCommand.builder()
+        .memberId(1L)
+        .target("prized")
+        .build();
+
+    given(loadStampPort.loadByMemberId(command.getMemberId())).willReturn(allTrueStamp);
+
+    assertThrows(AlreadyPrizedException.class, ()-> stampService.stamp(command));
   }
 }

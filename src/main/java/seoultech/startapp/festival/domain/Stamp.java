@@ -2,7 +2,9 @@ package seoultech.startapp.festival.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import seoultech.startapp.festival.exception.AlreadyPrizedException;
 import seoultech.startapp.festival.exception.AlreadyStampException;
+import seoultech.startapp.festival.exception.RequireStampException;
 
 @Getter
 public class Stamp {
@@ -14,10 +16,11 @@ public class Stamp {
   private Boolean fleamarket;
   private Boolean bungeobang;
   private Boolean sangsang;
+  private Boolean isPrized;
 
   @Builder
   public Stamp(Long stampId, Long memberId, Boolean exhibition, Boolean ground,
-      Boolean fleamarket, Boolean bungeobang, Boolean sangsang) {
+      Boolean fleamarket, Boolean bungeobang, Boolean sangsang, Boolean isPrized) {
     this.stampId = stampId;
     this.memberId = memberId;
     this.exhibition = exhibition;
@@ -25,6 +28,7 @@ public class Stamp {
     this.fleamarket = fleamarket;
     this.bungeobang = bungeobang;
     this.sangsang = sangsang;
+    this.isPrized = isPrized;
   }
 
   public void addStamp(StampList target) {
@@ -34,7 +38,15 @@ public class Stamp {
       case FLEAMARKET -> setFleamarket(true);
       case BUNGEOBANG -> setBungeobang(true);
       case SANGSANG -> setSangsang(true);
+      case PRIZED -> setPrized(true);
     }
+  }
+
+  public void setPrized(Boolean prized) {
+    if(this.isPrized){
+      throw new AlreadyPrizedException("이미 상품을 받았습니다.");
+    }
+    this.isPrized = prized;
   }
 
   public static Stamp initStamp(Long memberId) {
@@ -48,34 +60,48 @@ public class Stamp {
         .build();
   }
 
-  private void validationStamp(Boolean target) {
+  public void validationPrizedStamp() {
+    validationRequireStamp(this.exhibition);
+    validationRequireStamp(this.ground);
+    validationRequireStamp(this.fleamarket);
+    validationRequireStamp(this.bungeobang);
+    validationRequireStamp(this.sangsang);
+  }
+
+  private void validationRequireStamp(Boolean target) {
+    if (!target) {
+      throw new RequireStampException("다른 스탬프를 받아야 합니다.");
+    }
+  }
+
+  private void validationAlreadyStamp(Boolean target) {
     if (target) {
       throw new AlreadyStampException("이미 찍은 스탬프입니다.");
     }
   }
 
   private void setExhibition(Boolean exhibition) {
-    validationStamp(this.exhibition);
+    validationAlreadyStamp(this.exhibition);
     this.exhibition = exhibition;
   }
 
   private void setGround(Boolean ground) {
-    validationStamp(this.ground);
+    validationAlreadyStamp(this.ground);
     this.ground = ground;
   }
 
   private void setFleamarket(Boolean fleamarket) {
-    validationStamp(this.fleamarket);
+    validationAlreadyStamp(this.fleamarket);
     this.fleamarket = fleamarket;
   }
 
   private void setBungeobang(Boolean bungeobang) {
-    validationStamp(this.bungeobang);
+    validationAlreadyStamp(this.bungeobang);
     this.bungeobang = bungeobang;
   }
 
   private void setSangsang(Boolean sangsang) {
-    validationStamp(this.sangsang);
+    validationAlreadyStamp(this.sangsang);
     this.sangsang = sangsang;
   }
 }

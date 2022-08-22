@@ -15,6 +15,7 @@ public class StampMapper {
         .fleamarket(jpaStamp.getFleamarket())
         .bungeobang(jpaStamp.getBungeobang())
         .sangsang(jpaStamp.getSangsang())
+        .isPrized(jpaStamp.getIsPrized())
         .build();
   }
 
@@ -28,6 +29,7 @@ public class StampMapper {
         .fleamarket(stamp.getFleamarket())
         .bungeobang(stamp.getBungeobang())
         .sangsang(stamp.getSangsang())
+        .isPrized(stamp.getIsPrized())
         .build();
   }
 }

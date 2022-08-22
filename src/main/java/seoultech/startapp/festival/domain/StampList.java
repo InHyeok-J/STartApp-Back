@@ -5,7 +5,8 @@ public enum StampList {
   GROUND("ground"),
   FLEAMARKET("fleamarket"),
   BUNGEOBANG("bungeobang"),
-  SANGSANG("sangsang");
+  SANGSANG("sangsang"),
+  PRIZED("prized");
 
   private final String stamp;
 
