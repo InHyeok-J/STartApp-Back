@@ -48,7 +48,11 @@ public class Item {
         this.isRentable = isRentable;
     }
 
-    public void validationRent(){
+    public void validationRent(ItemCategory category){
+        if(category != this.itemCategory){
+            throw new NotRentableItemException("해당 아이템을 빌릴 수 없습니다.");
+        }
+
         if(! isAvailable ||  !isRentable){
             throw new NotRentableItemException("해당 아이템을 빌릴 수 없습니다.");
         }
