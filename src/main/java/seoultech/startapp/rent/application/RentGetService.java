@@ -1,19 +1,23 @@
 package seoultech.startapp.rent.application;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import seoultech.startapp.global.util.TimeUtil;
 import seoultech.startapp.rent.application.port.in.RentGetUseCase;
 import seoultech.startapp.rent.application.port.in.command.RentCalendarCommand;
 import seoultech.startapp.rent.application.port.in.command.RentPagingCommand;
 import seoultech.startapp.rent.application.port.out.LoadRentItemPort;
 import seoultech.startapp.rent.application.port.out.LoadRentPort;
+import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentItem;
 import seoultech.startapp.rent.domain.RentStatus;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ class RentGetService implements RentGetUseCase {
 
     private final LoadRentPort loadRentPort;
     private final LoadRentItemPort loadRentItemPort;
+
     @Transactional(readOnly = true)
     @Override
     public RentPagingResponse getByPaging(RentPagingCommand rentPagingCommand) {
@@ -48,7 +53,18 @@ class RentGetService implements RentGetUseCase {
     }
 
     @Override
-    public List<RentResponse> getCalendar(RentCalendarCommand command) {
-        return null;
+    @Transactional(readOnly = true)
+    public List<RentResponse> getCalendar(RentCalendarCommand rentCalendarCommand) {
+        int year = rentCalendarCommand.getYear();
+        int month = rentCalendarCommand.getMonth();
+
+        ItemCategory itemCategory = rentCalendarCommand.getItemCategory();
+
+        LocalDate startTime = TimeUtil.makeStartTime(year, month);
+        LocalDate endTime = TimeUtil.makeEndTime(year, month);
+
+        List<Rent> rents = loadRentPort.loadListByYearMonthCategory(startTime, endTime, itemCategory);
+
+        return rents.stream().map(RentResponse::toMyRentList).toList();
     }
 }

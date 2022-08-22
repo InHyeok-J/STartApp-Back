@@ -12,6 +12,7 @@ import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.RentStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static seoultech.startapp.rent.adapter.out.QJpaRent.jpaRent;
@@ -73,5 +74,31 @@ class JpaRentQueryRepository {
 
     private BooleanExpression rentStatusEq(RentStatus rentStatus){
         return rentStatus == RentStatus.ALL ? null : jpaRent.rentStatus.eq(rentStatus);
+    }
+
+    public List<JpaRent> findAllByYearAndMonthAndItemCategory(LocalDate monthStartTime,LocalDate monthEndTime, ItemCategory itemCategory){
+        List<JpaRent> jpaRents = query.selectFrom(jpaRent)
+                                       .where(getRentByMonth(monthStartTime, monthEndTime),
+                                              itemCategoryEq(itemCategory),
+                                              rentStatusEqRenting())
+                                       .orderBy(jpaRent.startTime.asc())
+                                       .fetch();
+        return jpaRents;
+    }
+
+
+    private BooleanExpression getRentByMonth(LocalDate monthStartTime,LocalDate monthEndTime){
+        return startTimeBetween(monthStartTime,monthEndTime).or(endTimeBetween(monthStartTime, monthEndTime));
+    }
+    private BooleanExpression startTimeBetween(LocalDate monthStartTime,LocalDate monthEndTime){
+        return jpaRent.startTime.goe(monthStartTime).and(jpaRent.startTime.lt(monthEndTime));
+    }
+
+    private BooleanExpression endTimeBetween(LocalDate monthStartTime,LocalDate monthEndTime){
+        return jpaRent.endTime.goe(monthStartTime).and(jpaRent.startTime.lt(monthEndTime));
+    }
+
+    private BooleanExpression rentStatusEqRenting(){
+        return jpaRent.rentStatus.in(WAIT, CONFIRM, RENT, NOT_RETURN);
     }
 }

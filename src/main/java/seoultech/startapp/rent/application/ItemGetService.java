@@ -6,7 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.rent.application.port.in.ItemGetUseCase;
+import seoultech.startapp.rent.application.port.in.command.GetItemCountCommand;
 import seoultech.startapp.rent.application.port.in.command.ItemPagingCommand;
+import seoultech.startapp.rent.application.port.out.CountItemPort;
 import seoultech.startapp.rent.application.port.out.LoadItemPort;
 import seoultech.startapp.rent.domain.ItemCategory;
 
@@ -16,6 +18,7 @@ class ItemGetService implements ItemGetUseCase {
 
     private final LoadItemPort loadItemPort;
 
+    private final CountItemPort countItemPort;
     @Override
     @Transactional(readOnly = true)
     public ItemPagingResponse getByPaging(ItemPagingCommand itemPagingCommand) {
@@ -25,5 +28,11 @@ class ItemGetService implements ItemGetUseCase {
         Page<ItemResponse> itemResponses = loadItemPort.loadByPaging(PageRequest.of(page, count), itemCategory)
                                              .map(ItemResponse::itemToItemResponse);
         return new ItemPagingResponse(itemResponses.getTotalPages(),itemResponses.getContent());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public long countByItemCategory(GetItemCountCommand getItemCountCommand) {
+        return countItemPort.countByCategoryAndAvailableTrue(getItemCountCommand.getItemCategory());
     }
 }

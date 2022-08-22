@@ -13,4 +13,5 @@ interface JpaItemRepository extends JpaRepository<JpaItem,Long> {
     Boolean existsByItemNo(String itemNo);
 
     List<JpaItem> findAllByIdIn(List<Long> itemIds);
+    long countAllByItemCategoryAndIsAvailableTrue(ItemCategory itemCategory);
 }

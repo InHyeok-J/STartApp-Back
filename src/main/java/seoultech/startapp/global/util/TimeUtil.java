@@ -1,14 +1,17 @@
 package seoultech.startapp.global.util;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public class TimeUtil {
 
-    public static LocalDateTime makeStartTime(int year,int month){
-        return LocalDateTime.of(year,month,1,0,0);
+    public static LocalDate makeStartTime(int year,int month){
+        return LocalDate.of(year,month,1);
     }
 
-    public static LocalDateTime makeEndTime(int year,int month){
-        return LocalDateTime.of(year,month + 1,1,0,0);
+    public static LocalDate makeEndTime(int year,int month){
+        if(month == 12){
+            return LocalDate.of(year + 1,1,1);
+        }
+        return LocalDate.of(year,month + 1,1);
     }
 }
