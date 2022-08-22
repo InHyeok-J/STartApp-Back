@@ -15,6 +15,4 @@ public interface LoadItemPort {
 
     List<Item> loadByIds(List<Long> itemIds);
     Boolean existsByItemNo(String itemNo);
-
-    long loadByCategoryAndAvailableTrue(ItemCategory itemCategory);
 }

@@ -9,12 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 
 @Getter
-public class GetItemCommand extends SelfValidator<GetItemCommand> {
+public class GetItemCountCommand extends SelfValidator<GetItemCountCommand> {
 
     @NotNull
     private ItemCategory itemCategory;
 
-    public GetItemCommand(String itemCategory) {
+    public GetItemCountCommand(String itemCategory) {
         this.itemCategory = itemCategoryValidate(itemCategory);
         this.validateSelf();
     }

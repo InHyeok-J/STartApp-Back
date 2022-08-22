@@ -7,4 +7,6 @@ public interface CountItemPort {
     long countByCategory(ItemCategory itemCategory);
 
     long countNotAvailableByCategory(ItemCategory itemCategory);
+
+    long countByCategoryAndAvailableTrue(ItemCategory itemCategory);
 }

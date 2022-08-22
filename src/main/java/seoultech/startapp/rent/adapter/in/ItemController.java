@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.rent.application.port.in.ItemGetUseCase;
-import seoultech.startapp.rent.application.port.in.command.GetItemCommand;
+import seoultech.startapp.rent.application.port.in.command.GetItemCountCommand;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/rent/item")
-public class ItemController {
+class ItemController {
 
     private final ItemGetUseCase itemGetUseCase;
 
     @GetMapping("/calendar")
     public ResponseEntity<?> getByAvailable(@RequestParam("category") String itemCategory){
-        Long itemCount = itemGetUseCase.getByItemCategory(new GetItemCommand(itemCategory));
-        return JsonResponse.okWithData(HttpStatus.OK,"사용가능한 ItemCategory만 불러왔습니다.",itemCount);
+        long itemCount = itemGetUseCase.countByItemCategory(new GetItemCountCommand(itemCategory));
+        return JsonResponse.okWithData(HttpStatus.OK,"사용가능한 ItemCategory만 불러왔습니다.",new ItemCountResponse(itemCount));
     }
 }

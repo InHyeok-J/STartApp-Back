@@ -62,7 +62,7 @@ public class ItemPersistenceAdapter implements LoadItemPort, SaveItemPort, Count
     }
 
     @Override
-    public long loadByCategoryAndAvailableTrue(ItemCategory itemCategory) {
+    public long countByCategoryAndAvailableTrue(ItemCategory itemCategory) {
         return jpaItemRepository.countAllByItemCategoryAndIsAvailableTrue(itemCategory);
     }
 }
