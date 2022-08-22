@@ -1,5 +1,6 @@
 package seoultech.startapp.rent.application.port.in.command;
 
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -52,7 +53,15 @@ public class RegisterRentCommand extends SelfValidator<RegisterRentCommand> {
         this.account = account;
         this.startTime = startTime;
         this.endTime = endTime;
+        currentTimeValidation(startTime,endTime);
         this.validateSelf();
+    }
+
+    private void currentTimeValidation(LocalDate startTime, LocalDate endTime){
+        LocalDate currentTime = LocalDate.now();
+        if(startTime.isBefore(currentTime) || endTime.isBefore(currentTime)){
+            throw new ConstraintViolationException("과거 날짜로 예약할 수 없습니다", new HashSet<>());
+        }
     }
 
     public Rent ToDomainRent(){

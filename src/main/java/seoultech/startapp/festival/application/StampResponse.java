@@ -14,10 +14,11 @@ public class StampResponse {
   private Boolean fleamarket;
   private Boolean bungeobang;
   private Boolean sangsang;
+  private Boolean isPrized;
 
   @Builder
   public StampResponse(Long stampId, Long memberId, Boolean exhibition, Boolean ground,
-      Boolean fleamarket, Boolean bungeobang, Boolean sangsang) {
+      Boolean fleamarket, Boolean bungeobang, Boolean sangsang , Boolean isPrized) {
     this.stampId = stampId;
     this.memberId = memberId;
     this.exhibition = exhibition;
@@ -25,6 +26,7 @@ public class StampResponse {
     this.fleamarket = fleamarket;
     this.bungeobang = bungeobang;
     this.sangsang = sangsang;
+    this.isPrized = isPrized;
   }
 
   public static StampResponse toDto(Stamp stamp){
@@ -36,6 +38,7 @@ public class StampResponse {
         .fleamarket(stamp.getFleamarket())
         .bungeobang(stamp.getBungeobang())
         .sangsang(stamp.getSangsang())
+        .isPrized(stamp.getIsPrized())
         .build();
   }
 }

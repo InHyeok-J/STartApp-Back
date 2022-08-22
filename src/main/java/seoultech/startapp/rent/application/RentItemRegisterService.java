@@ -44,7 +44,7 @@ public class RentItemRegisterService implements RentItemRegisterUseCase {
 
     List<RentItem> rentItems = new ArrayList<>();
     for (Item item : items) {
-      item.validationRent();
+      item.validationRent(rent.getItemCategory());
       item.rent(false);
       rentItems.add(RentItem.builder().item(item).rent(rent).build());
     }

@@ -8,6 +8,7 @@ import seoultech.startapp.festival.application.port.in.StampUseCase;
 import seoultech.startapp.festival.application.port.out.LoadStampPort;
 import seoultech.startapp.festival.application.port.out.SaveStampPort;
 import seoultech.startapp.festival.domain.Stamp;
+import seoultech.startapp.festival.domain.StampList;
 
 @Service
 @RequiredArgsConstructor
@@ -23,13 +24,22 @@ public class StampService implements StampUseCase {
 
     if(findStamp == null){
       Stamp stamp = Stamp.initStamp(command.getMemberId());
+      validationPrized(command.getTarget(), stamp);
       stamp.addStamp(command.getTarget());
       saveStampPort.save(stamp);
     }else {
+     validationPrized(command.getTarget(), findStamp);
      findStamp.addStamp(command.getTarget());
      saveStampPort.save(findStamp);
     }
   }
+
+  private void validationPrized(StampList requestStamp, Stamp myStamp){
+    if(requestStamp == StampList.PRIZED){
+      myStamp.validationPrizedStamp();
+    }
+  }
+
 
   @Transactional
   @Override

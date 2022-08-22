@@ -21,6 +21,7 @@ import seoultech.startapp.rent.application.port.out.LoadRentPort;
 import seoultech.startapp.rent.application.port.out.SaveRentItemPort;
 import seoultech.startapp.rent.application.port.out.SaveRentPort;
 import seoultech.startapp.rent.domain.Item;
+import seoultech.startapp.rent.domain.ItemCategory;
 import seoultech.startapp.rent.domain.Rent;
 import seoultech.startapp.rent.domain.RentStatus;
 import seoultech.startapp.rent.exception.NotConfirmRentException;
@@ -61,6 +62,7 @@ class RentItemRegisterServiceTest {
     Rent account3Rent = Rent.builder()
         .rentId(1L)
         .purpose("빌리기")
+        .itemCategory(ItemCategory.AMP)
         .account(3)
         .build();
     List<Item> items = mockItemListBySize(4);
@@ -78,6 +80,7 @@ class RentItemRegisterServiceTest {
         .rentId(1L)
         .purpose("빌리기")
         .account(3)
+        .itemCategory(ItemCategory.AMP)
         .rentStatus(RentStatus.WAIT)
         .build();
     List<Item> items = mockItemListBySize(3);
@@ -95,12 +98,35 @@ class RentItemRegisterServiceTest {
         .rentId(1L)
         .purpose("빌리기")
         .account(1)
+        .itemCategory(ItemCategory.AMP)
         .rentStatus(RentStatus.CONFIRM)
         .build();
     List<Item> items = List.of(
         Item.builder()
-        .itemId(1L).itemNo("ItemNo").isRentable(false).isAvailable(false)
+        .itemId(1L).itemNo("ItemNo").isRentable(false).isAvailable(false).itemCategory(ItemCategory.AMP)
         .build());
+    given(loadRentPort.loadById(command.getRentId())).willReturn(generalRent);
+    given(loadItemPort.loadByIds(any())).willReturn(items);
+
+    assertThrows(NotRentableItemException.class, () -> rentItemRegisterService.register(command));
+  }
+
+  @Test
+  @DisplayName("가져온 ITEM이 RENT가 필요한 Category가 아닐때 실패 ")
+  public void rent_fail_itemCategory_notMatch() throws Exception {
+    Rent generalRent = Rent.builder()
+        .rentId(1L)
+        .purpose("빌리기")
+        .account(1)
+        .itemCategory(ItemCategory.AMP)
+        .rentStatus(RentStatus.CONFIRM)
+        .build();
+
+    List<Item> items = List.of(
+        Item.builder()
+            .itemId(1L).itemNo("ItemNo").isRentable(true).isAvailable(true).itemCategory(ItemCategory.TABLE)
+            .build());
+
     given(loadRentPort.loadById(command.getRentId())).willReturn(generalRent);
     given(loadItemPort.loadByIds(any())).willReturn(items);
 
@@ -114,11 +140,12 @@ class RentItemRegisterServiceTest {
         .rentId(1L)
         .purpose("빌리기")
         .account(1)
+        .itemCategory(ItemCategory.AMP)
         .rentStatus(RentStatus.CONFIRM)
         .build();
     List<Item> items = List.of(
         Item.builder()
-            .itemId(1L).itemNo("ItemNo").isRentable(true).isAvailable(true)
+            .itemId(1L).itemNo("ItemNo").isRentable(true).isAvailable(true).itemCategory(ItemCategory.AMP)
             .build());
 
     given(loadRentPort.loadById(command.getRentId())).willReturn(generalRent);
@@ -146,6 +173,7 @@ class RentItemRegisterServiceTest {
         .itemNo(itemNo)
         .isAvailable(true)
         .isRentable(true)
+        .itemCategory(ItemCategory.AMP)
         .build();
   }
 
