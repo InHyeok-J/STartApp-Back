@@ -35,6 +35,7 @@ public class MemberController {
   @PostMapping("")
   public ResponseEntity<?> register(@ModelAttribute RegisterMemberRequest request){
     log.info(request.toString());
+    log.info("FILE SIZE : " + request.file().getSize());
     registerUseCase.register(request.toCommand());
     return JsonResponse.ok(HttpStatus.CREATED,"회원가입 성공");
   }

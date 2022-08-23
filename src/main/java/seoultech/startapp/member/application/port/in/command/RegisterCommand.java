@@ -1,5 +1,7 @@
 package seoultech.startapp.member.application.port.in.command;
 
+import java.util.HashSet;
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -42,7 +44,15 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
     this.department = department;
     this.fcmToken = fcmToken;
     this.file = file;
+    validationFile(file);
     this.validateSelf();
   }
+
+  private void validationFile(MultipartFile file){
+    if(file.getSize() == 0){
+      throw new ConstraintViolationException(new HashSet<>());
+    }
+  }
+
 
 }

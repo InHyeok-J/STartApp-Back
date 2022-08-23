@@ -40,11 +40,8 @@ public class S3Uploader {
   }
 
   private String createFileName(String directoryPath, String fileName) {
-    int extIndex = fileName.lastIndexOf(".");
-    String originFileName = fileName.substring(0,extIndex);
-    String ext = fileName.substring(extIndex+1);
-    String convertFilename = Base64.getUrlEncoder().encodeToString(originFileName.getBytes());
-    return directoryPath+ UUID.randomUUID().toString().concat(convertFilename + ext);
+    String convertFilename = Base64.getUrlEncoder().encodeToString(fileName.getBytes());
+    return directoryPath+ UUID.randomUUID().toString().concat(convertFilename);
   }
 
 }
