@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seoultech.startapp.festival.application.BoothLineUpGetResponse;
 import seoultech.startapp.festival.application.BoothResponse;
 import seoultech.startapp.festival.application.port.in.GetBoothUseCase;
 import seoultech.startapp.global.response.JsonResponse;
@@ -20,7 +21,7 @@ public class BoothController {
 
   @GetMapping("")
   public ResponseEntity<?> getBootList(){
-    List<BoothResponse> result = getBoothUseCase.getAll();
+    BoothLineUpGetResponse result = getBoothUseCase.getAll();
     return JsonResponse.okWithData(HttpStatus.OK,"부스 전체 조회", result);
   }
 
