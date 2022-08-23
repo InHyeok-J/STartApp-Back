@@ -57,6 +57,7 @@ public class Stamp {
         .ground(false)
         .bungeobang(false)
         .sangsang(false)
+        .isPrized(false)
         .build();
   }
 
