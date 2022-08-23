@@ -15,4 +15,5 @@ public class AwsS3Property {
   private String secretKey;
   private String bucket;
   private String region;
+  private String bucketUrl;
 }

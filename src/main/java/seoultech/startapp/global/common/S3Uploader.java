@@ -22,10 +22,9 @@ public class S3Uploader {
 
   private final AmazonS3 amazonS3;
   private final AwsS3Property property;
-  private final String AWSURL = "https://startappbucket.s3.ap-northeast-2.amazonaws.com/";
 
   public String uploadFile(String directoryPath, MultipartFile multipartFile) {
-
+    String AWSURL = property.getBucketUrl();
     String fileName = createFileName( directoryPath, multipartFile.getOriginalFilename());
     ObjectMetadata objectMetadata = new ObjectMetadata();
     objectMetadata.setContentLength(multipartFile.getSize());
