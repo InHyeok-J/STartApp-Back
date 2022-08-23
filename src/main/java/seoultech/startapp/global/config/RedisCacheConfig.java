@@ -32,8 +32,8 @@ public class RedisCacheConfig {
   public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
     return (builder) -> builder
         .withCacheConfiguration("bannerCache",
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(60)))
-        .withCacheConfiguration("planCache",
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(60)));
+            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(600)))
+        .withCacheConfiguration("festival",
+            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(600)));
   }
 }

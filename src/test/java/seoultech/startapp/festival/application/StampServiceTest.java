@@ -71,6 +71,7 @@ class StampServiceTest {
     assertEquals(result.getFleamarket(), false);
     assertEquals(result.getSangsang(), false);
     assertEquals(result.getGround(), false);
+    assertEquals(result.getIsPrized(),false);
   }
 
   @Test

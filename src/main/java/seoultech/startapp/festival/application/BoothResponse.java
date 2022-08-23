@@ -1,11 +1,12 @@
 package seoultech.startapp.festival.application;
 
+import java.io.Serializable;
 import lombok.Builder;
 import lombok.Getter;
 import seoultech.startapp.festival.domain.Booth;
 
 @Getter
-public class BoothResponse {
+public class BoothResponse implements Serializable {
 
   private Long boothId;
   private String name;
@@ -18,7 +19,7 @@ public class BoothResponse {
     this.congestion = congestion;
   }
 
-  public static BoothResponse toDto(Booth booth){
+  public static BoothResponse toDto(Booth booth) {
     return BoothResponse.builder()
         .boothId(booth.getBoothId())
         .name(booth.getName())

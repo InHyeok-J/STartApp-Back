@@ -2,25 +2,34 @@ package seoultech.startapp.festival.application;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.festival.application.port.in.GetBoothUseCase;
 import seoultech.startapp.festival.application.port.out.LoadBoothPort;
+import seoultech.startapp.festival.application.port.out.LoadLineUpPort;
 import seoultech.startapp.festival.domain.Booth;
+import seoultech.startapp.festival.domain.LineUp;
 
 @Service
 @RequiredArgsConstructor
 public class GetBoothService implements GetBoothUseCase {
 
   private final LoadBoothPort loadBoothPort;
+  private final LoadLineUpPort loadLineUpPort;
 
+  @Cacheable(value = "festival")
   @Transactional(readOnly = true)
   @Override
-  public List<BoothResponse> getAll() {
+  public BoothLineUpGetResponse getAll() {
     List<Booth> booths = loadBoothPort.loadAll();
-    return booths.stream().map(BoothResponse::toDto).toList();
+    List<LineUp> lineUps = loadLineUpPort.loadListOrderByTime();
+    return BoothLineUpGetResponse.builder()
+        .boothList(booths.stream().map(BoothResponse::toDto).toList())
+        .lineUpList(lineUps.stream().map(LineUpResponse::toDto).toList())
+        .build();
   }
 
   @Transactional(readOnly = true)
