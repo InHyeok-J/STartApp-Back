@@ -2,6 +2,7 @@ package seoultech.startapp.festival.application;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class GetBoothService implements GetBoothUseCase {
   private final LoadBoothPort loadBoothPort;
   private final LoadLineUpPort loadLineUpPort;
 
+  @Cacheable(value = "festival")
   @Transactional(readOnly = true)
   @Override
   public BoothLineUpGetResponse getAll() {

@@ -1,5 +1,6 @@
 package seoultech.startapp.festival.application;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -9,7 +10,7 @@ import seoultech.startapp.festival.domain.LineUp;
 
 @Getter
 @NoArgsConstructor
-public class LineUpResponse {
+public class LineUpResponse implements Serializable {
 
   private Long lineUpId;
 
@@ -28,7 +29,7 @@ public class LineUpResponse {
     this.lineUpTime = lineUpTime;
   }
 
-  public static LineUpResponse toDto(LineUp lineUp){
+  public static LineUpResponse toDto(LineUp lineUp) {
     return LineUpResponse.builder()
         .lineUpId(lineUp.getLineUpId())
         .lineUpTitle(lineUp.getLineUpTitle())

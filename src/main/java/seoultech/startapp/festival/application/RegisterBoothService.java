@@ -1,6 +1,7 @@
 package seoultech.startapp.festival.application;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.festival.application.port.in.RegisterBoothUseCase;
@@ -14,6 +15,7 @@ public class RegisterBoothService implements RegisterBoothUseCase {
 
   private final SaveBoothPort saveBoothPort;
 
+  @CacheEvict(value = "festival", allEntries = true)
   @Transactional
   @Override
   public void registerBooth(RegisterBoothCommand command) {
