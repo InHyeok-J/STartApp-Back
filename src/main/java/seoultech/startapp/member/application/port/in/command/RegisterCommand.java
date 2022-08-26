@@ -35,15 +35,20 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
   @NotNull
   private final MultipartFile file;
 
+  @NotNull
+  @Pattern(regexp = "01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})")
+  private final String phoneNo;
+
   @Builder
   public RegisterCommand(String studentNo, String appPassword, String name,
-      String department, String fcmToken, MultipartFile file) {
+      String department, String fcmToken, MultipartFile file, String phoneNo) {
     this.StudentNo = studentNo;
     this.appPassword = appPassword;
     this.name = name;
     this.department = department;
     this.fcmToken = fcmToken;
     this.file = file;
+    this.phoneNo = phoneNo;
     validationFile(file);
     this.validateSelf();
   }

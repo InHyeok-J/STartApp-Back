@@ -14,6 +14,7 @@ import seoultech.startapp.member.application.port.in.RegisterUseCase;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.application.port.out.DeleteMemberPort;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
+import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.application.port.out.ResponseSlackHookDto;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.application.port.out.SlackSenderPort;
@@ -22,6 +23,7 @@ import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.DuplicateStudentNoException;
 import seoultech.startapp.member.exception.LeaveMemberException;
+import seoultech.startapp.member.exception.NotMatchPhoneAuthException;
 
 @Slf4j
 @Service
@@ -36,9 +38,17 @@ public class RegisterService implements RegisterUseCase {
   private final S3Uploader s3Uploader;
   private final DeleteMemberPort deleteMemberPort;
 
+  private final RedisCachePort redisCachePort;
   @Transactional
   @Override
   public void register(RegisterCommand command) {
+
+    String saveAuth = redisCachePort.findByKey("PHONE-" + command.getPhoneNo());
+
+    if(saveAuth == null){
+      throw new NotMatchPhoneAuthException("휴대폰 인증 정보가 일치하지 않습니다.");
+    }
+
     Member member = loadMemberPort.loadByStudentNoNullable(command.getStudentNo());
 
     if (member != null) {

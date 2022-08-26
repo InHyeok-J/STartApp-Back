@@ -23,6 +23,7 @@ public class MemberFactory {
             .name(command.getName())
             .department(command.getDepartment())
             .memberShip(false)
+            .phoneNo(command.getPhoneNo())
             .build())
         .build();
   }
