@@ -13,4 +13,6 @@ public interface LoadMemberPort {
 
   Page<Member> loadNotPreAutMemberByPaging(PageRequest pageRequest);
   Page<Member> loadPreAuthMemberByPaging(PageRequest pageRequest);
+
+  Boolean existsByPhoneNo(String phoneNo);
 }

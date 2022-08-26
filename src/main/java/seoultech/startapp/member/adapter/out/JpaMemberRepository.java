@@ -18,4 +18,6 @@ public interface JpaMemberRepository extends JpaRepository<JpaMember, Long> {
 
   Page<JpaMember> findAllByMemberRoleAndMemberStatusOrderByIdAsc(MemberRole role,
        MemberStatus memberStatus,PageRequest pageRequest);
+
+  Boolean existsByPhoneNo(String phoneNo);
 }
