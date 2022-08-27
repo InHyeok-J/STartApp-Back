@@ -6,9 +6,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.slack.api.app_backend.interactive_components.payload.BlockActionPayload;
-import com.slack.api.app_backend.interactive_components.payload.BlockActionPayload.Action;
-import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +22,7 @@ import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.application.port.out.DeleteMemberPort;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
+import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.application.port.out.SlackSenderPort;
 import seoultech.startapp.member.domain.Member;
@@ -31,6 +30,7 @@ import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.DuplicateStudentNoException;
 import seoultech.startapp.member.exception.LeaveMemberException;
+import seoultech.startapp.member.exception.NotMatchPhoneAuthException;
 
 @ExtendWith(MockitoExtension.class)
 class MemberRegisterServiceTest {
@@ -52,7 +52,8 @@ class MemberRegisterServiceTest {
 
   @Mock
   SlackSenderPort slackSenderPort;
-
+  @Mock
+  RedisCachePort redisCachePort;
   @InjectMocks
   RegisterService registerService;
 
@@ -68,9 +69,17 @@ class MemberRegisterServiceTest {
         .appPassword("qwer1234")
         .fcmToken("fcmToken..")
         .file(new MockMultipartFile("data", "filename.txt", "text/plain", "some xml".getBytes()))
+        .phoneNo("010-2642-2713")
         .build();
   }
 
+  @Test
+  @DisplayName("휴대폰인증이 안된 회원가입 요청 실패")
+  public void signUp_fail_notauthPhone() throws Exception {
+    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn(null);
+
+    assertThrows(NotMatchPhoneAuthException.class, ()-> registerService.register(registerCommand));
+  }
   @Test
   @DisplayName("학생증 인증 진행중인 학번으로 회원가입 시 실패")
   public void duplicateStudentNoByPreCardAuth() {
@@ -78,6 +87,7 @@ class MemberRegisterServiceTest {
         MemberProfile.builder().studentNo(studentNo).build()
         )
         .memberStatus(MemberStatus.PRE_CARD_AUTH).build();
+    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
     given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(preCardAuthMember);
     assertThrows(DuplicateStudentNoException.class,
         () -> registerService.register(registerCommand));
@@ -90,6 +100,7 @@ class MemberRegisterServiceTest {
             MemberProfile.builder().studentNo(studentNo).build()
         )
         .memberStatus(MemberStatus.POST_CARD_AUTH).build();
+    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
     given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(preCardAuthMember);
     assertThrows(DuplicateStudentNoException.class,
         () -> registerService.register(registerCommand));
@@ -102,6 +113,7 @@ class MemberRegisterServiceTest {
             MemberProfile.builder().studentNo(studentNo).build()
         )
         .memberStatus(MemberStatus.LEAVE).build();
+    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
     given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(preCardAuthMember);
     assertThrows(LeaveMemberException.class,
         () -> registerService.register(registerCommand));
@@ -113,6 +125,7 @@ class MemberRegisterServiceTest {
     String imageUrl = "image";
     Member jpaSavedMember = MockDomainMember.generalMockMemberByMemberId(1L);
 
+    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
     given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(null);
     given(s3Uploader.uploadFile(any(), any())).willReturn(imageUrl);
     given(saveMemberPort.save(any())).willReturn(jpaSavedMember);

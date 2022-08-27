@@ -40,7 +40,7 @@ public class JpaMember extends BaseTimeJpaEntity {
   @Column(nullable = false)
   private Boolean memberShip;
 
-  @Column(name = "phone_no", nullable = true)
+  @Column(name = "phone_no", nullable = false, unique = true)
   private String phoneNo;
 
   @Column(name = "fcm_token")

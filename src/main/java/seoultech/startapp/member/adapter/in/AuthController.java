@@ -14,7 +14,10 @@ import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
 import seoultech.startapp.member.adapter.in.dto.LoginRequest;
+import seoultech.startapp.member.adapter.in.dto.SmsCheckRequest;
+import seoultech.startapp.member.adapter.in.dto.SmsPushRequest;
 import seoultech.startapp.member.application.AccessToken;
+import seoultech.startapp.member.application.port.in.SmsAuthUseCase;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
 import seoultech.startapp.member.application.AllToken;
@@ -32,6 +35,18 @@ public class AuthController {
   private final RefreshUseCase refreshUseCase;
   private final LogoutUseCase logoutUseCase;
   private final HeaderTokenExtractor headerTokenExtractor;
+  private final SmsAuthUseCase smsAuthUseCase;
+  @PostMapping("/sms")
+  public ResponseEntity<?> smsPush(@RequestBody SmsPushRequest request){
+    smsAuthUseCase.push(request.toCommand());
+    return JsonResponse.ok(HttpStatus.OK, "발송 성공");
+  }
+
+  @PostMapping("/sms/check")
+  public ResponseEntity<?> smsCheck(@RequestBody SmsCheckRequest request){
+    smsAuthUseCase.check(request.toCommand());
+    return JsonResponse.ok(HttpStatus.OK,"확인 성공");
+  }
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest request) {

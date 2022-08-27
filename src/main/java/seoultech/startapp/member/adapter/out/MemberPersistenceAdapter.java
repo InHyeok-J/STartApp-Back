@@ -80,4 +80,9 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
 
     return memberMapper.mapToDomainMemberPage(jpaPageMembers);
   }
+
+  @Override
+  public Boolean existsByPhoneNo(String phoneNo) {
+    return jpaMemberRepository.existsByPhoneNo(phoneNo);
+  }
 }

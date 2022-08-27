@@ -6,7 +6,7 @@ import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 
 public record RegisterMemberRequest(String studentNo, String appPassword, String name,
                                     String department, String fcmToken,
-                                    MultipartFile file
+                                    MultipartFile file,String phoneNo
                                     ) {
   public RegisterCommand toCommand(){
     return RegisterCommand.builder()
@@ -16,6 +16,7 @@ public record RegisterMemberRequest(String studentNo, String appPassword, String
         .department(department)
         .fcmToken(fcmToken)
         .file(file)
+        .phoneNo(phoneNo)
         .build();
   }
 }
