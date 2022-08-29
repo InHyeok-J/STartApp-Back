@@ -62,6 +62,7 @@ public class Member {
 
 
   public void leaveMember(){
+    canLoginValidation();
     this.memberStatus = MemberStatus.LEAVE;
   }
 

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,7 @@ import seoultech.startapp.member.adapter.in.dto.NotLoginPasswordChangeRequest;
 import seoultech.startapp.member.adapter.in.dto.RegisterMemberRequest;
 import seoultech.startapp.member.adapter.in.dto.MemberPasswordChangeRequest;
 import seoultech.startapp.member.application.MemberResponse;
+import seoultech.startapp.member.application.port.in.LeaveMemberUseCase;
 import seoultech.startapp.member.application.port.in.MemberGetUserCase;
 import seoultech.startapp.member.application.port.in.PasswordUseCase;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
@@ -37,7 +39,7 @@ public class MemberController {
   private final RegisterUseCase registerUseCase;
   private final MemberGetUserCase memberGetUserCase;
   private final PasswordUseCase passwordUseCase;
-
+  private final LeaveMemberUseCase leaveMemberUseCase;
   @PostMapping("")
   public ResponseEntity<?> register(@ModelAttribute RegisterMemberRequest request) {
     log.info(request.toString());
@@ -79,5 +81,11 @@ public class MemberController {
   public ResponseEntity<?> getMyInfo(@LoginMember AuthMember member) {
     MemberResponse result = memberGetUserCase.getMemberMyInfo(member.getMemberId());
     return JsonResponse.okWithData(HttpStatus.OK, "내 정보 조회 성공", result);
+  }
+
+  @DeleteMapping("")
+  public ResponseEntity<?> leaveMember(@LoginMember AuthMember member){
+    leaveMemberUseCase.leave(member.getMemberId());
+    return JsonResponse.ok(HttpStatus.OK,"탈퇴 성공");
   }
 }
