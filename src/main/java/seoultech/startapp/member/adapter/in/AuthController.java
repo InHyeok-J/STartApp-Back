@@ -13,11 +13,14 @@ import seoultech.startapp.global.common.HeaderTokenExtractor;
 import seoultech.startapp.global.config.web.AuthMember;
 import seoultech.startapp.global.config.web.LoginMember;
 import seoultech.startapp.global.response.JsonResponse;
+import seoultech.startapp.member.adapter.in.dto.FindPasswordSmsCheckRequest;
+import seoultech.startapp.member.adapter.in.dto.FindPasswordSmsPushRequest;
 import seoultech.startapp.member.adapter.in.dto.LoginRequest;
 import seoultech.startapp.member.adapter.in.dto.SmsCheckRequest;
 import seoultech.startapp.member.adapter.in.dto.SmsPushRequest;
 import seoultech.startapp.member.application.AccessToken;
 import seoultech.startapp.member.application.port.in.SmsAuthUseCase;
+import seoultech.startapp.member.application.port.in.command.FindPasswordPushCommand;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.in.LoginUseCase;
 import seoultech.startapp.member.application.AllToken;
@@ -38,7 +41,7 @@ public class AuthController {
   private final SmsAuthUseCase smsAuthUseCase;
   @PostMapping("/sms")
   public ResponseEntity<?> smsPush(@RequestBody SmsPushRequest request){
-    smsAuthUseCase.push(request.toCommand());
+    smsAuthUseCase.signUpPrePush(request.toCommand());
     return JsonResponse.ok(HttpStatus.OK, "발송 성공");
   }
 
@@ -47,6 +50,19 @@ public class AuthController {
     smsAuthUseCase.check(request.toCommand());
     return JsonResponse.ok(HttpStatus.OK,"확인 성공");
   }
+
+  @PostMapping("/sms/password")
+  public ResponseEntity<?> findPasswordSmsPush(@RequestBody FindPasswordSmsPushRequest request){
+    smsAuthUseCase.findPasswordPush(request.toCommand());
+    return JsonResponse.ok(HttpStatus.OK, "발송 성공");
+  }
+
+  @PostMapping("/sms/password/check")
+  public ResponseEntity<?> findPasswordSmsCheck(@RequestBody FindPasswordSmsCheckRequest request){
+    smsAuthUseCase.findPasswordCheck(request.toCommand());
+    return JsonResponse.ok(HttpStatus.OK, "확인 성공");
+  }
+
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest request) {

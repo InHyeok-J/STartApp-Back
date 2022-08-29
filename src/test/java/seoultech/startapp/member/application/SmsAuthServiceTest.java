@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import seoultech.startapp.member.application.port.in.command.FindPasswordCheckCommand;
+import seoultech.startapp.member.application.port.in.command.FindPasswordPushCommand;
 import seoultech.startapp.member.application.port.in.command.SmsCheckCommand;
 import seoultech.startapp.member.application.port.in.command.SmsPushCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
@@ -21,11 +24,16 @@ import seoultech.startapp.member.application.port.out.LoadSmsAuthPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.application.port.out.SaveSmsAuthPort;
 import seoultech.startapp.member.application.port.out.SmsPushPort;
+import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.domain.MemberProfile;
+import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.domain.SmsAuth;
 import seoultech.startapp.member.exception.AlreadyUsePhoneNoException;
 import seoultech.startapp.member.exception.ExpiredPhoneAuthCodeException;
+import seoultech.startapp.member.exception.LeaveMemberException;
 import seoultech.startapp.member.exception.ManyRequestPhoneAuthException;
 import seoultech.startapp.member.exception.NotMatchPhoneAuthException;
+import seoultech.startapp.member.exception.RequireCardAuthException;
 
 @ExtendWith(MockitoExtension.class)
 class SmsAuthServiceTest {
@@ -50,11 +58,15 @@ class SmsAuthServiceTest {
 
   SmsPushCommand pushCommand;
   SmsCheckCommand smsCheckCommand;
+  FindPasswordPushCommand findPasswordPushCommand;
+  FindPasswordCheckCommand findPasswordCheckCommand;
 
   @BeforeEach
   void setUp() {
     pushCommand = new SmsPushCommand("010-2642-2713");
     smsCheckCommand = new SmsCheckCommand("010-2642-2713", "123456");
+    findPasswordPushCommand = new FindPasswordPushCommand("studentNo");
+    findPasswordCheckCommand = new FindPasswordCheckCommand("studentNo", "123456");
   }
 
 
@@ -64,7 +76,7 @@ class SmsAuthServiceTest {
     given(loadMemberPort.existsByPhoneNo(pushCommand.getPhoneNo())).willReturn(true);
 
     assertThrows(AlreadyUsePhoneNoException.class, () ->
-        smsAuthService.push(pushCommand));
+        smsAuthService.signUpPrePush(pushCommand));
   }
 
   @Test
@@ -74,7 +86,7 @@ class SmsAuthServiceTest {
     given(loadSmsAuthPort.countByTenMin(pushCommand.getPhoneNo())).willReturn(5L);
 
     assertThrows(ManyRequestPhoneAuthException.class, () ->
-        smsAuthService.push(pushCommand));
+        smsAuthService.signUpPrePush(pushCommand));
   }
 
   @Test
@@ -82,7 +94,7 @@ class SmsAuthServiceTest {
   public void smspush_success() throws Exception {
     given(loadMemberPort.existsByPhoneNo(pushCommand.getPhoneNo())).willReturn(false);
     given(loadSmsAuthPort.countByTenMin(pushCommand.getPhoneNo())).willReturn(3L);
-    smsAuthService.push(pushCommand);
+    smsAuthService.signUpPrePush(pushCommand);
 
     verify(saveSmsAuthPort, times(1)).save(any());
     verify(smsPushPort, times(1)).push(any(), any());
@@ -107,7 +119,7 @@ class SmsAuthServiceTest {
         .build();
     given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(expiredAuth);
 
-    assertThrows(ExpiredPhoneAuthCodeException.class,()->
+    assertThrows(ExpiredPhoneAuthCodeException.class, () ->
         smsAuthService.check(smsCheckCommand));
   }
 
@@ -123,6 +135,78 @@ class SmsAuthServiceTest {
 
     smsAuthService.check(smsCheckCommand);
 
-    verify(redisCachePort,times(1)).setStringWithTTL(any(),any(),any(),any());
+    verify(redisCachePort, times(1)).setStringWithTTL(any(), any(), any(), any());
+  }
+
+  @Test
+  @DisplayName("패스워드 찾기 요청시 학생증 인증 전 회원이면 실패")
+  public void findPassword_fail_precardauth() throws Exception {
+    Member member = Member.builder()
+        .memberId(1L)
+        .memberStatus(MemberStatus.PRE_CARD_AUTH)
+        .memberProfile(MemberProfile.builder().studentNo("studentNo").build())
+        .build();
+
+    given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
+
+    assertThrows(RequireCardAuthException.class,
+        () -> smsAuthService.findPasswordPush(findPasswordPushCommand));
+  }
+
+  @Test
+  @DisplayName("패스워드 찾기 요청시 탈퇴한 회원이면 X")
+  public void findPassword_fail_leaveCardAuth() throws Exception {
+    Member member = Member.builder()
+        .memberId(1L)
+        .memberStatus(MemberStatus.LEAVE)
+        .memberProfile(MemberProfile.builder().studentNo("studentNo").build())
+        .build();
+
+    given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
+
+    assertThrows(LeaveMemberException.class,
+        () -> smsAuthService.findPasswordPush(findPasswordPushCommand));
+  }
+
+  @Test
+  @DisplayName("패스워드 찾기 문자 요청 성공")
+  public void findPassword_push_success() throws Exception {
+    Member member = Member.builder()
+        .memberId(1L)
+        .memberStatus(MemberStatus.POST_CARD_AUTH)
+        .memberProfile(MemberProfile.builder().studentNo("studentNo").build())
+        .build();
+
+    given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
+    given(loadSmsAuthPort.countByTenMin(any())).willReturn(3L);
+
+    smsAuthService.findPasswordPush(findPasswordPushCommand);
+
+    verify(saveSmsAuthPort, times(1)).save(any());
+    verify(smsPushPort, times(1)).push(any(), any());
+  }
+
+  @Test
+  @DisplayName("패스워드 찾기 문자 확인 성공")
+  public void findPassword_check_success() throws Exception {
+    Member member = Member.builder()
+        .memberId(1L)
+        .memberStatus(MemberStatus.POST_CARD_AUTH)
+        .memberProfile(MemberProfile.builder().studentNo("studentNo").build())
+        .build();
+
+    given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
+    given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(SmsAuth.builder()
+            .smsAuthId(1L)
+            .phoneNo("010-2642-2713")
+            .smsTime(LocalDateTime.now().minusMinutes(1))
+        .build());
+
+    smsAuthService.findPasswordCheck(findPasswordCheckCommand);
+
+    verify(redisCachePort, times(1)).setStringWithTTL(
+        "PASSWORD-" + findPasswordCheckCommand.getStudentNo(),
+        findPasswordCheckCommand.getCode(), 5,
+        TimeUnit.MINUTES);
   }
 }

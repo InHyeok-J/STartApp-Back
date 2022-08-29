@@ -65,6 +65,9 @@ public class Member {
     this.memberStatus = MemberStatus.LEAVE;
   }
 
+  public void changePassword(String password){
+    this.password = password;
+  }
 
   public void changeMemberShip(Boolean memberShip){
     this.profile.changeMemberShip(memberShip);
