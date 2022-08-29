@@ -1,4 +1,4 @@
-package seoultech.startapp.festival.adapter.in;
+package seoultech.startapp.festival.adapter.in.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

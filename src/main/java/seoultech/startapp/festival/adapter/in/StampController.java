@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seoultech.startapp.festival.adapter.in.dto.StampRequest;
 import seoultech.startapp.festival.application.StampResponse;
 import seoultech.startapp.festival.application.port.in.command.StampCommand;
 import seoultech.startapp.festival.application.port.in.StampUseCase;
