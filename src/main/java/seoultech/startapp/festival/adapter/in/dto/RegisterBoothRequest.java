@@ -1,10 +1,10 @@
-package seoultech.startapp.festival.adapter.in;
+package seoultech.startapp.festival.adapter.in.dto;
 
 import seoultech.startapp.festival.application.port.in.command.RegisterBoothCommand;
 
 public record RegisterBoothRequest(String name) {
 
-  RegisterBoothCommand toCommand(){
+  public RegisterBoothCommand toCommand(){
     return new RegisterBoothCommand(name);
   }
 }

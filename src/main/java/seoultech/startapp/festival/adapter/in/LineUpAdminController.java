@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import seoultech.startapp.festival.adapter.in.dto.RegisterLineUpRequest;
 import seoultech.startapp.festival.application.LineUpResponse;
 import seoultech.startapp.festival.application.port.in.GetLineUpUseCase;
 import seoultech.startapp.festival.application.port.in.LineUpUseCse;

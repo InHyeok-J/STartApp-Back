@@ -1,4 +1,4 @@
-package seoultech.startapp.festival.adapter.in;
+package seoultech.startapp.festival.adapter.in.dto;
 
 import seoultech.startapp.festival.application.port.in.command.UpdateCongestionBoothCommand;
 
