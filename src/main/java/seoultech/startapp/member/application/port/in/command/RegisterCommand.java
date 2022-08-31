@@ -53,8 +53,11 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
     this.validateSelf();
   }
 
-  private void validationFile(MultipartFile file){
-    if(file.getSize() == 0){
+  private void validationFile(MultipartFile file) {
+    if (file == null) {
+      throw new ConstraintViolationException(new HashSet<>());
+    }
+    if (file.getSize() == 0) {
       throw new ConstraintViolationException(new HashSet<>());
     }
   }
