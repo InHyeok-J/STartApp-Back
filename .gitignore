@@ -17,6 +17,12 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
+### QA TEST ###
+.env
+db/
+application-qa.yml
+
+
 application-local.yml
 application-dev.yml
 ### IntelliJ IDEA ###
