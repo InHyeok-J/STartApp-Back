@@ -12,13 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.global.common.S3Uploader;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
-import seoultech.startapp.member.application.port.out.DeleteMemberPort;
-import seoultech.startapp.member.application.port.out.LoadMemberPort;
-import seoultech.startapp.member.application.port.out.RedisCachePort;
-import seoultech.startapp.member.application.port.out.ResponseSlackHookDto;
-import seoultech.startapp.member.application.port.out.SaveMemberPort;
-import seoultech.startapp.member.application.port.out.SlackSenderPort;
-import seoultech.startapp.member.application.port.out.SlackStudentCardDto;
+import seoultech.startapp.member.application.port.out.*;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.DuplicateStudentNoException;
@@ -37,6 +31,8 @@ public class RegisterService implements RegisterUseCase {
   private final String SLACK_CARD_APPROVE = "student_card_approve";
   private final S3Uploader s3Uploader;
   private final DeleteMemberPort deleteMemberPort;
+
+  private final LoadMemberShipPort loadMemberShipPort;
 
   private final RedisCachePort redisCachePort;
   @Transactional
@@ -60,6 +56,10 @@ public class RegisterService implements RegisterUseCase {
     Member preRegisterMember = MemberFactory.preRegisterMember(command,
         passwordEncoder.encode(command.getAppPassword()),
         cardImageUrl);
+
+    if(loadMemberShipPort.existByStudentNo(command.getStudentNo())){
+      preRegisterMember.changeMemberShip(true);
+    }
 
     Member savedMember = saveMemberPort.save(preRegisterMember);
 
