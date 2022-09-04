@@ -18,7 +18,4 @@ public class JpaMemberShip {
     @Column(name = "student_no", unique = true, nullable = false)
     private String studentNo;
 
-    @Column(name = "is_memberShip",nullable = false)
-    private Boolean isMemberShip;
-
 }
