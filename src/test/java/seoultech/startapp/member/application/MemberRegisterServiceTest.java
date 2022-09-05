@@ -22,6 +22,7 @@ import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
 import seoultech.startapp.member.application.port.out.DeleteMemberPort;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
+import seoultech.startapp.member.application.port.out.LoadMemberShipPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.application.port.out.SlackSenderPort;
@@ -50,6 +51,8 @@ class MemberRegisterServiceTest {
   @Spy
   PasswordEncoder passwordEncoder;
 
+  @Mock
+  LoadMemberShipPort loadMemberShipPort;
   @Mock
   SlackSenderPort slackSenderPort;
   @Mock
