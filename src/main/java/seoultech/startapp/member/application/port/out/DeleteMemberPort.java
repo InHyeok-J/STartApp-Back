@@ -6,5 +6,4 @@ public interface DeleteMemberPort {
 
   void deleteMember(Member member);
 
-  void deleteById(Long memberId);
 }

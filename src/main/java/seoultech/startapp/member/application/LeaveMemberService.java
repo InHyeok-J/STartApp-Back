@@ -14,6 +14,8 @@ import seoultech.startapp.member.domain.Member;
 @Service
 @RequiredArgsConstructor
 public class LeaveMemberService implements LeaveMemberUseCase {
+
+  private final LoadMemberPort loadMemberPort;
   private final DeleteMemberPort deleteMemberPort;
 
   private final RedisCachePort redisCachePort;
@@ -21,7 +23,8 @@ public class LeaveMemberService implements LeaveMemberUseCase {
   @Transactional
   @Override
   public void leave(Long memberId) {
-    deleteMemberPort.deleteById(memberId);
+    Member member = loadMemberPort.loadByMemberId(memberId);
+    deleteMemberPort.deleteMember(member);
     redisCachePort.deleteByKey("MEMBER-"+memberId);
   }
 }
