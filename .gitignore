@@ -16,9 +16,10 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
-
+/src/main/resources-*/application.yml
 ### QA TEST ###
 .env
+.dev-env
 db/
 application-qa.yml
 

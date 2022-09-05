@@ -56,17 +56,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/seoultech**"));
     skipPathList.add(
         new AntPathRequestMatcher("/api/v1/auth/seoultech/check**", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/v1/member/duplicate**", HttpMethod.GET.name()));
+    skipPathList.add(
+        new AntPathRequestMatcher("/api/v1/member/duplicate**", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/loading", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/favicon.ico**", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/booth", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/rent/calendar", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/v1/rent/item/calendar", HttpMethod.GET.name()));
+    skipPathList.add(
+        new AntPathRequestMatcher("/api/v1/rent/item/calendar", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/suggestion**", HttpMethod.POST.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/**", HttpMethod.POST.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/password", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/password/check", HttpMethod.POST.name()));
+    skipPathList.add(
+        new AntPathRequestMatcher("/api/v1/auth/sms/password", HttpMethod.POST.name()));
+    skipPathList.add(
+        new AntPathRequestMatcher("/api/v1/auth/sms/password/check", HttpMethod.POST.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/member/password", HttpMethod.PATCH.name()));
     skipPathList.add(new AntPathRequestMatcher("/api/v1/festival", HttpMethod.GET.name()));
 
