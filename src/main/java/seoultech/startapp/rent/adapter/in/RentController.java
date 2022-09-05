@@ -51,6 +51,7 @@ class RentController {
                                                                                   .year(year)
                                                                                   .itemCategory(category)
                                                                                   .build());
+
         return JsonResponse.okWithData(HttpStatus.OK, "조회 성공", result);
     }
 

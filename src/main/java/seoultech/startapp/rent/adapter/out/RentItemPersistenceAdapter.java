@@ -25,13 +25,6 @@ public class RentItemPersistenceAdapter implements SaveRentItemPort, LoadRentIte
         jpaRentItemRepository.saveAll(jpaRentItems);
     }
 
-    @Override
-    public Boolean existByIds(List<RentItem> rentItems) {
-        List<JpaRentItem> jpaRentItems = rentItems.stream().
-                                                  map(rentItemMapper::mapToJpaRentItem)
-                                                  .toList();
-        return Boolean.TRUE;
-    }
 
     @Override
     public List<RentItem> loadListByRent(Rent rent) {

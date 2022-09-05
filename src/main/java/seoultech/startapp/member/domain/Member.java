@@ -7,6 +7,8 @@ import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand
 import seoultech.startapp.member.exception.LeaveMemberException;
 import seoultech.startapp.member.exception.RequireCardAuthException;
 
+import static seoultech.startapp.member.domain.MemberStatus.PRE_CARD_AUTH;
+
 @Getter
 public class Member {
 
@@ -54,16 +56,11 @@ public class Member {
   }
 
   public void canLoginValidation(){
-    switch (this.memberStatus){
-      case PRE_CARD_AUTH -> throw new RequireCardAuthException("학생증 인증 중인 회원입니다.");
-      case LEAVE -> throw new LeaveMemberException("탈퇴한 회원 정보입니다.");
+
+    if(this.memberStatus.equals(PRE_CARD_AUTH)){
+      throw new RequireCardAuthException("학생증 인증 중인 회원입니다.");
     }
-  }
 
-
-  public void leaveMember(){
-    canLoginValidation();
-    this.memberStatus = MemberStatus.LEAVE;
   }
 
   public void changePassword(String password){

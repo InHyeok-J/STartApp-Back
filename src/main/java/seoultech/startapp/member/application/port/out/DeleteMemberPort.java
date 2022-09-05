@@ -5,4 +5,5 @@ import seoultech.startapp.member.domain.Member;
 public interface DeleteMemberPort {
 
   void deleteMember(Member member);
+
 }

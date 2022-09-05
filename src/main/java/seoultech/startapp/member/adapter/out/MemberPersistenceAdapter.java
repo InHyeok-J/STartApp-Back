@@ -61,8 +61,8 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
-  public boolean existByStudentNoAndNotLeave(String studentNo) {
-    return jpaMemberRepository.existsByStudentNoAndMemberStatusNot(studentNo, MemberStatus.LEAVE);
+  public boolean existByStudentNo(String studentNo) {
+    return jpaMemberRepository.existsByStudentNo(studentNo);
   }
 
   @Override

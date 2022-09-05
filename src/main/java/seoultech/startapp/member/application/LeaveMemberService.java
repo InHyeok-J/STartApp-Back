@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.member.application.port.in.LeaveMemberUseCase;
+import seoultech.startapp.member.application.port.out.DeleteMemberPort;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
+import seoultech.startapp.member.application.port.out.RedisCachePort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
 import seoultech.startapp.member.domain.Member;
 
@@ -14,13 +16,15 @@ import seoultech.startapp.member.domain.Member;
 public class LeaveMemberService implements LeaveMemberUseCase {
 
   private final LoadMemberPort loadMemberPort;
-  private final SaveMemberPort saveMemberPort;
+  private final DeleteMemberPort deleteMemberPort;
+
+  private final RedisCachePort redisCachePort;
 
   @Transactional
   @Override
   public void leave(Long memberId) {
     Member member = loadMemberPort.loadByMemberId(memberId);
-    member.leaveMember();
-    saveMemberPort.save(member);
+    deleteMemberPort.deleteMember(member);
+    redisCachePort.deleteByKey("MEMBER-"+memberId);
   }
 }

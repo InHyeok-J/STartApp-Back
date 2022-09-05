@@ -11,7 +11,7 @@ public interface JpaMemberRepository extends JpaRepository<JpaMember, Long> {
 
   Optional<JpaMember> findByStudentNo(String studentNo);
 
-  boolean existsByStudentNoAndMemberStatusNot(String studentNo, MemberStatus memberStatus);
+  boolean existsByStudentNo(String studentNo);
 
   Page<JpaMember> findAllByMemberRoleAndMemberStatusNotOrderByIdAsc(MemberRole role,
        MemberStatus memberStatus, PageRequest pageRequest);

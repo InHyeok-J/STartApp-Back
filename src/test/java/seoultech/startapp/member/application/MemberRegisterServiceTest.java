@@ -57,6 +57,9 @@ class MemberRegisterServiceTest {
   SlackSenderPort slackSenderPort;
   @Mock
   RedisCachePort redisCachePort;
+
+  @Mock
+  LoadMemberShipPort loadMemberShipPort;
   @InjectMocks
   RegisterService registerService;
 
@@ -109,18 +112,6 @@ class MemberRegisterServiceTest {
         () -> registerService.register(registerCommand));
   }
 
-  @Test
-  @DisplayName("이미 탈퇴한 학번으로 회원가입 시 실패")
-  public void leaveMemberAndFail() throws Exception {
-    Member preCardAuthMember = Member.builder().memberProfile(
-            MemberProfile.builder().studentNo(studentNo).build()
-        )
-        .memberStatus(MemberStatus.LEAVE).build();
-    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
-    given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(preCardAuthMember);
-    assertThrows(LeaveMemberException.class,
-        () -> registerService.register(registerCommand));
-  }
 
   @Test
   @DisplayName("회원가입 성공 후 Slack 알림 전송")

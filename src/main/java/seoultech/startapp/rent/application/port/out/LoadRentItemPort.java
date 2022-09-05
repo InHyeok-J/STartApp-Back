@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface LoadRentItemPort {
 
-    Boolean existByIds(List<RentItem> rentItems);
     List<RentItem> loadListByRent(Rent rent);
 }

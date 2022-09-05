@@ -29,7 +29,7 @@ public class RefreshService implements RefreshUseCase {
 
     Long memberId = jwtResolver.getMemberIdByJwt(command.getAccessToken());
 
-    String savedRefreshToken = redisCachePort.findByKey(memberId.toString());
+    String savedRefreshToken = redisCachePort.findByKey("MEMBER-"+memberId.toString());
 
     if(savedRefreshToken == null){
       throw new NotLoginMemberException("로그인이 안된 멤버입니다.");
