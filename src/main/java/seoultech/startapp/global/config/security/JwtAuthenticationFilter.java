@@ -46,29 +46,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     List<AntPathRequestMatcher> skipPathList = new ArrayList<>();
     skipPathList.add(new AntPathRequestMatcher("/", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/member", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/member/slack**"));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/login", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/refresh", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/event", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/plan", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/banner", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/seoultech**"));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/member", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/member/slack**"));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/login", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/refresh", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/event", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/plan", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/banner", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/seoultech**"));
     skipPathList.add(
-        new AntPathRequestMatcher("/api/auth/seoultech/check**", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/member/duplicate**", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/loading", HttpMethod.GET.name()));
+        new AntPathRequestMatcher("/api/v1/auth/seoultech/check**", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/member/duplicate**", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/loading", HttpMethod.GET.name()));
     skipPathList.add(new AntPathRequestMatcher("/favicon.ico**", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/booth", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/rent/calendar", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/rent/item/calendar", HttpMethod.GET.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/suggestion**", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/sms/**", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/sms", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/sms/password", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/auth/sms/password/check", HttpMethod.POST.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/member/password", HttpMethod.PATCH.name()));
-    skipPathList.add(new AntPathRequestMatcher("/api/festival", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/booth", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/rent/calendar", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/rent/item/calendar", HttpMethod.GET.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/suggestion**", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/**", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/password", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/auth/sms/password/check", HttpMethod.POST.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/member/password", HttpMethod.PATCH.name()));
+    skipPathList.add(new AntPathRequestMatcher("/api/v1/festival", HttpMethod.GET.name()));
 
     OrRequestMatcher orRequestMatcher = new OrRequestMatcher(new ArrayList<>(skipPathList));
     return skipPathList.stream()
