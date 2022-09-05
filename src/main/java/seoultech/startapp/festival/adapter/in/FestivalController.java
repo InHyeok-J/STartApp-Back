@@ -10,7 +10,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/festival")
+@RequestMapping("/api/v1/festival")
 public class FestivalController {
 
   @GetMapping("")

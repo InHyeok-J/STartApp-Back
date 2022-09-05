@@ -27,7 +27,7 @@ import seoultech.startapp.global.response.JsonResponse;
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/api/admin/booth")
+@RequestMapping("/api/v1/admin/booth")
 public class BoothAdminController {
 
   private final RegisterBoothUseCase registerBoothUseCase;

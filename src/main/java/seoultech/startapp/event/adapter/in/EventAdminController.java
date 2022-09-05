@@ -21,7 +21,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/admin/event")
+@RequestMapping("/api/v1/admin/event")
 @RequiredArgsConstructor
 class EventAdminController {
 

@@ -18,7 +18,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/stamp")
+@RequestMapping("/api/v1/stamp")
 public class StampController {
 
   private final StampUseCase stampUseCase;

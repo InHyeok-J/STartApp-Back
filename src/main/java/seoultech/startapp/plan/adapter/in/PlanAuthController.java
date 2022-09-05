@@ -21,7 +21,7 @@ import seoultech.startapp.plan.application.port.in.PlanRemoveUseCase;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/admin/plan")
+@RequestMapping("/api/v1/admin/plan")
 @RequiredArgsConstructor
 class PlanAuthController {
 

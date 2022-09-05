@@ -30,7 +30,7 @@ import seoultech.startapp.member.application.port.in.PasswordUseCase;
 import seoultech.startapp.member.application.port.in.RegisterUseCase;
 
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/api/v1/member")
 @Validated
 @RequiredArgsConstructor
 @Slf4j

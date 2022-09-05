@@ -19,7 +19,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/lineup")
+@RequestMapping("/api/v1/admin/lineup")
 public class LineUpAdminController {
 
   private final LineUpUseCse lineUpUseCse;

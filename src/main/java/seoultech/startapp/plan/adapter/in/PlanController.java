@@ -14,7 +14,7 @@ import seoultech.startapp.plan.application.port.in.PlanGetUseCase;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/plan")
+@RequestMapping("/api/v1/plan")
 @RequiredArgsConstructor
 class PlanController {
 
