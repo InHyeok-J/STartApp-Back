@@ -154,21 +154,6 @@ class SmsAuthServiceTest {
   }
 
   @Test
-  @DisplayName("패스워드 찾기 요청시 탈퇴한 회원이면 X")
-  public void findPassword_fail_leaveCardAuth() throws Exception {
-    Member member = Member.builder()
-        .memberId(1L)
-        .memberStatus(MemberStatus.LEAVE)
-        .memberProfile(MemberProfile.builder().studentNo("studentNo").build())
-        .build();
-
-    given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
-
-    assertThrows(LeaveMemberException.class,
-        () -> smsAuthService.findPasswordPush(findPasswordPushCommand));
-  }
-
-  @Test
   @DisplayName("패스워드 찾기 문자 요청 성공")
   public void findPassword_push_success() throws Exception {
     Member member = Member.builder()

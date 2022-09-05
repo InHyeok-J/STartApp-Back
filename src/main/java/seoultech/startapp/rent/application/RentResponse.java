@@ -1,6 +1,8 @@
 package seoultech.startapp.rent.application;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RentResponse {
 
     private Long rentId;
@@ -79,7 +80,7 @@ public class RentResponse {
     public static RentResponse toDetailResponse(Rent rent, List<RentItem> rentItemList){
         return RentResponse.builder()
             .rentId(rent.getRentId())
-            .renterResponse(RenterResponse.toDto(rent.getRenter()))
+            .renterResponse(rent.getRenter() == null ? null : RenterResponse.toDto(rent.getRenter()))
             .account(rent.getAccount())
             .itemCategory(rent.getItemCategory())
             .purpose(rent.getPurpose())

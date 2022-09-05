@@ -48,7 +48,7 @@ class SeoulTechAuthServiceTest {
   @DisplayName("이미 가입된 학번 실패")
   public void alreadyRegistered() throws Exception {
     //given
-    given(loadMemberPort.existByStudentNoAndNotLeave(any())).willReturn(true);
+    given(loadMemberPort.existByStudentNo(any())).willReturn(true);
     seoulTechAuthService.authSeoulTech(seoulTechAuthCommand);
     verify(redisCachePort, times(0)).setStringWithTTL(any(), any(), any(), any());
   }
@@ -56,7 +56,7 @@ class SeoulTechAuthServiceTest {
   @Test
   @DisplayName("인증 성공 및 저장")
   public void authSuccess() throws Exception {
-    given(loadMemberPort.existByStudentNoAndNotLeave(any())).willReturn(false);
+    given(loadMemberPort.existByStudentNo(any())).willReturn(false);
     seoulTechAuthService.authSeoulTech(seoulTechAuthCommand);
     verify(redisCachePort, times(1)).setStringWithTTL(any(), any(), any(), any());
   }

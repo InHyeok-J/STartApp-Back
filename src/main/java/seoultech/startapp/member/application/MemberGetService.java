@@ -51,7 +51,7 @@ public class MemberGetService implements MemberGetUserCase {
 
   @Override
   public void checkDuplicateStudentNo(String studentNo) {
-    if(loadMemberPort.existByStudentNoAndNotLeave(studentNo)) {
+    if(loadMemberPort.existByStudentNo(studentNo)) {
       throw new DuplicateStudentNoException("이미 있는 학번입니다.");
     }
   }

@@ -16,7 +16,6 @@ import seoultech.startapp.member.application.port.out.*;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.DuplicateStudentNoException;
-import seoultech.startapp.member.exception.LeaveMemberException;
 import seoultech.startapp.member.exception.NotMatchPhoneAuthException;
 
 @Slf4j
@@ -69,7 +68,6 @@ public class RegisterService implements RegisterUseCase {
   private void checkMemberStatus(MemberStatus memberStatus) {
     switch (memberStatus) {
       case PRE_CARD_AUTH, POST_CARD_AUTH -> throw new DuplicateStudentNoException("학번이 중복됐습니다.");
-      case LEAVE -> throw new LeaveMemberException("탈퇴된 회원 정보입니다.");
     }
   }
 

@@ -17,7 +17,7 @@ public class LogoutService implements LogoutUseCase {
   @Override
   public void logout(LogoutCommand command) {
 
-    String saveRefreshToken = redisCachePort.findByKey(command.getMemberId().toString());
+    String saveRefreshToken = redisCachePort.findByKey("MEMBER-"+command.getMemberId().toString());
 
     if(saveRefreshToken == null){
       throw new NotLoginMemberException("로그인이 안된 멤버입니다");
@@ -27,6 +27,6 @@ public class LogoutService implements LogoutUseCase {
       throw new NotMatchLoginInfoException("잘못된 인증 정보입니다.");
     }
 
-    redisCachePort.deleteByKey(command.getMemberId().toString());
+    redisCachePort.deleteByKey("MEMBER-"+command.getMemberId().toString());
   }
 }

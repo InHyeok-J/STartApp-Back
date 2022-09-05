@@ -2,6 +2,8 @@ package seoultech.startapp.rent.adapter.out;
 
 import seoultech.startapp.member.adapter.out.JpaMember;
 
+import java.util.Optional;
+
 public interface RenterRepository {
-  JpaMember findByMemberId(Long memberId);
+  Optional<JpaMember> findByMemberId(Long memberId);
 }

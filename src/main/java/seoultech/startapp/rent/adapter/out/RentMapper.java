@@ -28,7 +28,7 @@ class RentMapper {
     public JpaRent mapToJpaRent(Rent rent){
         return JpaRent.builder()
                       .id(rent.getRentId() == null ? null : rent.getRentId())
-                      .memberId(rent.getRenter().getRenterId())
+                      .memberId(rent.getRenter() == null ? null : rent.getRenter().getRenterId())
                       .account(rent.getAccount())
                       .purpose(rent.getPurpose())
                       .startTime(rent.getStartTime())

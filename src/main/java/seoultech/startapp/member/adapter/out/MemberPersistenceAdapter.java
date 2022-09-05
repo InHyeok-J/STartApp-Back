@@ -54,6 +54,11 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
+  public void deleteById(Long memberId) {
+    jpaMemberRepository.deleteById(memberId);
+  }
+
+  @Override
   public Member save(Member member) {
     JpaMember jpaMember = memberMapper.mapToJpaMember(member);
     JpaMember savedMember = jpaMemberRepository.save(jpaMember);
@@ -61,8 +66,8 @@ public class MemberPersistenceAdapter implements SaveMemberPort, LoadMemberPort,
   }
 
   @Override
-  public boolean existByStudentNoAndNotLeave(String studentNo) {
-    return jpaMemberRepository.existsByStudentNoAndMemberStatusNot(studentNo, MemberStatus.LEAVE);
+  public boolean existByStudentNo(String studentNo) {
+    return jpaMemberRepository.existsByStudentNo(studentNo);
   }
 
   @Override

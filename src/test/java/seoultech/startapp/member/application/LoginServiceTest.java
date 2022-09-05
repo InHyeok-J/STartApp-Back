@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import seoultech.startapp.global.property.JwtProperty;
 import seoultech.startapp.helper.domain.MockDomainMember;
+import seoultech.startapp.member.adapter.out.NotFoundJpaMemberException;
 import seoultech.startapp.member.application.port.in.command.LoginCommand;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.RedisCachePort;
@@ -50,7 +51,6 @@ class LoginServiceTest {
 
   Member preCardAuthMember;
   Member postCardAuthMember;
-  Member leaveMember;
   LoginCommand loginCommand;
   @BeforeEach
   void setUp(){
@@ -60,8 +60,6 @@ class LoginServiceTest {
         MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.PRE_CARD_AUTH);
     this.postCardAuthMember =
         MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.POST_CARD_AUTH);
-    this.leaveMember=
-        MockDomainMember.generalMockMemberByMemberStauts(MemberStatus.LEAVE);
   }
 
   @Test
@@ -75,12 +73,12 @@ class LoginServiceTest {
   }
 
   @Test
-  @DisplayName("로그인 시 이미 탈퇴한 회원으로 실패")
+  @DisplayName("로그인 시 아이디가 없는 경우로 실패")
   public void loingLeaveMember() throws Exception {
     //given
-    given(loadMemberPort.loadByStudentNo(any())).willReturn(leaveMember);
+    given(loadMemberPort.loadByStudentNo(any())).willThrow(new NotFoundJpaMemberException("member를 찾을 수 없습니다"));
 
-    assertThrows(LeaveMemberException.class, ()->
+    assertThrows(NotFoundJpaMemberException.class, ()->
         loginService.login(loginCommand));
   }
 

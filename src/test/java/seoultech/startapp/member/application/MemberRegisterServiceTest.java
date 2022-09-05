@@ -20,11 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import seoultech.startapp.global.common.S3Uploader;
 import seoultech.startapp.helper.domain.MockDomainMember;
 import seoultech.startapp.member.application.port.in.command.RegisterCommand;
-import seoultech.startapp.member.application.port.out.DeleteMemberPort;
-import seoultech.startapp.member.application.port.out.LoadMemberPort;
-import seoultech.startapp.member.application.port.out.RedisCachePort;
-import seoultech.startapp.member.application.port.out.SaveMemberPort;
-import seoultech.startapp.member.application.port.out.SlackSenderPort;
+import seoultech.startapp.member.application.port.out.*;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.MemberStatus;
@@ -54,6 +50,9 @@ class MemberRegisterServiceTest {
   SlackSenderPort slackSenderPort;
   @Mock
   RedisCachePort redisCachePort;
+
+  @Mock
+  LoadMemberShipPort loadMemberShipPort;
   @InjectMocks
   RegisterService registerService;
 
@@ -106,18 +105,6 @@ class MemberRegisterServiceTest {
         () -> registerService.register(registerCommand));
   }
 
-  @Test
-  @DisplayName("이미 탈퇴한 학번으로 회원가입 시 실패")
-  public void leaveMemberAndFail() throws Exception {
-    Member preCardAuthMember = Member.builder().memberProfile(
-            MemberProfile.builder().studentNo(studentNo).build()
-        )
-        .memberStatus(MemberStatus.LEAVE).build();
-    given(redisCachePort.findByKey("PHONE-"+registerCommand.getPhoneNo())).willReturn("any");
-    given(loadMemberPort.loadByStudentNoNullable(studentNo)).willReturn(preCardAuthMember);
-    assertThrows(LeaveMemberException.class,
-        () -> registerService.register(registerCommand));
-  }
 
   @Test
   @DisplayName("회원가입 성공 후 Slack 알림 전송")

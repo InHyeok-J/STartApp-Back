@@ -67,7 +67,7 @@ class LogoutServiceTest {
     given(redisCachePort.findByKey(any())).willReturn(inputRefreshToken);
     //when
     logoutService.logout(logoutCommand);
-    verify(redisCachePort,times(1)).deleteByKey(memberId.toString());
+    verify(redisCachePort,times(1)).deleteByKey("MEMBER-"+memberId.toString());
   }
 
 }

@@ -22,7 +22,7 @@ public class SeoulTechAuthService implements SeoulTechAuthUseCase {
   @Transactional
   @Override
   public void authSeoulTech(SeoulTechAuthCommand command) {
-    if(loadMemberPort.existByStudentNoAndNotLeave(command.getStudentNo())) {
+    if(loadMemberPort.existByStudentNo(command.getStudentNo())) {
       log.error("이미 가입된 학번으로 실패");
       return;
     }
