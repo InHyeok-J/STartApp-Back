@@ -17,7 +17,7 @@ import seoultech.startapp.suggestion.application.port.in.SuggestionUseCase;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/suggestion")
+@RequestMapping("/api/v1/admin/suggestion")
 public class SuggestionAdminController {
 
   private final SuggestionUseCase suggestionUseCase;

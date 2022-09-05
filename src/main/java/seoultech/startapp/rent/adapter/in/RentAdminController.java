@@ -29,7 +29,7 @@ import seoultech.startapp.rent.application.port.in.command.UpdateItemAvailableCo
 import seoultech.startapp.rent.application.port.in.command.UpdateRentStatusCommand;
 
 @RestController
-@RequestMapping("/api/admin/rent")
+@RequestMapping("/api/v1/admin/rent")
 @RequiredArgsConstructor
 class RentAdminController {
 

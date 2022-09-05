@@ -20,7 +20,7 @@ import seoultech.startapp.rent.application.port.in.command.UpdateItemAvailableCo
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/rent/item")
+@RequestMapping("/api/v1/admin/rent/item")
 public class ItemAdminController {
 
   private final ItemRegisterUseCase itemRegisterUseCase;

@@ -21,7 +21,7 @@ import seoultech.startapp.rent.application.port.in.command.RentCalendarCommand;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/rent")
+@RequestMapping("/api/v1/rent")
 @RequiredArgsConstructor
 class RentController {
 
