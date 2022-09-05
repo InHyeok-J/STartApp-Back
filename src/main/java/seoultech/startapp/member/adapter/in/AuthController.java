@@ -31,7 +31,7 @@ import seoultech.startapp.member.application.port.in.RefreshUseCase;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
   private final LoginUseCase loginUseCase;

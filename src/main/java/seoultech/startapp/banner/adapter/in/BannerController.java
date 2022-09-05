@@ -13,7 +13,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/banner")
+@RequestMapping("/api/v1/banner")
 public class BannerController {
 
   private final BannerGetUseCase bannerGetUseCase;

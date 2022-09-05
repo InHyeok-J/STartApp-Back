@@ -26,7 +26,7 @@ import seoultech.startapp.member.application.port.in.command.UpdateMemberCommand
 @RestController
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/api/admin/member")
+@RequestMapping("/api/v1/admin/member")
 public class MemberAdminController {
 
   private final MemberGetUserCase memberGetUserCase;

@@ -21,7 +21,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/banner")
+@RequestMapping("/api/v1/admin/banner")
 public class BannerAdminController {
 
   private final RegisterBannerUseCase registerBannerUseCase;

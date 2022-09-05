@@ -13,7 +13,7 @@ import seoultech.startapp.rent.application.port.in.command.GetItemCountCommand;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/rent/item")
+@RequestMapping("/api/v1/rent/item")
 class ItemController {
 
     private final ItemGetUseCase itemGetUseCase;

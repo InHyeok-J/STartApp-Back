@@ -29,14 +29,14 @@ public class SeoulTechAuthController {
 
   private final SeoulTechAuthUseCase seoulTechAuthUseCase;
 
-  @PostMapping("/api/auth/seoultech")
+  @PostMapping("/api/v1/auth/seoultech")
   public String seoulTechAuth(
       @RequestParam(value = "key", required = false) String keys,
       @RequestParam(value = "returnJson", required = false) String encodedValue
       ) throws JsonProcessingException {
     if (!checkParams( keys, encodedValue) || getStudentNo(encodedValue) == null) {
       // 두 값이 null 이거나, JsonParse에서 실패해서 null을 리턴 받은 경우
-      return "redirect:/api/auth/loading";
+      return "redirect:/api/v1/auth/loading";
     }
 
     String studentNo = getStudentNo(encodedValue);
@@ -49,15 +49,15 @@ public class SeoulTechAuthController {
 
     seoulTechAuthUseCase.authSeoulTech(command);
 
-    return "redirect:/api/auth/loading";
+    return "redirect:/api/v1/auth/loading";
   }
 
-  @GetMapping("/api/auth/loading")
+  @GetMapping("/api/v1/auth/loading")
   public String loadingPage() {
     return "Loading";
   }
 
-  @GetMapping("/api/auth/seoultech/check")
+  @GetMapping("/api/v1/auth/seoultech/check")
   public ResponseEntity<?> checkAuth(@RequestParam(value = "key")  @NotBlank String key){
     SeoulTechAuthResponse seoulTechAuthResponse = seoulTechAuthUseCase.checkAuth(key);
     return JsonResponse.okWithData(HttpStatus.OK,"인증 성공", seoulTechAuthResponse);

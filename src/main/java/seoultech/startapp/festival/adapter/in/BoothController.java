@@ -14,7 +14,7 @@ import seoultech.startapp.global.response.JsonResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/booth")
+@RequestMapping("/api/v1/booth")
 public class BoothController {
 
   private final GetBoothUseCase getBoothUseCase;
