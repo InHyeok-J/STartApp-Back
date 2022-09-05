@@ -58,8 +58,6 @@ class MemberRegisterServiceTest {
   @Mock
   RedisCachePort redisCachePort;
 
-  @Mock
-  LoadMemberShipPort loadMemberShipPort;
   @InjectMocks
   RegisterService registerService;
 
