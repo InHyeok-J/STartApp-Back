@@ -14,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
+import seoultech.startapp.member.application.port.out.SmsPushPort;
 import seoultech.startapp.member.domain.Member;
+import seoultech.startapp.member.domain.MemberProfile;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.AlreadyCardAuthException;
 
@@ -26,7 +28,8 @@ class StudentCardAuthServiceTest {
 
   @Mock
   SaveMemberPort saveMemberPort;
-
+  @Mock
+  SmsPushPort smsPushPort;
   @InjectMocks
   StudentCardAuthService studentCardAuthService;
 
@@ -52,6 +55,9 @@ class StudentCardAuthServiceTest {
     Member requireCardAuthMember = Member.builder()
         .memberId(memberId)
         .memberStatus(MemberStatus.PRE_CARD_AUTH)
+        .memberProfile(MemberProfile.builder()
+            .phoneNo("010-2642-2713")
+            .build())
         .build();
 
     given(loadMemberPort.loadByMemberId(memberId)).willReturn(requireCardAuthMember);

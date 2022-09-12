@@ -10,4 +10,9 @@ public class HealthCheckController {
   public String healthCheck() {
     return "ok";
   }
+
+  @GetMapping("/api/version")
+  public String checkVersion(){
+    return "v1";
+  }
 }

@@ -47,7 +47,7 @@ public class SmsAuthService implements SmsAuthUseCase {
     String code = randomNumberToString();
     SmsAuth smsAuth = command.toEntity(code);
     saveSmsAuthPort.save(smsAuth);
-    smsPushPort.push(phoneNo, code);
+    smsPushPort.pushSmsCode(phoneNo, code);
   }
 
   @Transactional
@@ -67,7 +67,7 @@ public class SmsAuthService implements SmsAuthUseCase {
         .smsTime(LocalDateTime.now())
         .build();
     saveSmsAuthPort.save(smsAuth);
-    smsPushPort.push(phoneNo, code);
+    smsPushPort.pushSmsCode(phoneNo, code);
   }
 
   @Transactional

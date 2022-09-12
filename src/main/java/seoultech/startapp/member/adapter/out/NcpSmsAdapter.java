@@ -30,7 +30,60 @@ public class NcpSmsAdapter implements SmsPushPort {
   private final NcpSmsProperty smsProperty;
 
   @Override
-  public void push(String phoneNo, String randomString) {
+  public void pushSmsCode(String phoneNo, String randomString) {
+    JsonObject body = new JsonObject();
+    JsonArray messagesArray = new JsonArray();
+    JsonObject messages = new JsonObject();
+
+    String replaceNo = phoneNo.replaceAll("[^0-9]", "");
+    messages.addProperty("to", replaceNo);
+    messagesArray.add(messages);
+
+    body.addProperty("type", "SMS");
+    body.addProperty("from", smsProperty.getSenderNo());
+    body.addProperty("content",
+        "[서울과학기술대학교 총학생회] 인증번호는 " + randomString + "" + " 입니다. 정확히 입력해 주세요.");
+    body.add("messages", messagesArray);
+    sendSms(body);
+  }
+
+  @Override
+  public void pushApprove(String phoneNo) {
+    JsonObject body = new JsonObject();
+    JsonArray messagesArray = new JsonArray();
+    JsonObject messages = new JsonObject();
+
+    String replaceNo = phoneNo.replaceAll("[^0-9]", "");
+    messages.addProperty("to", replaceNo);
+    messagesArray.add(messages);
+
+    body.addProperty("type", "SMS");
+    body.addProperty("from", smsProperty.getSenderNo());
+    body.addProperty("content",
+        "[서울과학기술대학교 총학생회]학생증 본인인증심사가 승인되었습니다. 앱을 확인해주세요.");
+    body.add("messages", messagesArray);
+    sendSms(body);
+  }
+
+  @Override
+  public void pushReject(String phoneNo) {
+    JsonObject body = new JsonObject();
+    JsonArray messagesArray = new JsonArray();
+    JsonObject messages = new JsonObject();
+
+    String replaceNo = phoneNo.replaceAll("[^0-9]", "");
+    messages.addProperty("to", replaceNo);
+    messagesArray.add(messages);
+
+    body.addProperty("type", "SMS");
+    body.addProperty("from", smsProperty.getSenderNo());
+    body.addProperty("content",
+        "[서울과학기술대학교 총학생회]학생증 본인인증심사가 반려되었습니다. 학생증을 확인해주세요.");
+    body.add("messages", messagesArray);
+    sendSms(body);
+  }
+
+  private void sendSms(JsonObject body) {
     final String NPC_HOST = "https://sens.apigw.ntruss.com";
     final String NPC_URL = "/sms/v2/services/" + smsProperty.getServiceId() + "/messages";
     final String REQUEST_URL = NPC_HOST + NPC_URL;
@@ -41,20 +94,6 @@ public class NcpSmsAdapter implements SmsPushPort {
       headers.set("x-ncp-apigw-timestamp", timeStamp);
       headers.set("x-ncp-iam-access-key", smsProperty.getAccessKey());
       headers.set("x-ncp-apigw-signature-v2", makeSignature(NPC_URL, timeStamp));
-
-      JsonObject body = new JsonObject();
-      JsonArray messagesArray = new JsonArray();
-      JsonObject messages = new JsonObject();
-
-      String replaceNo = phoneNo.replaceAll("[^0-9]", "");
-      messages.addProperty("to", replaceNo);
-      messagesArray.add(messages);
-
-      body.addProperty("type", "SMS");
-      body.addProperty("from", smsProperty.getSenderNo());
-      body.addProperty("content",
-          "[서울과학기술대학교 총학생회] 인증번호는 " + randomString + "" + " 입니다. 정확히 입력해 주세요.");
-      body.add("messages", messagesArray);
 
       HttpEntity<String> httpEntity = new HttpEntity<>(
           body.toString(), headers);
@@ -67,7 +106,7 @@ public class NcpSmsAdapter implements SmsPushPort {
     }
   }
 
-  public String makeSignature(String url, String timeStamp)
+  private String makeSignature(String url, String timeStamp)
       throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
     String space = " ";          // one space
     String newLine = "\n";          // new line

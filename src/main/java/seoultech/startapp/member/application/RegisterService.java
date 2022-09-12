@@ -34,6 +34,7 @@ public class RegisterService implements RegisterUseCase {
   private final LoadMemberShipPort loadMemberShipPort;
 
   private final RedisCachePort redisCachePort;
+  private final SmsPushPort smsPushPort;
   @Transactional
   @Override
   public void register(RegisterCommand command) {
@@ -95,10 +96,12 @@ public class RegisterService implements RegisterUseCase {
           member.cardApprove();
           saveMemberPort.save(member);
           payload.getMessage().getBlocks().add(approveBlock(payload.getUser().getName()));
+          smsPushPort.pushApprove(member.getProfile().getPhoneNo());
         } else {
           log.info("학생증 거절");
           deleteMemberPort.deleteMember(member);
           payload.getMessage().getBlocks().add(rejectBlock(payload.getUser().getName()));
+          smsPushPort.pushReject(member.getProfile().getPhoneNo());
         }
       }
       slackSenderPort.sendResponseSlackHook(
