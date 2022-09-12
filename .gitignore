@@ -22,8 +22,7 @@ bin/
 .dev-env
 db/
 application-qa.yml
-
-
+application-prod.yml
 application-local.yml
 application-dev.yml
 ### IntelliJ IDEA ###

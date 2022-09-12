@@ -30,7 +30,6 @@ import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.domain.SmsAuth;
 import seoultech.startapp.member.exception.AlreadyUsePhoneNoException;
 import seoultech.startapp.member.exception.ExpiredPhoneAuthCodeException;
-import seoultech.startapp.member.exception.LeaveMemberException;
 import seoultech.startapp.member.exception.ManyRequestPhoneAuthException;
 import seoultech.startapp.member.exception.NotMatchPhoneAuthException;
 import seoultech.startapp.member.exception.RequireCardAuthException;
@@ -97,7 +96,7 @@ class SmsAuthServiceTest {
     smsAuthService.signUpPrePush(pushCommand);
 
     verify(saveSmsAuthPort, times(1)).save(any());
-    verify(smsPushPort, times(1)).push(any(), any());
+    verify(smsPushPort, times(1)).pushSmsCode(any(), any());
   }
 
   @Test
@@ -168,7 +167,7 @@ class SmsAuthServiceTest {
     smsAuthService.findPasswordPush(findPasswordPushCommand);
 
     verify(saveSmsAuthPort, times(1)).save(any());
-    verify(smsPushPort, times(1)).push(any(), any());
+    verify(smsPushPort, times(1)).pushSmsCode(any(), any());
   }
 
   @Test

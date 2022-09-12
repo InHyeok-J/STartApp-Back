@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import seoultech.startapp.member.application.port.in.StudentCardAuthUseCase;
 import seoultech.startapp.member.application.port.out.LoadMemberPort;
 import seoultech.startapp.member.application.port.out.SaveMemberPort;
+import seoultech.startapp.member.application.port.out.SmsPushPort;
 import seoultech.startapp.member.domain.Member;
 import seoultech.startapp.member.domain.MemberStatus;
 import seoultech.startapp.member.exception.AlreadyCardAuthException;
@@ -16,6 +17,7 @@ public class StudentCardAuthService implements StudentCardAuthUseCase {
 
   private final LoadMemberPort loadMemberPort;
   private final SaveMemberPort saveMemberPort;
+  private final SmsPushPort smsPushPort;
 
   @Transactional
   @Override
@@ -26,5 +28,6 @@ public class StudentCardAuthService implements StudentCardAuthUseCase {
     }
     member.cardApprove();
     saveMemberPort.save(member);
+    smsPushPort.pushApprove(member.getProfile().getPhoneNo());
   }
 }
