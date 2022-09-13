@@ -97,7 +97,7 @@ public class RentResponse {
         return RentResponse.builder()
             .rentId(rent.getRentId())
             .account(rent.getAccount())
-            .renterResponse(RenterResponse.toDto(rent.getRenter()))
+            .renterResponse(rent.getRenter() == null ? null :  RenterResponse.toDto(rent.getRenter()))
             .rentStatus(rent.getRentStatus())
             .itemCategory(rent.getItemCategory())
             .startTime(rent.getStartTime())

@@ -46,6 +46,7 @@ class RentGetService implements RentGetUseCase {
         return RentResponse.toDetailResponse(rent,rentItemList);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<RentResponse> getMyRentList(Long memberId) {
         List<Rent> rents = loadRentPort.loadListByMemberId(memberId);
