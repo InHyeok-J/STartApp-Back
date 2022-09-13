@@ -18,13 +18,13 @@ public class FestivalTimeCheckService implements FestivalTimeCheckUseCase {
 
   @Override
   public void check() {
-    if(!profile.equals("prod")){
-      return;
-    }
-
-    if(!festivalTimeChecker.isStart(LocalDateTime.now())){
-      // 시작 시간이 아니면
-      throw new NotStartFestivalException("축제 시작 시간이 아닙니다.");
-    }
+//    if(!profile.equals("prod")){
+//      return;
+//    }
+//
+//    if(!festivalTimeChecker.isStart(LocalDateTime.now())){
+//      // 시작 시간이 아니면
+//      throw new NotStartFestivalException("축제 시작 시간이 아닙니다.");
+//    }
   }
 }
