@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import seoultech.startapp.global.response.JsonResponse;
+import seoultech.startapp.member.adapter.in.dto.AdminStudentCardAuthRequest;
 import seoultech.startapp.member.adapter.in.dto.UpdateMemberRequest;
 import seoultech.startapp.member.adapter.out.NotFoundJpaMemberException;
 import seoultech.startapp.member.application.MemberPagingResponse;
@@ -64,9 +65,10 @@ public class MemberAdminController {
   }
 
   @PatchMapping("/auth/{id}")
-  public ResponseEntity<?> approveCardAuth(@PathVariable("id") Long id){
-    studentCardAuthUseCase.cardAuth(id);
-    return JsonResponse.ok(HttpStatus.OK,"학생증 인증 성공");
+  public ResponseEntity<?> checkCardAuth(@PathVariable("id") Long id, @RequestBody
+      AdminStudentCardAuthRequest request){
+    studentCardAuthUseCase.cardAuth(request.toCommand(id));
+    return JsonResponse.ok(HttpStatus.OK,"학생증 인증 확인 성공");
   }
 
   @GetMapping("/{id}")
