@@ -18,5 +18,6 @@ public class StudentCardAuthCommand extends SelfValidator<StudentCardAuthCommand
   public StudentCardAuthCommand(Long memberId, boolean isAuth) {
     this.memberId = memberId;
     this.isAuth = isAuth;
+    this.validateSelf();
   }
 }

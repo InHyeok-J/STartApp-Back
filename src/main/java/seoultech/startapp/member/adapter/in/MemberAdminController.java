@@ -87,7 +87,6 @@ public class MemberAdminController {
   @GetMapping("/membership")
   public ResponseEntity<?> checkExistMemberShip(
       @RequestParam("studentNo") @NotBlank String studentNo) {
-    System.out.println("test!!");
     boolean result = memberShipUseCase.existCheckMemberShip(studentNo);
     return JsonResponse.okWithData(HttpStatus.OK, "자치회비 명단 확인 조회 성공",
         new CheckMemberShipResponse(result));
