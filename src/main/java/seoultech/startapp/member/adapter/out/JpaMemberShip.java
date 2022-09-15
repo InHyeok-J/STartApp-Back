@@ -18,4 +18,7 @@ public class JpaMemberShip {
     @Column(name = "student_no", unique = true, nullable = false)
     private String studentNo;
 
+    public JpaMemberShip(String studentNo) {
+        this.studentNo = studentNo;
+    }
 }
