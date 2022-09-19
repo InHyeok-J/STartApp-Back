@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import seoultech.startapp.global.exception.ErrorType;
+import seoultech.startapp.global.util.IpLogUtil;
 
 @Slf4j
 @Component
@@ -20,12 +21,13 @@ public class ErrorLoggerHelper {
   }
 
   private ErrorLogDto toErrorLog(ContentCachingRequestWrapper request, ErrorType errorType,
-      String mesasge)
+      String message)
       throws IOException {
     return ErrorLogDto.builder()
         .requestMethod(request.getMethod())
         .requestUrl(request.getRequestURI())
-        .errorMessage(mesasge)
+        .requestIp(IpLogUtil.getIp(request))
+        .errorMessage(message)
         .errorType(errorType.getErrorType())
         .statusCode(errorType.getStatusCode())
         .requestBody(getRequestBody(request))

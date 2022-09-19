@@ -14,7 +14,7 @@ public class LoginCommand extends SelfValidator<LoginCommand> {
   private final String studentNo;
 
   @NotBlank
-  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*()]{8,16}")
+  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*?<>,.+=]{8,16}")
   private final String password;
 
   public LoginCommand(String studentNo, String password) {

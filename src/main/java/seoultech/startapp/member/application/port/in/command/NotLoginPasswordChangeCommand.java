@@ -12,7 +12,7 @@ public class NotLoginPasswordChangeCommand extends SelfValidator<NotLoginPasswor
   @NotBlank
   private String studentNo;
   @NotBlank
-  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*()]{8,16}")
+  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*?<>,.+=]{8,16}")
   private String password;
 
   @Builder
