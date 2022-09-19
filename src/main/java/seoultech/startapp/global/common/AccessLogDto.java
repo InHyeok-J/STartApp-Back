@@ -1,9 +1,7 @@
 package seoultech.startapp.global.common;
 
-import javax.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.Getter;
-import seoultech.startapp.global.util.IpLogUtil;
 
 @Getter
 public class AccessLogDto {
@@ -14,18 +12,14 @@ public class AccessLogDto {
 
   private String requestIp;
 
+  private String requestBody;
+
   @Builder
-  private AccessLogDto(String requestMethod, String requestUrl, String requestIp) {
+  public AccessLogDto(String requestMethod, String requestUrl, String requestIp, String requestBody) {
     this.requestMethod = requestMethod;
     this.requestUrl = requestUrl;
     this.requestIp = requestIp;
+    this.requestBody = requestBody;
   }
 
-  public static AccessLogDto from(HttpServletRequest request){
-    return AccessLogDto.builder()
-        .requestMethod(request.getMethod())
-        .requestUrl(request.getRequestURI())
-        .requestIp(IpLogUtil.getIp(request))
-        .build();
-  }
 }
