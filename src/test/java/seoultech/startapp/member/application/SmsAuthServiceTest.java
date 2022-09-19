@@ -102,10 +102,21 @@ class SmsAuthServiceTest {
   @Test
   @DisplayName("인증 확인시 저장된 정보가 없음.")
   public void sms_check_fail_not_saveAuth() throws Exception {
-    given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(null);
+    given(loadSmsAuthPort.loadLastAuthByPhoneNo(any())).willReturn(null);
 
     assertThrows(NotMatchPhoneAuthException.class, () ->
         smsAuthService.check(smsCheckCommand));
+  }
+
+  @Test
+  @DisplayName("인증 코드와 마지막 인증 저장된 코드가 불일치한 경우 실패")
+  public void sms_check_fail_not_match() throws Exception {
+    SmsAuth notMatchCodeAuth = SmsAuth.builder()
+        .authCode("0000000")
+        .build();
+    given(loadSmsAuthPort.loadLastAuthByPhoneNo(any())).willReturn(notMatchCodeAuth);
+
+    assertThrows(NotMatchPhoneAuthException.class,()-> smsAuthService.check(smsCheckCommand));
   }
 
   @Test
@@ -116,7 +127,7 @@ class SmsAuthServiceTest {
         .authCode("123456")
         .smsTime(LocalDateTime.now().minusMinutes(4))
         .build();
-    given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(expiredAuth);
+    given(loadSmsAuthPort.loadLastAuthByPhoneNo(any())).willReturn(expiredAuth);
 
     assertThrows(ExpiredPhoneAuthCodeException.class, () ->
         smsAuthService.check(smsCheckCommand));
@@ -127,10 +138,10 @@ class SmsAuthServiceTest {
   public void sms_check_success() throws Exception {
     SmsAuth expiredAuth = SmsAuth.builder()
         .smsAuthId(1L)
-        .authCode("123456")
+        .authCode(smsCheckCommand.getCode())
         .smsTime(LocalDateTime.now().minusMinutes(2))
         .build();
-    given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(expiredAuth);
+    given(loadSmsAuthPort.loadLastAuthByPhoneNo(any())).willReturn(expiredAuth);
 
     smsAuthService.check(smsCheckCommand);
 
@@ -180,8 +191,9 @@ class SmsAuthServiceTest {
         .build();
 
     given(loadMemberPort.loadByStudentNo("studentNo")).willReturn(member);
-    given(loadSmsAuthPort.loadByPhoneNoAndCode(any(), any())).willReturn(SmsAuth.builder()
+    given(loadSmsAuthPort.loadLastAuthByPhoneNo(any())).willReturn(SmsAuth.builder()
             .smsAuthId(1L)
+            .authCode(findPasswordCheckCommand.getCode())
             .phoneNo("010-2642-2713")
             .smsTime(LocalDateTime.now().minusMinutes(1))
         .build());

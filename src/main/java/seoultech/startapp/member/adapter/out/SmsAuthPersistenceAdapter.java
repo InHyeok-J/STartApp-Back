@@ -21,8 +21,8 @@ public class SmsAuthPersistenceAdapter implements LoadSmsAuthPort, SaveSmsAuthPo
   }
 
   @Override
-  public SmsAuth loadByPhoneNoAndCode(String phoneNo, String code) {
-    return jpaSmsAuthRepository.findByAuthCodeAndPhoneNo(code,phoneNo)
+  public SmsAuth loadLastAuthByPhoneNo(String phoneNo) {
+    return jpaSmsAuthRepository.findFirstByPhoneNoOrderByIdDesc(phoneNo)
         .map(smsAuthMapper::toDomainEntity)
         .orElse(null);
   }

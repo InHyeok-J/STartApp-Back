@@ -8,4 +8,5 @@ public interface JpaSmsAuthRepository extends JpaRepository<JpaSmsAuth, Long> {
 
   Long countBySmsTimeAfterAndPhoneNo(LocalDateTime smsTime, String phoneNo);
   Optional<JpaSmsAuth> findByAuthCodeAndPhoneNo(String authCode, String phoneNo);
+  Optional<JpaSmsAuth> findFirstByPhoneNoOrderByIdDesc(String phoneNo);
 }
