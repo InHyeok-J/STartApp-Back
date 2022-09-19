@@ -32,4 +32,11 @@ public class WebConfig implements WebMvcConfigurer {
     FilterRegistrationBean bean = new FilterRegistrationBean(loggingFilter);
     return bean;
   }
+
+  @Bean
+  public FilterRegistrationBean commonLoggingFilter(){
+    FilterRegistrationBean bean = new FilterRegistrationBean(new LoggingFilter());
+    bean.setOrder(Integer.MIN_VALUE);
+    return bean;
+  }
 }
