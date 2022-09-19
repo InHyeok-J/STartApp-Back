@@ -24,7 +24,7 @@ public class RequestLogUtil {
       return null;
     }
 
-    if (method.startsWith("P") && contentType.equalsIgnoreCase("application/json")) {
+    if (method.startsWith("P") && contentType.contains("application/json")) {
       ServletInputStream inputStream = request.getInputStream();
       String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
       return messageBody;
