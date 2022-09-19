@@ -5,5 +5,5 @@ import seoultech.startapp.member.domain.SmsAuth;
 public interface LoadSmsAuthPort {
 
   Long countByTenMin(String phoneNo);
-  SmsAuth loadByPhoneNoAndCode(String phoneNo, String code);
+  SmsAuth loadLastAuthByPhoneNo(String phoneNo);
 }
