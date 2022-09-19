@@ -14,11 +14,11 @@ public class MemberPasswordChangeCommand extends SelfValidator<MemberPasswordCha
   private Long memberId;
 
   @NotBlank
-  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*()]{8,16}")
+  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*?<>,.+=]{8,16}")
   private String currentPassword;
 
   @NotBlank
-  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*()]{8,16}")
+  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*?<>,.+=]{8,16}")
   private String newPassword;
 
   @Builder

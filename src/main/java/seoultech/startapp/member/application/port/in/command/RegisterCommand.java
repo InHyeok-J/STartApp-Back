@@ -20,7 +20,7 @@ public class RegisterCommand extends SelfValidator<RegisterCommand> {
   private final String StudentNo;
 
   @NotBlank
-  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*()]{8,16}")
+  @Pattern(regexp = "[a-zA-Z0-9~!@#$%^&*?<>,.+=]{8,16}")
   private final String appPassword;
 
   @NotBlank
