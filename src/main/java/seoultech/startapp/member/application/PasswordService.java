@@ -35,6 +35,7 @@ public class PasswordService implements PasswordUseCase {
 
     member.changePassword(passwordEncoder.encode(command.getPassword()));
     saveMemberPort.save(member);
+    redisCachePort.deleteByKey("PASSWORD-" + command.getStudentNo());
   }
 
   @Transactional
@@ -48,6 +49,6 @@ public class PasswordService implements PasswordUseCase {
 
     member.changePassword(passwordEncoder.encode(command.getNewPassword()));
     saveMemberPort.save(member);
-    redisCachePort.deleteByKey(member.getMemberId().toString());
+    redisCachePort.deleteByKey("MEMBER-" + member.getMemberId().toString());
   }
 }
