@@ -37,7 +37,7 @@ public class NcpApiAdapter {
       HttpHeaders headers = new HttpHeaders();
       headers.set("Content-Type", "application/json; charset=utf-8");
       headers.set("x-ncp-apigw-timestamp", timeStamp);
-      headers.set("x-ncp-iam-access-key", smsProperty.getAccessKey());
+      headers.set("x-ncp-iam-access-key", smsProperty.getAccessKey()g);
       headers.set("x-ncp-apigw-signature-v2", makeSignature(NPC_URL, timeStamp));
 
       HttpEntity<String> httpEntity = new HttpEntity<>(
@@ -45,7 +45,6 @@ public class NcpApiAdapter {
 
       ResponseEntity<String> response = restTemplate.postForEntity(REQUEST_URL,
           httpEntity, String.class);
-      System.out.println(response);
     } catch (Exception e) {
       e.printStackTrace();
       throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "SMS PUSH 실패");
