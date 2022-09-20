@@ -37,7 +37,7 @@ public class NcpApiAdapter {
       HttpHeaders headers = new HttpHeaders();
       headers.set("Content-Type", "application/json; charset=utf-8");
       headers.set("x-ncp-apigw-timestamp", timeStamp);
-      headers.set("x-ncp-iam-access-key", smsProperty.getAccessKey()g);
+      headers.set("x-ncp-iam-access-key", smsProperty.getAccessKey());
       headers.set("x-ncp-apigw-signature-v2", makeSignature(NPC_URL, timeStamp));
 
       HttpEntity<String> httpEntity = new HttpEntity<>(
