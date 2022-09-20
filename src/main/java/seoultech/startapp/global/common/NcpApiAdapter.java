@@ -15,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import seoultech.startapp.global.exception.BusinessException;
+import seoultech.startapp.global.exception.ErrorType;
 import seoultech.startapp.global.property.NcpSmsProperty;
 
 @Component
@@ -26,7 +28,7 @@ public class NcpApiAdapter {
   private final NcpSmsProperty smsProperty;
 
 
-  public void pushAlimTalk(JsonObject body){
+  public void pushAlimTalk(JsonObject body) {
     final String NPC_HOST = "https://sens.apigw.ntruss.com";
     final String NPC_URL = "/alimtalk/v2/services/" + smsProperty.getServiceId() + "/messages";
     final String REQUEST_URL = NPC_HOST + NPC_URL;
@@ -46,6 +48,7 @@ public class NcpApiAdapter {
       System.out.println(response);
     } catch (Exception e) {
       e.printStackTrace();
+      throw new BusinessException(ErrorType.INTERNAL_SERVER_ERROR, "SMS PUSH 실패");
     }
   }
 
