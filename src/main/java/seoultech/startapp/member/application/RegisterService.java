@@ -62,7 +62,7 @@ public class RegisterService implements RegisterUseCase {
     }
 
     Member savedMember = saveMemberPort.save(preRegisterMember);
-
+    redisCachePort.deleteByKey("PHONE-"+command.getPhoneNo());
     slackSenderPort.sendStudentCard(SlackStudentCardDto.toDto(savedMember));
   }
 
